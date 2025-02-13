@@ -1,4 +1,4 @@
-import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
+// import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
 import type { AnonCredsRegistry } from '@credo-ts/anoncreds'
 import type { NetworkConfig as CheqdNetworkConfig } from '@credo-ts/cheqd/build/CheqdModuleConfig'
 import type { Agent, AutoAcceptCredential, AutoAcceptProof } from '@credo-ts/core'
@@ -110,41 +110,41 @@ export function getAgentModules(options: {
       registrars: [new KeyDidRegistrar(), new JwkDidRegistrar(), new PeerDidRegistrar()],
       resolvers: [new WebDidResolver(), new KeyDidResolver(), new JwkDidResolver(), new PeerDidResolver()],
     }),
-    openId4VcIssuer: new OpenId4VcIssuerModule({
-      baseUrl: `${baseUrlWithoutSlash}/oid4vci`,
-      endpoints: {
-        credential: {
-          credentialRequestToCredentialMapper: ({ issuanceSession, holderBinding, credentialsSupported }) => {
-            const credentials = issuanceSession.issuanceMetadata
-              ?.credentials as OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions[]
-            if (!credentials) throw new Error('Not implemented')
+    // openId4VcIssuer: new OpenId4VcIssuerModule({
+    //   baseUrl: `${baseUrlWithoutSlash}/oid4vci`,
+    //   endpoints: {
+    //     credential: {
+    //       credentialRequestToCredentialMapper: ({ issuanceSession, holderBinding, credentialsSupported }) => {
+    //         const credentials = issuanceSession.issuanceMetadata
+    //           ?.credentials as OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions[]
+    //         if (!credentials) throw new Error('Not implemented')
 
-            const requestedIds = credentialsSupported.map((c) => c.id).filter((id): id is string => id !== undefined)
-            const firstCredential = credentials.find((c) => requestedIds.includes(c.credentialSupportedId))
-            if (!firstCredential) throw new Error('Not implemented')
+    //         const requestedIds = credentialsSupported.map((c) => c.id).filter((id): id is string => id !== undefined)
+    //         const firstCredential = credentials.find((c) => requestedIds.includes(c.credentialSupportedId))
+    //         if (!firstCredential) throw new Error('Not implemented')
 
-            if (firstCredential.format === 'vc+sd-jwt') {
-              return {
-                format: 'vc+sd-jwt',
-                issuer: firstCredential.issuer,
-                holder: holderBinding,
-                payload: firstCredential.payload,
-                // Type in credo is wrong
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                disclosureFrame: firstCredential.disclosureFrame as any,
-                hashingAlgorithm: 'sha-256',
-              }
-            }
+    //         if (firstCredential.format === 'vc+sd-jwt') {
+    //           return {
+    //             format: 'vc+sd-jwt',
+    //             issuer: firstCredential.issuer,
+    //             holder: holderBinding,
+    //             payload: firstCredential.payload,
+    //             // Type in credo is wrong
+    //             // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //             disclosureFrame: firstCredential.disclosureFrame as any,
+    //             hashingAlgorithm: 'sha-256',
+    //           }
+    //         }
 
-            throw new Error('Not implemented')
-          },
-        },
-      },
-    }),
-    openId4VcHolder: new OpenId4VcHolderModule(),
-    openId4VcVerifier: new OpenId4VcVerifierModule({
-      baseUrl: `${baseUrlWithoutSlash}/siop`,
-    }),
+    //         throw new Error('Not implemented')
+    //       },
+    //     },
+    //   },
+    // }),
+    // openId4VcHolder: new OpenId4VcHolderModule(),
+    // openId4VcVerifier: new OpenId4VcVerifierModule({
+    //   baseUrl: `${baseUrlWithoutSlash}/siop`,
+    // }),
   } as const
 
   const modules: typeof baseModules & {

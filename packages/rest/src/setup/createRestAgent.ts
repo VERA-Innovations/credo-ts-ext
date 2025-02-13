@@ -74,10 +74,10 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     agent.registerInboundTransport(transport)
 
     // Configure the oid4vc routers on the http inbound transport
-    if (transport instanceof HttpInboundTransport) {
-      transport.app.use('/oid4vci', modules.openId4VcIssuer.config.router)
-      transport.app.use('/siop', modules.openId4VcVerifier.config.router)
-    }
+    // if (transport instanceof HttpInboundTransport) {
+    //   transport.app.use('/oid4vci', modules.openId4VcIssuer.config.router)
+    //   transport.app.use('/siop', modules.openId4VcVerifier.config.router)
+    // }
   }
 
   await agent.initialize()
