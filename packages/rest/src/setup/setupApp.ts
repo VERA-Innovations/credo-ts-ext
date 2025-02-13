@@ -21,8 +21,8 @@ import { didcommConnectionEvents } from '../events/didcommConnectionEvents'
 import { didcommCredentialEvents } from '../events/didcommCredentialEvents'
 import { didcommOutOfBandEvents } from '../events/didcommOutOfBandEvents'
 import { didcommProofEvents } from '../events/didcommProofEvents'
-import { openId4VcIssuanceSessionEvents } from '../events/openId4VcIssuanceSessionEvents'
-import { openId4VcVerificationSessionEvents } from '../events/openId4VcVerificationSessionEvents'
+// import { openId4VcIssuanceSessionEvents } from '../events/openId4VcIssuanceSessionEvents'
+// import { openId4VcVerificationSessionEvents } from '../events/openId4VcVerificationSessionEvents'
 import { RegisterRoutes } from '../generated/routes'
 
 import { createRestAgent } from './createRestAgent'
@@ -52,8 +52,8 @@ export async function setupApp(config: CredoRestSetupAppConfig) {
     didcommCredentialEvents(agent, emitEventConfig)
     didcommProofEvents(agent, emitEventConfig)
     didcommOutOfBandEvents(agent, emitEventConfig)
-    openId4VcIssuanceSessionEvents(agent, emitEventConfig)
-    openId4VcVerificationSessionEvents(agent, emitEventConfig)
+    // openId4VcIssuanceSessionEvents(agent, emitEventConfig)
+    // openId4VcVerificationSessionEvents(agent, emitEventConfig)
   }
 
   // Use body parser to read sent json payloads
