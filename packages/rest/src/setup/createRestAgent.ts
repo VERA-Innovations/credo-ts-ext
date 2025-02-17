@@ -58,7 +58,10 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
   const agent = new Agent({
     config: agentConfig,
     dependencies: agentDependencies,
-    modules,
+    modules: {
+            ...modules,
+            ...(config.extraModules ?? {})
+    },
   })
 
   // Register outbound transports

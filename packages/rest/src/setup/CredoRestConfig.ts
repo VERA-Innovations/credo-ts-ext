@@ -81,6 +81,7 @@ export interface CredoRestAgentConfig {
 
   indyLedgers?: IndyVdrPoolConfig[]
   cheqdLedgers?: CheqdNetworkConfig[]
+  extraModules?: Record<string, unknown>
 }
 
 export interface CredoRestSetupAppConfig {
@@ -115,4 +116,8 @@ export interface CredoRestSetupAppConfig {
    * The base application to add the rest server routes and middleware to
    */
   baseApp?: Express
+
+  registerExtraRoutes?: (app: Express) => void
+
+    customSwaggerJson?: any
 }
