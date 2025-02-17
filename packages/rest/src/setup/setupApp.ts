@@ -64,13 +64,16 @@ export async function setupApp(config: CredoRestSetupAppConfig) {
   )
   app.use(bodyParser.json())
   app.use('/docs', serve, async (_req: Request, res: Response, next: NextFunction) => {
-    res.send(generateHTML(await import('../generated/swagger.json')))
+    const swaggerJson = config.customSwaggerJson ?? (await import('../generated/swagger.json'))
+    res.send(generateHTML(swaggerJson))
     next()
   })
 
   // TODO: allow to pass custom RegisterRoutes method (will allow extension using TSOA)
   RegisterRoutes(app)
-
+  if (config.registerExtraRoutes) {
+      config.registerExtraRoutes(app);
+  }
   app.use(async (req, _, next) => {
     // End tenant session if active
     await endTenantSessionIfActive(req)
