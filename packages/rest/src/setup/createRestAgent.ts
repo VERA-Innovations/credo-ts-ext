@@ -1,11 +1,12 @@
 import type { CredoRestAgentConfig } from './CredoRestConfig'
 import type { RestRootAgent, RestRootAgentWithTenants } from '../utils/agent'
-import type { NetworkConfig as CheqdNetworkConfig } from '@credo-ts/cheqd/build/CheqdModuleConfig'
 import type { InitConfig } from '@credo-ts/core'
 import type { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
 
-import { AutoAcceptCredential, AutoAcceptProof, LogLevel, Agent } from '@credo-ts/core'
-import { agentDependencies, HttpInboundTransport } from '@credo-ts/node'
+import {LogLevel, Agent } from '@credo-ts/core'
+import { agentDependencies, DidCommHttpInboundTransport } from '@credo-ts/node'
+import { DidCommAutoAcceptProof } from '@credo-ts/didcomm'
+import { DidCommAutoAcceptCredential } from '@credo-ts/didcomm'
 
 import { getAgentModules } from '../utils/agent'
 import { TsLogger } from '../utils/logger'
@@ -18,11 +19,11 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     inboundTransports = [],
     outboundTransports = [],
     indyLedgers = [],
-    cheqdLedgers = [],
+    cheqdLedgers = {},
     autoAcceptConnections = true,
-    autoAcceptCredentials = AutoAcceptCredential.ContentApproved,
+    autoAcceptCredentials = DidCommAutoAcceptCredential.ContentApproved,
     autoAcceptMediationRequests = true,
-    autoAcceptProofs = AutoAcceptProof.ContentApproved,
+    autoAcceptProofs = DidCommAutoAcceptProof.ContentApproved,
     multiTenant = false,
     ...credoConfig
   } = config
@@ -43,7 +44,7 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
 
   const maybeIndyLedgers =
     indyLedgers.length > 0 ? (indyLedgers as [IndyVdrPoolConfig, ...IndyVdrPoolConfig[]]) : undefined
-  const maybeCheqdLedgers = cheqdLedgers.length > 0 ? (cheqdLedgers as CheqdNetworkConfig[]) : undefined
+  const maybeCheqdLedgers = cheqdLedgers ? config.cheqdLedgers : undefined
   const modules = getAgentModules({
     autoAcceptConnections,
     autoAcceptProofs,
@@ -67,20 +68,20 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
   // Register outbound transports
   for (const outboundTransport of outboundTransports) {
     const OutboundTransport = outboundTransportMapping[outboundTransport]
-    agent.registerOutboundTransport(new OutboundTransport())
+    agent.didcomm.registerOutboundTransport(new OutboundTransport())
   }
 
   // Register inbound transports
   for (const inboundTransport of inboundTransports) {
     const InboundTransport = inboundTransportMapping[inboundTransport.transport]
     const transport = new InboundTransport({ port: inboundTransport.port })
-    agent.registerInboundTransport(transport)
+    agent.didcomm.registerInboundTransport(transport)
 
     // Configure the oid4vc routers on the http inbound transport
-    // if (transport instanceof HttpInboundTransport) {
-    //   transport.app.use('/oid4vci', modules.openId4VcIssuer.config.router)
-    //   transport.app.use('/siop', modules.openId4VcVerifier.config.router)
-    // }
+    if (transport instanceof DidCommHttpInboundTransport) {
+      transport.app.use('/oid4vci', modules.openid4vc.issuer?.config.app._router)
+      transport.app.use('/siop', modules.openid4vc.verifier?.config.app._router)
+    }
   }
 
   await agent.initialize()

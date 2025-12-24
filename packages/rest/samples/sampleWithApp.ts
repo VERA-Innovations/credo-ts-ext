@@ -27,7 +27,7 @@ const run = async () => {
   app.get('/greeting', jsonParser, (_, res) => {
     const config = agent.config
 
-    res.send(`Hello, ${config.label}!`)
+    res.send(`Hello!`)
   })
 
   const { start } = await setupApp({

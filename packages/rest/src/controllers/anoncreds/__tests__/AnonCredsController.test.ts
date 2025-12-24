@@ -23,7 +23,7 @@ describe('AnonCredsController', () => {
 
   afterAll(async () => {
     await agent.shutdown()
-    await agent.wallet.delete()
+    await agent.modules.askar.deleteStore()
   })
 
   describe('get schema by id', () => {

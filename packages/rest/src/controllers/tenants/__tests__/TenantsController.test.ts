@@ -17,7 +17,7 @@ describe('TenantsController', () => {
 
   afterAll(async () => {
     await agent.shutdown()
-    await agent.wallet.delete()
+    await agent.modules.askar.deleteStore()
   })
 
   test('Create tenant', async () => {
@@ -25,7 +25,7 @@ describe('TenantsController', () => {
       .post('/tenants')
       .send({
         config: {
-          label: agent.config.label,
+          label: agent.context.contextCorrelationId,
         },
       })
 

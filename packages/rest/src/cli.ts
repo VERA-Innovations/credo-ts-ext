@@ -1,13 +1,13 @@
 import type { InboundTransport, Transports } from './setup/CredoRestConfig'
-import type { AskarWalletPostgresStorageConfig } from '@credo-ts/askar'
+import type { AskarPostgresStorageConfig } from '@credo-ts/askar'
 
-import { AutoAcceptCredential, AutoAcceptProof } from '@credo-ts/core'
-import process from 'process'
+import * as process from 'process'
 import yargs from 'yargs'
 
 import { setupApp } from './setup/setupApp'
+import { DidCommAutoAcceptCredential, DidCommAutoAcceptProof } from '@credo-ts/didcomm'
 
-const parsed = yargs
+const parsed = yargs()
   .scriptName('credo-rest')
   .command('start', 'Start Credo Rest agent')
   .option('label', {
@@ -31,7 +31,10 @@ const parsed = yargs
   .option('cheqd-ledger', {
     array: true,
     default: [],
-    coerce: (items: unknown[]) => items.map((i) => (typeof i === 'string' ? JSON.parse(i) : i)),
+    coerce: (items: unknown[]) => 
+      ({
+        networks: items.map((i) => (typeof i === 'string' ? JSON.parse(i) : i)),
+      })
   })
   .option('endpoint', {
     array: true,
@@ -94,16 +97,16 @@ const parsed = yargs
     default: false,
   })
   .option('auto-accept-credentials', {
-    choices: [AutoAcceptCredential.Always, AutoAcceptCredential.Never, AutoAcceptCredential.ContentApproved] as const,
-    default: AutoAcceptCredential.ContentApproved,
+    choices: [DidCommAutoAcceptCredential.Always, DidCommAutoAcceptCredential.Never, DidCommAutoAcceptCredential.ContentApproved] as const,
+    default: DidCommAutoAcceptCredential.ContentApproved,
   })
   .option('auto-accept-mediation-requests', {
     boolean: true,
     default: false,
   })
   .option('auto-accept-proofs', {
-    choices: [AutoAcceptProof.Always, AutoAcceptProof.Never, AutoAcceptProof.ContentApproved] as const,
-    default: AutoAcceptProof.ContentApproved,
+    choices: [DidCommAutoAcceptProof.Always, DidCommAutoAcceptProof.Never, DidCommAutoAcceptProof.ContentApproved] as const,
+    default: DidCommAutoAcceptProof.ContentApproved,
   })
   .option('auto-update-storage-on-startup', {
     boolean: true,
@@ -138,7 +141,7 @@ const parsed = yargs
   .option('postgres-password', {
     string: true,
   })
-  .check((argv) => {
+  .check((argv: { [x: string]: any }) => {
     if (
       argv['storage-type'] === 'postgres' &&
       (!argv['postgres-host'] || !argv['postgres-username'] || !argv['postgres-password'])
@@ -166,7 +169,7 @@ export async function runCliServer() {
       walletConfig: {
         id: parsed['wallet-id'],
         key: parsed['wallet-key'],
-        storage:
+        database:
           parsed['storage-type'] === 'sqlite'
             ? {
                 type: 'sqlite',
@@ -180,7 +183,7 @@ export async function runCliServer() {
                   account: parsed['postgres-username'] as string,
                   password: parsed['postgres-password'] as string,
                 },
-              } satisfies AskarWalletPostgresStorageConfig),
+            } satisfies AskarPostgresStorageConfig),
       },
       indyLedgers: parsed['indy-ledger'],
       cheqdLedgers: parsed['cheqd-ledger'],

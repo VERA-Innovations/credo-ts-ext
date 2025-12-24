@@ -1,11 +1,11 @@
+import type { AskarModuleConfigStoreOptions } from '@credo-ts/askar'
 import type { RestRootAgent, RestRootAgentWithTenants } from '../utils/agent'
-import type { NetworkConfig as CheqdNetworkConfig } from '@credo-ts/cheqd/build/CheqdModuleConfig'
-import type { WalletConfig, AutoAcceptCredential, AutoAcceptProof, LogLevel } from '@credo-ts/core'
+import type { InitConfig, LogLevel } from '@credo-ts/core'
+import { DidCommHttpOutboundTransport, DidCommWsOutboundTransport, DidCommAutoAcceptCredential, DidCommAutoAcceptProof } from '@credo-ts/didcomm'
 import type { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
+import { DidCommHttpInboundTransport, DidCommWsInboundTransport } from '@credo-ts/node'
 import type { Express } from 'express'
-
-import { HttpOutboundTransport, WsOutboundTransport } from '@credo-ts/core'
-import { HttpInboundTransport, WsInboundTransport } from '@credo-ts/node'
+import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
 
 export type Transports = 'ws' | 'http'
 export type InboundTransport = {
@@ -13,19 +13,22 @@ export type InboundTransport = {
   port: number
 }
 
+export type CheqdNetworkConfig = Pick<CheqdModuleConfigOptions, 'networks'>
+
 export const inboundTransportMapping = {
-  http: HttpInboundTransport,
-  ws: WsInboundTransport,
+  http: DidCommHttpInboundTransport,
+  ws: DidCommWsInboundTransport,
 } as const
 
 export const outboundTransportMapping = {
-  http: HttpOutboundTransport,
-  ws: WsOutboundTransport,
+  http: DidCommHttpOutboundTransport,
+  ws: DidCommWsOutboundTransport,
 } as const
 
 export interface CredoRestAgentConfig {
   label: string
-  walletConfig: WalletConfig
+  walletConfig: InitConfig & AskarModuleConfigStoreOptions
+
 
   /**
    * @default false
@@ -40,14 +43,14 @@ export interface CredoRestAgentConfig {
   autoAcceptConnections?: boolean
 
   /**
-   * @default {@link AutoAcceptCredential.ContentApproved}
+   * @default {@link DidCommAutoAcceptCredential.ContentApproved}
    */
-  autoAcceptCredentials?: AutoAcceptCredential
+  autoAcceptCredentials?: DidCommAutoAcceptCredential
 
   /**
-   * @default {@link AutoAcceptProof.ContentApproved}
+   * @default {@link DidCommAutoAcceptProof.ContentApproved}
    */
-  autoAcceptProofs?: AutoAcceptProof
+  autoAcceptProofs?: DidCommAutoAcceptProof
 
   /**
    * @default false
@@ -65,7 +68,7 @@ export interface CredoRestAgentConfig {
   useDidSovPrefixWhereAllowed?: boolean
 
   /**
-   * @default {@link LogLevel.off}
+   * @default {@link LogLevel.off }
    */
   logLevel?: LogLevel
 
@@ -80,7 +83,7 @@ export interface CredoRestAgentConfig {
   connectionImageUrl?: string
 
   indyLedgers?: IndyVdrPoolConfig[]
-  cheqdLedgers?: CheqdNetworkConfig[]
+  cheqdLedgers?: CheqdModuleConfigOptions
   extraModules?: Record<string, unknown>
 }
 

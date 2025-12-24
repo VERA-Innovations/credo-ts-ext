@@ -17,7 +17,8 @@ describe('AgentController', () => {
 
   afterAll(async () => {
     await agent.shutdown()
-    await agent.wallet.delete()
+    // TODO: Check if this is right
+    await agent.modules.askar.deleteStore()
   })
 
   describe('Get agent info', () => {
@@ -25,11 +26,7 @@ describe('AgentController', () => {
       const response = await request(app).get('/agent')
 
       expect(response.body).toEqual({
-        isInitialized: true,
-        config: {
-          label: agent.config.label,
-          endpoints: ['internal', 'http://localhost:random'],
-        },
+        isInitialized: true
       })
       expect(response.statusCode).toBe(200)
     })
