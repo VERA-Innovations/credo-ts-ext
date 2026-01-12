@@ -7,7 +7,7 @@ import type { Socket } from 'net'
 import type { Exception } from 'tsoa'
 
 import { Agent } from '@credo-ts/core'
-import { TenantAgent } from '@credo-ts/tenants/build/TenantAgent'
+import { TenantAgent } from '@credo-ts/tenants'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
@@ -63,7 +63,7 @@ export async function setupApp(config: CredoRestSetupAppConfig) {
     }),
   )
   app.use(bodyParser.json())
-  app.use('/docs', serve, async (_req: Request, res: Response, next: NextFunction) => {
+  app.use('/docs', serve as any, async (_req: Request, res: Response, next: NextFunction) => {
     const swaggerJson = config.customSwaggerJson ?? (await import('../generated/swagger.json'))
     res.send(generateHTML(swaggerJson))
     next()

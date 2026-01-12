@@ -38,9 +38,10 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
   const httpEndpoint = credoConfig.endpoints?.find(
     (endpoint) => endpoint.startsWith('http://') || endpoint.startsWith('https://'),
   )
-  if (!httpEndpoint) {
-    throw new Error('No http endpoint found in config, unable to set up OpenID4VC modules.')
-  }
+  // FIXME: For OID4VC this will be required
+  // if (!httpEndpoint) {
+  //   throw new Error('No http endpoint found in config, unable to set up OpenID4VC modules.')
+  // }
 
   const maybeIndyLedgers =
     indyLedgers.length > 0 ? (indyLedgers as [IndyVdrPoolConfig, ...IndyVdrPoolConfig[]]) : undefined
@@ -53,7 +54,7 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     indyLedgers: maybeIndyLedgers,
     cheqdLedgers: maybeCheqdLedgers,
     multiTenant,
-    baseUrl: httpEndpoint,
+    // baseUrl: httpEndpoint,
   })
 
   const agent = new Agent({
@@ -78,10 +79,10 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     agent.didcomm.registerInboundTransport(transport)
 
     // Configure the oid4vc routers on the http inbound transport
-    if (transport instanceof DidCommHttpInboundTransport) {
-      transport.app.use('/oid4vci', modules.openid4vc.issuer?.config.app._router)
-      transport.app.use('/siop', modules.openid4vc.verifier?.config.app._router)
-    }
+    // if (transport instanceof DidCommHttpInboundTransport) {
+    //   transport.app.use('/oid4vci', modules.openid4vc.issuer?.config.app._router)
+    //   transport.app.use('/siop', modules.openid4vc.verifier?.config.app._router)
+    // }
   }
 
   await agent.initialize()

@@ -21,11 +21,11 @@
     "credo-rest": "bin/credo-rest.js"
   },
   "scripts": {
-    "tsoa": "ts-node ./scripts/generate-spec-and-routes.ts",
+    "tsoa": "tsoa spec-and-routes && tsc -p tsconfig.build.json",
     "dev": "yarn tsoa && tsnd --respawn samples/sampleWithApp.ts",
     "sample": "yarn tsoa && tsnd --respawn samples/sample.ts",
     "sample:with-app": "yarn tsoa && tsnd --respawn samples/sampleWithApp.ts",
-    "sample:cli-config": "yarn tsoa && tsnd --respawn src/cli.ts --config ./samples/cliConfig.json",
+    "sample:cli-config": "yarn tsoa && tsx src/cli.ts --config ./samples/cliConfig.json",
     "sample:cli": "yarn tsoa && sh samples/sampleCli.sh",
     "build": "yarn run clean && yarn run compile",
     "clean": "rimraf -rf ./build",
@@ -44,7 +44,6 @@
     "@credo-ts/openid4vc": "^0.6.1",
     "@credo-ts/tenants": "^0.6.1",
     "@hyperledger/anoncreds-nodejs": "0.3.1",
-    "@hyperledger/aries-askar-nodejs": "^0.2.0",
     "@hyperledger/indy-vdr-nodejs": "0.2.2",
     "@openwallet-foundation/askar-nodejs": "^0.4.3",
     "@sphereon/oid4vc-common": "^0.20.0",
@@ -59,6 +58,7 @@
     "tslog": "^4.10.0",
     "tsoa": "^6.6.0",
     "tsyringe": "^4.7.0",
+    "uint8arrays": "^3.1.1",
     "ws": "^7.5.3",
     "yargs": "^17.3.1"
   },
@@ -82,5 +82,8 @@
     "supertest": "^6.2.3",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.21.0"
+  },
+  "ts-node": {
+    "esm": true
   }
 }

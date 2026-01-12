@@ -59,12 +59,12 @@ export function getAgentModules(options: {
   cheqdLedgers?: CheqdModuleConfigOptions
   extraAnonCredsRegistries?: AnonCredsRegistry[]
   multiTenant: boolean
-  baseUrl: string
+  // baseUrl: string
 }) {
   const legacyIndyCredentialFormatService = new LegacyIndyDidCommCredentialFormatService()
   const legacyIndyProofFormatService = new LegacyIndyDidCommProofFormatService()
 
-  const baseUrlWithoutSlash = options.baseUrl.endsWith('/') ? options.baseUrl.slice(0, -1) : options.baseUrl
+  // const baseUrlWithoutSlash = options.baseUrl.endsWith('/') ? options.baseUrl.slice(0, -1) : options.baseUrl
 
   const baseModules = {
     anoncreds: new AnonCredsModule({
@@ -124,47 +124,49 @@ export function getAgentModules(options: {
       registrars: [new KeyDidRegistrar(), new JwkDidRegistrar(), new PeerDidRegistrar()],
       resolvers: [new WebDidResolver(), new KeyDidResolver(), new JwkDidResolver(), new PeerDidResolver()],
     }),
-    openid4vc: new OpenId4VcModule({    
-      issuer: {
-        baseUrl:
-          process.env.NODE_ENV === 'PROD'
-            ? `https://${require('APP_URL')}/oid4vci`
-            : `${require('AGENT_HTTP_URL')}/oid4vci`,
+    // TODO: Fix the OID4VC changes for version update
+    // openid4vc: new OpenId4VcModule({    
+    //   issuer: {
+    //     baseUrl:
+    //       process.env.NODE_ENV === 'PROD'
+    //         ? `https://${require('APP_URL')}/oid4vci`
+    //         : `${require('AGENT_HTTP_URL')}/oid4vci`,
         
-        statefulCredentialOfferExpirationInSeconds: Number(process.env.OID4VCI_CRED_OFFER_EXPIRY) || 3600,
-        accessTokenExpiresInSeconds: Number(process.env.OID4VCI_ACCESS_TOKEN_EXPIRY) || 3600,
-        authorizationCodeExpiresInSeconds: Number(process.env.OID4VCI_AUTH_CODE_EXPIRY) || 3600,
-        cNonceExpiresInSeconds: Number(process.env.OID4VCI_CNONCE_EXPIRY) || 3600,
-        dpopRequired: false,
-        // credentialRequestToCredentialMapper: ({ issuanceSession, holderBinding, credentialConfiguration }) => {
-        //         const credentials = issuanceSession.issuanceMetadata
-        //           ?.credentials as OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions[]
-        //         if (!credentials) throw new Error('Not implemented')
+    //     statefulCredentialOfferExpirationInSeconds: Number(process.env.OID4VCI_CRED_OFFER_EXPIRY) || 3600,
+    //     accessTokenExpiresInSeconds: Number(process.env.OID4VCI_ACCESS_TOKEN_EXPIRY) || 3600,
+    //     authorizationCodeExpiresInSeconds: Number(process.env.OID4VCI_AUTH_CODE_EXPIRY) || 3600,
+    //     cNonceExpiresInSeconds: Number(process.env.OID4VCI_CNONCE_EXPIRY) || 3600,
+    //     dpopRequired: false,
+    //     // credentialRequestToCredentialMapper: ({ issuanceSession, holderBinding, credentialConfiguration }) => {
+    //     //         const credentials = issuanceSession.issuanceMetadata
+    //     //           ?.credentials as OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions[]
+    //     //         if (!credentials) throw new Error('Not implemented')
 
-        //   const requestedIds = credentialConfiguration.map((c) => c.id).filter((id): id is string => id !== undefined)
-        //         const firstCredential = credentials.find((c) => requestedIds.includes(c.credentialSupportedId))
-        //         if (!firstCredential) throw new Error('Not implemented')
+    //     //   const requestedIds = credentialConfiguration.map((c) => c.id).filter((id): id is string => id !== undefined)
+    //     //         const firstCredential = credentials.find((c) => requestedIds.includes(c.credentialSupportedId))
+    //     //         if (!firstCredential) throw new Error('Not implemented')
 
-        //         if (firstCredential.format === 'vc+sd-jwt') {
-        //           return {
-        //             format: 'vc+sd-jwt',
-        //             issuer: firstCredential.issuer,
-        //             holder: holderBinding,
-        //             payload: firstCredential.payload,
-        //             // Type in credo is wrong
-        //             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        //             disclosureFrame: firstCredential.disclosureFrame as any,
-        //             hashingAlgorithm: 'sha-256',
-        //           } as unknown as OpenId4VciSignSdJwtCredentials
-        //         }
+    //     //         if (firstCredential.format === 'vc+sd-jwt') {
+    //     //           return {
+    //     //             format: 'vc+sd-jwt',
+    //     //             issuer: firstCredential.issuer,
+    //     //             holder: holderBinding,
+    //     //             payload: firstCredential.payload,
+    //     //             // Type in credo is wrong
+    //     //             // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //     //             disclosureFrame: firstCredential.disclosureFrame as any,
+    //     //             hashingAlgorithm: 'sha-256',
+    //     //           } as unknown as OpenId4VciSignSdJwtCredentials
+    //     //         }
 
-        //         throw new Error('Not implemented')
-        //       },
-        credentialRequestToCredentialMapper: ({ issuanceSession, holderBinding, credentialConfiguration }) => {
-          throw new Error('Not implemented')
-        }
-      }
-    })}
+    //     //         throw new Error('Not implemented')
+    //     //       },
+    //     credentialRequestToCredentialMapper: ({ issuanceSession, holderBinding, credentialConfiguration }) => {
+    //       throw new Error('Not implemented')
+    //     }
+    //   }
+    // })
+  }
 
   const modules: typeof baseModules & {
     tenants?: TenantsModule<typeof baseModules>
@@ -191,12 +193,13 @@ export function getAgentModules(options: {
   }
 
   // Register cheqd module and related resolvers/registrars
-  if (options.cheqdLedgers) {
-    modules.cheqd = new CheqdModule(options.cheqdLedgers)
-    modules.dids.config.addRegistrar(new CheqdDidRegistrar())
-    modules.dids.config.addResolver(new CheqdDidResolver())
-    modules.anoncreds.config.registries.push(new CheqdAnonCredsRegistry())
-  }
+  // TODO: Fix this issue
+  // if (options.cheqdLedgers) {
+  //   modules.cheqd = new CheqdModule(options.cheqdLedgers)
+  //   modules.dids.config.addRegistrar(new CheqdDidRegistrar())
+  //   modules.dids.config.addResolver(new CheqdDidResolver())
+  //   modules.anoncreds.config.registries.push(new CheqdAnonCredsRegistry())
+  // }
 
   return modules
 }
