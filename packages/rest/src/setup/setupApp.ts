@@ -14,7 +14,7 @@ import express from 'express'
 import { serve, generateHTML } from 'swagger-ui-express'
 import { ValidateError } from 'tsoa'
 import { container } from 'tsyringe'
-import { Server as WsServer } from 'ws'
+import ws from 'ws'
 
 import { didcommBasicMessageEvents } from '../events/didcommBasicMessageEvents'
 import { didcommConnectionEvents } from '../events/didcommConnectionEvents'
@@ -26,6 +26,8 @@ import { didcommProofEvents } from '../events/didcommProofEvents'
 import { RegisterRoutes } from '../generated/routes'
 
 import { createRestAgent } from './createRestAgent'
+
+const WsServer = ws.Server
 
 /**
  * Setup the Credo REST server based on the provided configuration. It expects an agent to be provided

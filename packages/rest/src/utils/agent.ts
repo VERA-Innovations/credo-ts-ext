@@ -1,9 +1,8 @@
 // import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
 import type { AnonCredsRegistry } from '@credo-ts/anoncreds'
-import { ClaimFormat, X509Certificate, X509Service, type Agent, type SdJwtVcHolderBinding } from '@credo-ts/core'
-import { DidCommAutoAcceptCredential, DidCommAutoAcceptProof } from '@credo-ts/didcomm'
-import type { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
-import type { TenantAgent } from '@credo-ts/tenants'
+import { DidCommAutoAcceptCredential, DidCommAutoAcceptProof, DidCommCredentialV2Protocol, DidCommMediatorModule, DidCommModule, DidCommProofV2Protocol } from '@credo-ts/didcomm'
+import { IndyVdrAnonCredsRegistry, IndyVdrIndyDidRegistrar, IndyVdrIndyDidResolver, IndyVdrModule, IndyVdrSovDidResolver, type IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
+import { TenantAgent, TenantsModule } from '@credo-ts/tenants'
 
 import {
   AnonCredsDidCommCredentialFormatService,
@@ -15,7 +14,7 @@ import {
   DidCommProofV1Protocol,
 } from '@credo-ts/anoncreds'
 import { AskarModule, AskarMultiWalletDatabaseScheme } from '@credo-ts/askar'
-import { CheqdModule, CheqdDidResolver, CheqdDidRegistrar, CheqdAnonCredsRegistry } from '@credo-ts/cheqd'
+import { ClaimFormat, X509Certificate, X509Service, type Agent, type SdJwtVcHolderBinding } from '@credo-ts/core'
 import {
   DidsModule,
   KeyDidRegistrar,
@@ -27,21 +26,25 @@ import {
   PeerDidResolver,
 } from '@credo-ts/core'
 import {
-  IndyVdrAnonCredsRegistry,
-  IndyVdrModule,
-  IndyVdrIndyDidResolver,
-  IndyVdrSovDidResolver,
-  IndyVdrIndyDidRegistrar,
-} from '@credo-ts/indy-vdr'
-import { OpenId4VcIssuerModule, OpenId4VcHolderModule, OpenId4VcVerifierModule, OpenId4VcModule, type OpenId4VciCredentialRequestToCredentialMapper, OpenId4VciCredentialFormatProfile, type OpenId4VciSignSdJwtCredentials } from '@credo-ts/openid4vc'
-import { TenantsModule } from '@credo-ts/tenants'
-import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
+  OpenId4VcIssuerModule,
+  OpenId4VcHolderModule,
+  OpenId4VcVerifierModule,
+  OpenId4VcModule,
+  type OpenId4VciCredentialRequestToCredentialMapper,
+  OpenId4VciCredentialFormatProfile,
+  type OpenId4VciSignSdJwtCredentials,
+} from '@credo-ts/openid4vc'
+
 import { anoncredsNodeJS as anoncreds } from '@hyperledger/anoncreds-nodejs'
-import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
+import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
+
 // import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
-import { DidCommConnectionsModule, DidCommCredentialV2Protocol, DidCommModule, DidCommProofV2Protocol, DidCommMediatorModule } from '@credo-ts/didcomm'
-import { askar } from '@openwallet-foundation/askar-nodejs'
-import type { CheqdNetworkConfig } from '../setup/CredoRestConfig'
+import { askar as askarNodeJS } from '@openwallet-foundation/askar-nodejs'
+
+import { CheqdNetworkConfig } from '../setup/CredoRestConfig'
+import { CheqdModuleConfigOptions, CheqdModule, CheqdDidRegistrar, CheqdDidResolver, CheqdAnonCredsRegistry } from '@credo-ts/cheqd'
+import { parsedArgs } from '../cli'
+import { getDatabaseConfig } from './util'
 
 type ModulesWithoutTenants = Omit<ReturnType<typeof getAgentModules>, 'tenants'>
 
@@ -72,12 +75,12 @@ export function getAgentModules(options: {
       anoncreds,
     }),
     askar: new AskarModule({
-      askar,
-      multiWalletDatabaseScheme: AskarMultiWalletDatabaseScheme.ProfilePerWallet,
+      askar: askarNodeJS,
+      // multiWalletDatabaseScheme: AskarMultiWalletDatabaseScheme.ProfilePerWallet,
       store: {
-        // TODO: Take dynamic config
-        id: '',
-        key: ''
+        id: parsedArgs['wallet-id'],
+        key: parsedArgs['wallet-key'],
+        database: getDatabaseConfig(parsedArgs),
       },
     }),
     didcomm: new DidCommModule({
@@ -86,9 +89,9 @@ export function getAgentModules(options: {
         registries: [new IndyVdrAnonCredsRegistry()],
         anoncreds,
       }),
-      mediationRecipient: true,
-      messagePickup: true,
-      mediator: false,
+      // mediationRecipient: true,
+      // messagePickup: true,
+      // mediator: false,
 
       basicMessages: true,
       connections: {
@@ -117,21 +120,21 @@ export function getAgentModules(options: {
         ],
       },
     }),
-    mediator: new DidCommMediatorModule({
-      autoAcceptMediationRequests: options.autoAcceptMediationRequests,
-    }),
+    // mediator: new DidCommMediatorModule({
+    //   autoAcceptMediationRequests: options.autoAcceptMediationRequests,
+    // }),
     dids: new DidsModule({
       registrars: [new KeyDidRegistrar(), new JwkDidRegistrar(), new PeerDidRegistrar()],
       resolvers: [new WebDidResolver(), new KeyDidResolver(), new JwkDidResolver(), new PeerDidResolver()],
     }),
     // TODO: Fix the OID4VC changes for version update
-    // openid4vc: new OpenId4VcModule({    
+    // openid4vc: new OpenId4VcModule({
     //   issuer: {
     //     baseUrl:
     //       process.env.NODE_ENV === 'PROD'
     //         ? `https://${require('APP_URL')}/oid4vci`
     //         : `${require('AGENT_HTTP_URL')}/oid4vci`,
-        
+
     //     statefulCredentialOfferExpirationInSeconds: Number(process.env.OID4VCI_CRED_OFFER_EXPIRY) || 3600,
     //     accessTokenExpiresInSeconds: Number(process.env.OID4VCI_ACCESS_TOKEN_EXPIRY) || 3600,
     //     authorizationCodeExpiresInSeconds: Number(process.env.OID4VCI_AUTH_CODE_EXPIRY) || 3600,
@@ -194,12 +197,12 @@ export function getAgentModules(options: {
 
   // Register cheqd module and related resolvers/registrars
   // TODO: Fix this issue
-  // if (options.cheqdLedgers) {
-  //   modules.cheqd = new CheqdModule(options.cheqdLedgers)
-  //   modules.dids.config.addRegistrar(new CheqdDidRegistrar())
-  //   modules.dids.config.addResolver(new CheqdDidResolver())
-  //   modules.anoncreds.config.registries.push(new CheqdAnonCredsRegistry())
-  // }
+  if (options.cheqdLedgers) {
+    modules.cheqd = new CheqdModule(options.cheqdLedgers)
+    modules.dids.config.addRegistrar(new CheqdDidRegistrar())
+    modules.dids.config.addResolver(new CheqdDidResolver())
+    modules.anoncreds.config.registries.push(new CheqdAnonCredsRegistry())
+  }
 
   return modules
 }
