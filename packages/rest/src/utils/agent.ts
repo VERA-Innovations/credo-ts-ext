@@ -89,10 +89,11 @@ export function getAgentModules(options: {
         registries: [new IndyVdrAnonCredsRegistry()],
         anoncreds,
       }),
-      // mediationRecipient: true,
-      // messagePickup: true,
-      // mediator: false,
-
+      mediationRecipient: true,
+      messagePickup: true,
+      mediator: {
+        autoAcceptMediationRequests: options.autoAcceptMediationRequests,
+      },
       basicMessages: true,
       connections: {
         autoAcceptConnections: options.autoAcceptConnections,
@@ -120,9 +121,6 @@ export function getAgentModules(options: {
         ],
       },
     }),
-    // mediator: new DidCommMediatorModule({
-    //   autoAcceptMediationRequests: options.autoAcceptMediationRequests,
-    // }),
     dids: new DidsModule({
       registrars: [new KeyDidRegistrar(), new JwkDidRegistrar(), new PeerDidRegistrar()],
       resolvers: [new WebDidResolver(), new KeyDidResolver(), new JwkDidResolver(), new PeerDidResolver()],
@@ -196,7 +194,6 @@ export function getAgentModules(options: {
   }
 
   // Register cheqd module and related resolvers/registrars
-  // TODO: Fix this issue
   if (options.cheqdLedgers) {
     modules.cheqd = new CheqdModule(options.cheqdLedgers)
     modules.dids.config.addRegistrar(new CheqdDidRegistrar())

@@ -7,6 +7,7 @@ import type {
   DidCreateActionResponse,
   DidCreateWaitResponse,
   DidDocumentJson,
+  DidCreateOptions,
 } from './DidsControllerTypes'
 
 import { DidDocument, Hasher, JsonTransformer, Kms, TypedArrayEncoder } from '@credo-ts/core'
@@ -35,7 +36,7 @@ import {
   didResolveSuccessResponseExample,
   didCreateFinishedResponseExample,
 } from './DidsControllerExamples'
-import type { DidImportOptions, DidCreateOptions } from './DidsControllerTypes'
+import type { DidImportOptions } from './DidsControllerTypes'
 import { transformPrivateKeyToPrivateJwk } from '@credo-ts/askar'
 import { randomBytes } from 'crypto'
 
@@ -147,6 +148,15 @@ export class DidController extends Controller {
       },
     })
 
+    if (didResult.didState.state === 'failed') {
+      this.setStatus(500)
+      return alternativeResponse<DidCreateFailedResponse>({
+        ...didResult,
+        didState: {
+          ...didResult.didState,
+        },
+      })
+    }
     const didDocumentJson = didResult.didState.didDocument?.toJSON() as DidDocumentJson
 
     const { ...copiedSecret } = didResult.didState.secret
@@ -159,17 +169,6 @@ export class DidController extends Controller {
     delete copiedSecret.seed
     delete copiedSecret.privateKey
 
-    if (didResult.didState.state === 'failed') {
-      this.setStatus(500)
-      return alternativeResponse<DidCreateFailedResponse>({
-        ...didResult,
-        didState: {
-          ...didResult.didState,
-          didDocument: didDocumentJson,
-          secret: copiedSecret,
-        },
-      })
-    }
 
     if (didResult.didState.state === 'wait') {
       this.setStatus(2002)

@@ -1,5 +1,11 @@
 import type { AnyJsonObject } from '../types'
-import type { DidResolutionMetadata, DidDocumentMetadata } from '@credo-ts/core'
+import type {
+  DidResolutionMetadata,
+  DidDocumentMetadata,
+  DidRegistrationExtraOptions,
+  DidRegistrationSecretOptions,
+  DidDocument,
+} from '@credo-ts/core'
 import type { DIDDocument } from 'did-resolver'
 
 /**
@@ -95,10 +101,10 @@ export type DidCreateOptions = KeyOrJwkDidCreateOptions | DidCreateBaseOptions
 
 interface DidCreateBaseOptions {
   method?: string
-  did?: Did
-  options?: AnyJsonObject
-  secret?: AnyJsonObject
-  didDocument?: DidDocumentJson
+  did?: string
+  options?: DidRegistrationExtraOptions
+  secret?: DidRegistrationSecretOptions
+  didDocument?: DidDocument
 }
 
 interface KeyOrJwkDidCreateOptions extends Omit<DidCreateBaseOptions, 'did' | 'didDocument'> {

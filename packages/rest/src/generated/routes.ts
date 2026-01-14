@@ -1180,9 +1180,19 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"DidCreateBaseResponse__state-wait--did_63_-Did--didDocument_63_-DidDocumentJson--secret_63_-AnyJsonObject__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DidRegistrationExtraOptions": {
+        "dataType": "refAlias",
+        "type": {"ref":"Record_string.unknown_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DidRegistrationSecretOptions": {
+        "dataType": "refAlias",
+        "type": {"ref":"Record_string.unknown_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_DidCreateBaseOptions.Exclude_keyofDidCreateBaseOptions.did-or-didDocument__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"method":{"dataType":"string"},"options":{"ref":"AnyJsonObject"},"secret":{"ref":"AnyJsonObject"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"method":{"dataType":"string"},"options":{"ref":"DidRegistrationExtraOptions"},"secret":{"ref":"DidRegistrationSecretOptions"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "KeyOrJwkDidCreateOptions": {
@@ -1195,14 +1205,19 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DidDocument": {
+        "dataType": "refAlias",
+        "type": {"ref":"Record_string.any_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "DidCreateBaseOptions": {
         "dataType": "refObject",
         "properties": {
             "method": {"dataType":"string"},
-            "did": {"ref":"Did"},
-            "options": {"ref":"AnyJsonObject"},
-            "secret": {"ref":"AnyJsonObject"},
-            "didDocument": {"ref":"DidDocumentJson"},
+            "did": {"dataType":"string"},
+            "options": {"ref":"DidRegistrationExtraOptions"},
+            "secret": {"ref":"DidRegistrationSecretOptions"},
+            "didDocument": {"ref":"DidDocument"},
         },
         "additionalProperties": false,
     },

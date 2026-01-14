@@ -3635,6 +3635,7 @@
 	"components": {
 		"examples": {},
 		"headers": {},
+		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
@@ -6667,16 +6668,22 @@
 			"DidCreateWaitResponse": {
 				"$ref": "#/components/schemas/DidCreateBaseResponse__state-wait--did_63_-Did--didDocument_63_-DidDocumentJson--secret_63_-AnyJsonObject__"
 			},
+			"DidRegistrationExtraOptions": {
+				"$ref": "#/components/schemas/Record_string.unknown_"
+			},
+			"DidRegistrationSecretOptions": {
+				"$ref": "#/components/schemas/Record_string.unknown_"
+			},
 			"Pick_DidCreateBaseOptions.Exclude_keyofDidCreateBaseOptions.did-or-didDocument__": {
 				"properties": {
 					"method": {
 						"type": "string"
 					},
 					"options": {
-						"$ref": "#/components/schemas/AnyJsonObject"
+						"$ref": "#/components/schemas/DidRegistrationExtraOptions"
 					},
 					"secret": {
-						"$ref": "#/components/schemas/AnyJsonObject"
+						"$ref": "#/components/schemas/DidRegistrationSecretOptions"
 					}
 				},
 				"type": "object",
@@ -6721,22 +6728,25 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"DidDocument": {
+				"$ref": "#/components/schemas/Record_string.any_"
+			},
 			"DidCreateBaseOptions": {
 				"properties": {
 					"method": {
 						"type": "string"
 					},
 					"did": {
-						"$ref": "#/components/schemas/Did"
+						"type": "string"
 					},
 					"options": {
-						"$ref": "#/components/schemas/AnyJsonObject"
+						"$ref": "#/components/schemas/DidRegistrationExtraOptions"
 					},
 					"secret": {
-						"$ref": "#/components/schemas/AnyJsonObject"
+						"$ref": "#/components/schemas/DidRegistrationSecretOptions"
 					},
 					"didDocument": {
-						"$ref": "#/components/schemas/DidDocumentJson"
+						"$ref": "#/components/schemas/DidDocument"
 					}
 				},
 				"type": "object",
@@ -7543,16 +7553,18 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {},
-		"parameters": {
-			"tenant": {
-				"in": "header",
+		"securitySchemes": {
+			"tenants": {
+				"type": "apiKey",
 				"name": "x-tenant-id",
-				"description": "Optional header to set the context to a specific tenant. Only needed when the --multi-tenant feature is enabled. Default value is 'default'",
-				"schema": {
-					"type": "string"
-				}
+				"in": "header",
+				"description": "Optional header to set the context to a specific tenant. Only needed when the --multi-tenant feature is enabled. Default value is 'default'"
 			}
 		}
-	}
+	},
+	"security": [
+		{
+			"tenants": []
+		}
+	]
 }
