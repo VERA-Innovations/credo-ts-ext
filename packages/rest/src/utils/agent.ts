@@ -84,6 +84,7 @@ export function getAgentModules(options: {
       },
     }),
     didcomm: new DidCommModule({
+      endpoints: parsedArgs.endpoint ?? [],
       processDidCommMessagesConcurrently: true,
       anoncreds: new AnonCredsModule({
         registries: [new IndyVdrAnonCredsRegistry()],

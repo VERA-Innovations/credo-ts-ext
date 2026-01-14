@@ -61,8 +61,8 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     config: agentConfig,
     dependencies: agentDependencies,
     modules: {
-            ...modules,
-            ...(config.extraModules ?? {})
+      ...modules,
+      ...(config.extraModules ?? {}),
     },
   })
 
