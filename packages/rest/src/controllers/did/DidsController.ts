@@ -158,17 +158,19 @@ export class DidController extends Controller {
       })
     }
     const didDocumentJson = didResult.didState.didDocument?.toJSON() as DidDocumentJson
-
-    const { ...copiedSecret } = didResult.didState.secret
-    copiedSecret.seedBase58 = copiedSecret.seed
-      ? TypedArrayEncoder.toBase58(copiedSecret.seed as Uint8Array)
-      : undefined
-    copiedSecret.privateKeyBase58 = copiedSecret.privateKey
-      ? TypedArrayEncoder.toBase58(copiedSecret.privateKey as Uint8Array)
-      : undefined
-    delete copiedSecret.seed
-    delete copiedSecret.privateKey
-
+    let secretParam
+    if (didResult.didState.secret) {
+      const { ...copiedSecret } = didResult.didState.secret
+      secretParam = copiedSecret
+      copiedSecret.seedBase58 = copiedSecret.seed
+        ? TypedArrayEncoder.toBase58(copiedSecret.seed as Uint8Array)
+        : undefined
+      copiedSecret.privateKeyBase58 = copiedSecret.privateKey
+        ? TypedArrayEncoder.toBase58(copiedSecret.privateKey as Uint8Array)
+        : undefined
+      delete copiedSecret.seed
+      delete copiedSecret.privateKey
+    }
 
     if (didResult.didState.state === 'wait') {
       this.setStatus(2002)
@@ -177,7 +179,7 @@ export class DidController extends Controller {
         didState: {
           ...didResult.didState,
           didDocument: didDocumentJson,
-          secret: copiedSecret,
+          secret: secretParam,
         },
       })
     }
@@ -188,7 +190,7 @@ export class DidController extends Controller {
         didState: {
           ...didResult.didState,
           didDocument: didDocumentJson,
-          secret: copiedSecret,
+          secret: secretParam,
         },
       })
     }
@@ -198,7 +200,7 @@ export class DidController extends Controller {
       didState: {
         ...didResult.didState,
         didDocument: didDocumentJson,
-        secret: copiedSecret,
+        secret: secretParam,
       },
     }
   }

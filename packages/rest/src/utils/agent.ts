@@ -71,7 +71,7 @@ export function getAgentModules(options: {
 
   const baseModules = {
     anoncreds: new AnonCredsModule({
-      registries: (options.extraAnonCredsRegistries ?? []) as [AnonCredsRegistry],
+      registries: [new IndyVdrAnonCredsRegistry()], //(options.extraAnonCredsRegistries ?? []) as [AnonCredsRegistry],// ToDO: fix this
       anoncreds,
     }),
     askar: new AskarModule({
