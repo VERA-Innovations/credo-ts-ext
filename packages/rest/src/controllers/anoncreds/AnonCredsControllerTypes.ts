@@ -50,7 +50,7 @@ export interface AnonCredsGetSchemaSuccessResponse {
  */
 export interface AnonCredsRegisterSchemaBody {
   schema: AnonCredsSchema
-  options?: AnyJsonObject
+  options?: { [x: string]: unknown }
 }
 
 export interface AnonCredsRegisterSchemaSuccessResponse {

@@ -92,6 +92,10 @@
   "pnpm": {
     "overrides": {
       "uint8arrays": "3.1.1"
+    },
+    "patchedDependencies": {
+      "@credo-ts/indy-vdr@0.6.1": "patches/@credo-ts__indy-vdr@0.6.1.patch",
+      "@credo-ts/anoncreds@0.6.1": "patches/@credo-ts__anoncreds@0.6.1.patch"
     }
   }
 }

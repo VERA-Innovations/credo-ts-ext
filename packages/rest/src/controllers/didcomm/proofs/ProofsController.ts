@@ -100,6 +100,22 @@ export class ProofsController extends Controller {
   }
 
   /**
+   * Retrieve proof exchange by proof exchange id
+   */
+  @Post('/:proofExchangeId/getCredsForProof')
+  @Example<DidCommProofExchangeRecord>(proofExchangeRecordExample)
+  public async getCredsProofExchangeById(
+    @Request() request: RequestWithAgent,
+    @Path('proofExchangeId') proofExchangeId: RecordId,
+  ): Promise<any> {
+    const proofExchange = await request.user.agent.didcomm.proofs.getCredentialsForRequest({
+      proofExchangeRecordId: proofExchangeId,
+    })
+
+    return proofExchange
+  }
+
+  /**
    * Deletes a proof exchange record.
    */
   @Delete('/:proofExchangeId')
