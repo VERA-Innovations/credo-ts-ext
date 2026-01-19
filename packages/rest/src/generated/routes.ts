@@ -1360,7 +1360,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "schema": {"ref":"AnonCredsSchema","required":true},
-            "options": {"ref":"AnyJsonObject"},
+            "options": {"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"any"}},
         },
         "additionalProperties": false,
     },
@@ -1700,6 +1700,44 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getProofExchangeById',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+              next()
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/didcomm/proofs/:proofExchangeId/getCredsForProof',
+            authenticateMiddleware([{"tenants":["tenant"]}]),
+            ...(fetchMiddlewares<RequestHandler>(ProofsController)),
+            ...(fetchMiddlewares<RequestHandler>(ProofsController.prototype.getCredsProofExchangeById)),
+
+            async function ProofsController_getCredsProofExchangeById(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                    proofExchangeId: {"in":"path","name":"proofExchangeId","required":true,"ref":"RecordId"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const container: IocContainer = typeof iocContainer === 'function' ? (iocContainer as IocContainerFactory)(request) : iocContainer;
+
+                const controller: any = await container.get<ProofsController>(ProofsController);
+                if (typeof controller['setStatus'] === 'function') {
+                controller.setStatus(undefined);
+                }
+
+              await templateService.apiHandler({
+                methodName: 'getCredsProofExchangeById',
                 controller,
                 response,
                 next,

@@ -7,13 +7,21 @@ settings:
 overrides:
   uint8arrays: 3.1.1
 
+patchedDependencies:
+  '@credo-ts/anoncreds@0.6.1':
+    hash: 974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5
+    path: patches/@credo-ts__anoncreds@0.6.1.patch
+  '@credo-ts/indy-vdr@0.6.1':
+    hash: 55e9983854550d4ef986e6b70fdf6501128307b1457e8ee59ed92948dc4579f1
+    path: patches/@credo-ts__indy-vdr@0.6.1.patch
+
 importers:
 
   .:
     dependencies:
       '@credo-ts/anoncreds':
         specifier: ^0.6.1
-        version: 0.6.1(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
+        version: 0.6.1(patch_hash=974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5)(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
       '@credo-ts/askar':
         specifier: ^0.6.1
         version: 0.6.1(@openwallet-foundation/askar-shared@0.4.3)(typescript@5.9.3)
@@ -28,7 +36,7 @@ importers:
         version: 0.6.1(typescript@5.9.3)
       '@credo-ts/indy-vdr':
         specifier: ^0.6.1
-        version: 0.6.1(@hyperledger/anoncreds-shared@0.3.1)(@hyperledger/indy-vdr-shared@0.2.2)(typescript@5.9.3)
+        version: 0.6.1(patch_hash=55e9983854550d4ef986e6b70fdf6501128307b1457e8ee59ed92948dc4579f1)(@hyperledger/anoncreds-shared@0.3.1)(@hyperledger/indy-vdr-shared@0.2.2)(typescript@5.9.3)
       '@credo-ts/node':
         specifier: ^0.6.1
         version: 0.6.1(typescript@5.9.3)
@@ -775,6 +783,7 @@ packages:
 
   '@sphereon/kmp-mdoc-core@0.2.0-SNAPSHOT.26':
     resolution: {integrity: sha512-QXJ6R8ENiZV2rPMbn06cw5JKwqUYN1kzVRbYfONqE1PEXx1noQ4md7uxr2zSczi0ubKkNcbyYDNtIMTZIhGzmQ==}
+    bundledDependencies: []
 
   '@sphereon/oid4vc-common@0.20.0':
     resolution: {integrity: sha512-G3IcXKM1LANk/1LoWulp/e38yPz+i5xnfG6LylxYiYAKOyzvBsncTu6ZPjN13Q9/mPG64pR0JGLPe9jxCh/fHQ==}
@@ -2639,7 +2648,7 @@ snapshots:
 
   '@cosmjs/utils@0.36.2': {}
 
-  '@credo-ts/anoncreds@0.6.1(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)':
+  '@credo-ts/anoncreds@0.6.1(patch_hash=974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5)(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)':
     dependencies:
       '@astronautlabs/jsonpath': 1.1.2
       '@credo-ts/core': 0.6.1(typescript@5.9.3)
@@ -2674,7 +2683,7 @@ snapshots:
       '@cosmjs/crypto': 0.36.2
       '@cosmjs/proto-signing': 0.36.2
       '@cosmjs/stargate': 0.36.2
-      '@credo-ts/anoncreds': 0.6.1(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
+      '@credo-ts/anoncreds': 0.6.1(patch_hash=974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5)(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
       '@credo-ts/core': 0.6.1(typescript@5.9.3)
       '@stablelib/ed25519': 2.0.2
       class-transformer: 0.5.1
@@ -2751,9 +2760,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@credo-ts/indy-vdr@0.6.1(@hyperledger/anoncreds-shared@0.3.1)(@hyperledger/indy-vdr-shared@0.2.2)(typescript@5.9.3)':
+  '@credo-ts/indy-vdr@0.6.1(patch_hash=55e9983854550d4ef986e6b70fdf6501128307b1457e8ee59ed92948dc4579f1)(@hyperledger/anoncreds-shared@0.3.1)(@hyperledger/indy-vdr-shared@0.2.2)(typescript@5.9.3)':
     dependencies:
-      '@credo-ts/anoncreds': 0.6.1(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
+      '@credo-ts/anoncreds': 0.6.1(patch_hash=974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5)(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
       '@credo-ts/core': 0.6.1(typescript@5.9.3)
       '@hyperledger/indy-vdr-shared': 0.2.2
     transitivePeerDependencies:

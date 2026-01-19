@@ -1,8 +1,8 @@
 // import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
 import type { AnonCredsRegistry } from '@credo-ts/anoncreds'
-import { DidCommAutoAcceptCredential, DidCommAutoAcceptProof, DidCommCredentialV2Protocol, DidCommMediatorModule, DidCommModule, DidCommProofV2Protocol } from '@credo-ts/didcomm'
-import { IndyVdrAnonCredsRegistry, IndyVdrIndyDidRegistrar, IndyVdrIndyDidResolver, IndyVdrModule, IndyVdrSovDidResolver, type IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
-import { TenantAgent, TenantsModule } from '@credo-ts/tenants'
+import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
+import type { DidCommAutoAcceptCredential, DidCommAutoAcceptProof } from '@credo-ts/didcomm'
+import type { TenantAgent } from '@credo-ts/tenants'
 
 import {
   AnonCredsDidCommCredentialFormatService,
@@ -13,8 +13,9 @@ import {
   DidCommCredentialV1Protocol,
   DidCommProofV1Protocol,
 } from '@credo-ts/anoncreds'
-import { AskarModule, AskarMultiWalletDatabaseScheme } from '@credo-ts/askar'
-import { ClaimFormat, X509Certificate, X509Service, type Agent, type SdJwtVcHolderBinding } from '@credo-ts/core'
+import { AskarModule } from '@credo-ts/askar'
+import { CheqdModule, CheqdDidRegistrar, CheqdDidResolver, CheqdAnonCredsRegistry } from '@credo-ts/cheqd'
+import { type Agent } from '@credo-ts/core'
 import {
   DidsModule,
   KeyDidRegistrar,
@@ -25,25 +26,24 @@ import {
   JwkDidResolver,
   PeerDidResolver,
 } from '@credo-ts/core'
+import { DidCommCredentialV2Protocol, DidCommModule, DidCommProofV2Protocol } from '@credo-ts/didcomm'
 import {
-  OpenId4VcIssuerModule,
-  OpenId4VcHolderModule,
-  OpenId4VcVerifierModule,
-  OpenId4VcModule,
-  type OpenId4VciCredentialRequestToCredentialMapper,
-  OpenId4VciCredentialFormatProfile,
-  type OpenId4VciSignSdJwtCredentials,
-} from '@credo-ts/openid4vc'
-
-import { anoncredsNodeJS as anoncreds } from '@hyperledger/anoncreds-nodejs'
+  IndyVdrAnonCredsRegistry,
+  IndyVdrIndyDidRegistrar,
+  IndyVdrIndyDidResolver,
+  IndyVdrModule,
+  IndyVdrSovDidResolver,
+  type IndyVdrPoolConfig,
+} from '@credo-ts/indy-vdr'
+import { TenantsModule } from '@credo-ts/tenants'
+import { anoncreds } from '@hyperledger/anoncreds-nodejs'
 import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
 
 // import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
 import { askar as askarNodeJS } from '@openwallet-foundation/askar-nodejs'
 
-import { CheqdNetworkConfig } from '../setup/CredoRestConfig'
-import { CheqdModuleConfigOptions, CheqdModule, CheqdDidRegistrar, CheqdDidResolver, CheqdAnonCredsRegistry } from '@credo-ts/cheqd'
 import { parsedArgs } from '../cli'
+
 import { getDatabaseConfig } from './util'
 
 type ModulesWithoutTenants = Omit<ReturnType<typeof getAgentModules>, 'tenants'>
@@ -71,7 +71,7 @@ export function getAgentModules(options: {
 
   const baseModules = {
     anoncreds: new AnonCredsModule({
-      registries: [new IndyVdrAnonCredsRegistry()], //(options.extraAnonCredsRegistries ?? []) as [AnonCredsRegistry],// ToDO: fix this
+      registries: (options.extraAnonCredsRegistries ?? []) as [AnonCredsRegistry],
       anoncreds,
     }),
     askar: new AskarModule({
@@ -86,10 +86,6 @@ export function getAgentModules(options: {
     didcomm: new DidCommModule({
       endpoints: parsedArgs.endpoint ?? [],
       processDidCommMessagesConcurrently: true,
-      anoncreds: new AnonCredsModule({
-        registries: [new IndyVdrAnonCredsRegistry()],
-        anoncreds,
-      }),
       mediationRecipient: true,
       messagePickup: true,
       mediator: {

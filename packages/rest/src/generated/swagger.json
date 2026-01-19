@@ -552,6 +552,57 @@
 				]
 			}
 		},
+		"/didcomm/proofs/{proofExchangeId}/getCredsForProof": {
+			"post": {
+				"operationId": "GetCredsProofExchangeById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"id": "821f9b26-ad04-4f56-89b6-e2ef9c72b36e",
+											"protocolVersion": "v2",
+											"role": "prover",
+											"state": "proposal-sent",
+											"threadId": "0019d466-5eea-4269-8c40-031b4896c5b7",
+											"connectionId": "2aecf74c-3073-4f98-9acb-92415d096834",
+											"createdAt": "2022-01-01T00:00:00.000Z",
+											"autoAcceptProof": "always",
+											"type": "ProofRecord"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"description": "Retrieve proof exchange by proof exchange id",
+				"tags": [
+					"DIDComm Proofs"
+				],
+				"security": [
+					{
+						"tenants": [
+							"tenant"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "proofExchangeId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/RecordId"
+						}
+					}
+				]
+			}
+		},
 		"/didcomm/proofs/propose-proof": {
 			"post": {
 				"operationId": "ProposeProof",
@@ -7058,7 +7109,9 @@
 						"$ref": "#/components/schemas/AnonCredsSchema"
 					},
 					"options": {
-						"$ref": "#/components/schemas/AnyJsonObject"
+						"properties": {},
+						"additionalProperties": {},
+						"type": "object"
 					}
 				},
 				"required": [
