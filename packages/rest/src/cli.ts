@@ -17,10 +17,13 @@ import { hideBin } from 'yargs/helpers'
 // eslint-disable-next-line import/no-cycle
 import { setupApp } from './setup/setupApp'
 
-interface CliArgs {
+export interface CliArgs {
   label: string
   'wallet-id': string
   'wallet-key': string
+  'drizzle-enable-storage': boolean
+  'drizzle-storage-db-url': string
+  // 'askar-enable-kms': boolean
   'admin-port': number
   'indy-ledger': IndyVdrPoolConfig[]
   'cheqd-ledger': CheqdModuleConfigOptions
@@ -39,10 +42,13 @@ interface CliArgs {
   'connection-image-url'?: string
   'webhook-url'?: string
   'websocket-events': boolean
-  'storage-type': 'sqlite' | 'postgres'
+  'askar-storage-type': 'sqlite' | 'postgres'
+  'drizzle-storage-type'?: 'sqlite' | 'postgres'
   'postgres-host'?: string
   'postgres-username'?: string
   'postgres-password'?: string
+  'postgres-admin-account'?: string
+  'postgres-admin-password'?: string
 }
 
 const parsed = yargs(hideBin(process.argv))
@@ -62,6 +68,16 @@ const parsed = yargs(hideBin(process.argv))
   })
   .option('wallet-key', {
     type: 'string',
+    demandOption: true,
+  })
+  .option('drizzle-storage-db-url', {
+    type: 'string',
+    demandOption: true,
+  })
+  .option('drizzle-enable-storage', {
+    // default to askar as storage if drizzle is disabled 
+    type: 'boolean',
+    default: false,
     demandOption: true,
   })
   .option('indy-ledger', {
@@ -160,7 +176,12 @@ const parsed = yargs(hideBin(process.argv))
     type: 'number',
     demandOption: true,
   })
-  .option('storage-type', {
+  .option('askar-storage-type', {
+    choices: ['sqlite', 'postgres'] as const,
+    default: 'sqlite',
+  })
+  // drizzle-storage-type
+  .option('drizzle-storage-type', {
     choices: ['sqlite', 'postgres'] as const,
     default: 'sqlite',
   })
@@ -175,11 +196,18 @@ const parsed = yargs(hideBin(process.argv))
   })
   .check((argv) => {
     if (
-      argv['storage-type'] === 'postgres' &&
+      argv['askar-storage-type'] === 'postgres' &&
       (!argv['postgres-host'] || !argv['postgres-username'] || !argv['postgres-password'])
     ) {
       throw new Error("Postgres host, username, and password are required for 'postgres' storage.")
     }
+
+    if (
+      argv['drizzle-storage-enable'] && !argv['drizzle-storage-db-url']
+    ) {
+      throw new Error("DB url are required for 'drizzle' storage.")
+    }
+
     return true
   })
   .parseSync()
@@ -193,13 +221,14 @@ export async function runCliServer() {
     enableWebsocketEvents: true,
     enableCors: true,
 
+    // TODO: Add all the additional params here
     agent: {
       label: parsedArgs.label,
       walletConfig: {
         id: parsedArgs['wallet-id'],
         key: parsedArgs['wallet-key'],
         database:
-          parsedArgs['storage-type'] === 'sqlite'
+          parsedArgs['askar-storage-type'] === 'sqlite'
             ? {
                 type: 'sqlite',
               }

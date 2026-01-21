@@ -2919,6 +2919,9 @@ export function RegisterRoutes(app: Router) {
                     did: {"in":"query","name":"did","ref":"Did"},
                     theirDid: {"in":"query","name":"theirDid","ref":"Did"},
                     theirLabel: {"in":"query","name":"theirLabel","dataType":"string"},
+                    before: {"in":"query","name":"before","dataType":"string"},
+                    after: {"in":"query","name":"after","dataType":"string"},
+                    limit: {"in":"query","name":"limit","dataType":"double"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

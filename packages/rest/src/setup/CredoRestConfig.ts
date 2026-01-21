@@ -31,6 +31,13 @@ export interface CredoRestAgentConfig {
   label: string
   walletConfig: InitConfig & AskarModuleConfigStoreOptions
 
+
+
+  /**
+   * @default false
+   */
+  drizzleStorageEnable?: boolean
+
   /**
    * @default false
    */

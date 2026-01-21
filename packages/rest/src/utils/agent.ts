@@ -46,7 +46,14 @@ import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
 import { askar as askarNodeJS } from '@openwallet-foundation/askar-nodejs'
 
 
-import { getDatabaseConfig } from './util'
+import { getAskarDatabaseConfig, getDrizzleDatabaseConfig } from './util'
+import { DrizzleStorageModule } from '@credo-ts/drizzle-storage'
+import { coreBundle } from '@credo-ts/drizzle-storage/core'
+import { actionMenuBundle } from '@credo-ts/drizzle-storage/action-menu'
+import { anoncredsBundle } from '@credo-ts/drizzle-storage/anoncreds'
+import { didcommBundle } from '@credo-ts/drizzle-storage/didcomm'
+import { tenantsBundle } from '@credo-ts/drizzle-storage/tenants'
+import { questionAnswerBundle } from '@credo-ts/drizzle-storage/question-answer'
 
 type ModulesWithoutTenants = Omit<ReturnType<typeof getAgentModules>, 'tenants'>
 
@@ -65,6 +72,7 @@ export function getAgentModules(options: {
   extraAnonCredsRegistries?: AnonCredsRegistry[]
   multiTenant: boolean
   credoConfig: Pick<CredoRestAgentConfig, 'walletConfig' | 'label' | 'endpoints' | 'extraModules'>
+  drizzleStorageEnable: boolean
   // baseUrl: string
 }) {
   const legacyIndyCredentialFormatService = new LegacyIndyDidCommCredentialFormatService()
@@ -74,7 +82,7 @@ export function getAgentModules(options: {
 
   const baseModules = {
     anoncreds: new AnonCredsModule({
-      registries: (options.extraAnonCredsRegistries ?? []) as [AnonCredsRegistry],
+      registries: (options.extraAnonCredsRegistries ?? []) as [AnonCredsRegistry],// ToDO: fix this
       anoncreds,
     }),
     askar: new AskarModule({
@@ -83,7 +91,7 @@ export function getAgentModules(options: {
       store: {
         id: options.credoConfig.walletConfig.id,
         key: options.credoConfig.walletConfig.key,
-        database: getDatabaseConfig({
+        database: getAskarDatabaseConfig({
           'db-type': options.credoConfig.walletConfig.database,
           'postgres-host': (options.credoConfig.walletConfig.database?.config as AskarPostgresConfig)?.host,
           'postgres-username': (
@@ -96,15 +104,15 @@ export function getAgentModules(options: {
           )?.password,
         }),
       },
+      enableStorage: !options.drizzleStorageEnable,
+      enableKms: options.drizzleStorageEnable
     }),
     didcomm: new DidCommModule({
       endpoints: options.credoConfig.endpoints ?? [],
       processDidCommMessagesConcurrently: true,
       mediationRecipient: true,
       messagePickup: true,
-      mediator: {
-        autoAcceptMediationRequests: options.autoAcceptMediationRequests,
-      },
+      mediator: false,
       basicMessages: true,
       connections: {
         autoAcceptConnections: options.autoAcceptConnections,
@@ -184,11 +192,19 @@ export function getAgentModules(options: {
     tenants?: TenantsModule<typeof baseModules>
     indyVdr?: IndyVdrModule
     cheqd?: CheqdModule
+    drizzleStorage?: DrizzleStorageModule
   } = baseModules
 
   if (options.multiTenant) {
     modules.tenants = new TenantsModule({
       sessionLimit: Infinity,
+    })
+  }
+
+  if (options.drizzleStorageEnable) {
+    modules.drizzleStorage = new DrizzleStorageModule({
+      bundles: [coreBundle, didcommBundle, actionMenuBundle, anoncredsBundle, tenantsBundle, questionAnswerBundle],
+      database: getDrizzleDatabaseConfig(options).database
     })
   }
 

@@ -2,7 +2,7 @@ import type { DidCommConnectionRecord } from './ConnectionsControllerTypes'
 
 import { RecordNotFoundError } from '@credo-ts/core'
 import { DidCommDidExchangeState } from '@credo-ts/didcomm'
-import { Controller, Delete, Example, Get, Path, Post, Query, Request, Route, Security, Tags } from 'tsoa'
+import { Body, Controller, Delete, Example, Get, Path, Post, Query, Request, Route, Security, Tags } from 'tsoa'
 import { injectable } from 'tsyringe'
 
 import { RequestWithAgent } from '../../../tenantMiddleware'
@@ -31,6 +31,9 @@ export class ConnectionsController extends Controller {
     @Query('did') did?: Did,
     @Query('theirDid') theirDid?: Did,
     @Query('theirLabel') theirLabel?: string,
+    @Query('before') before?: string,
+    @Query('after') after?: string,
+    @Query('limit') limit?: number
   ) {
     const connections = await request.user.agent.didcomm.connections.findAllByQuery({
       alias,
@@ -39,6 +42,9 @@ export class ConnectionsController extends Controller {
       theirLabel,
       state,
       outOfBandId,
+    }, {
+      cursor: { before, after },
+      limit
     })
 
     return connections.map(connectionRecordToApiModel)

@@ -1,21 +1,22 @@
-import type { AgentInfo } from './AgentControllerTypes'
+import type { AgentInfo, CursorBody } from './AgentControllerTypes'
 
-import { Controller, Example, Get, Request, Route, Security, Tags } from 'tsoa'
+import { Body, Controller, Example, Get, Post, Request, Route, Security, Tags } from 'tsoa'
 import { injectable } from 'tsyringe'
 
-import type { RequestWithRootAgent } from '../../tenantMiddleware'
+import type { RequestWithAgent, RequestWithRootAgent } from '../../tenantMiddleware'
 
 import { agentInfoExample } from './AgentControllerExamples'
+import { recordToCursor } from "@credo-ts/core"
 
 @Tags('Agent')
 @Route('/agent')
-@Security('tenants', ['default'])
 @injectable()
 export class AgentController extends Controller {
   /**
    * Retrieve basic agent information
    */
   @Get('/')
+  @Security('tenants', ['default'])
   @Example(agentInfoExample)
   public async getAgentInfo(@Request() request: RequestWithRootAgent): Promise<AgentInfo> {
     // We want to strip some properties from the config
@@ -27,4 +28,20 @@ export class AgentController extends Controller {
       isInitialized: request.user.agent.isInitialized,
     }
   }
+
+  /**
+     * Convert record to cursor
+     */
+    @Post('/recordToCursor')
+    @Security('tenants', ['tenant', 'default'])
+    public async recordToCursor(
+      @Request() request: RequestWithAgent,
+      @Body() body: CursorBody
+    ) {
+      const cursor = recordToCursor(body)
+  
+      return {
+        cursor
+      }
+    }
 }

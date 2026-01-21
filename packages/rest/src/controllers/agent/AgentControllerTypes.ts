@@ -15,3 +15,8 @@ export interface AgentInfo {
    */
   isInitialized: boolean
 }
+
+export type CursorBody = {
+  id: string
+  createdAt: string
+} & Record<string, unknown>
