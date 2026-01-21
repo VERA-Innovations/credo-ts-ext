@@ -8,7 +8,7 @@ import { injectable } from 'tsyringe'
 import { RequestWithAgent } from '../../../tenantMiddleware'
 import { apiErrorResponse } from '../../../utils/response'
 import { Did } from '../../did/DidsControllerTypes'
-import { RecordId } from '../../types'
+import { Cursor, RecordId } from '../../types'
 
 import { connectionRecordExample } from './ConnectionsControllerExamples'
 import { connectionRecordToApiModel } from './ConnectionsControllerTypes'
@@ -31,8 +31,8 @@ export class ConnectionsController extends Controller {
     @Query('did') did?: Did,
     @Query('theirDid') theirDid?: Did,
     @Query('theirLabel') theirLabel?: string,
-    @Query('before') before?: string,
-    @Query('after') after?: string,
+    @Query('before') before?: Cursor,
+    @Query('after') after?: Cursor,
     @Query('limit') limit?: number
   ) {
     const connections = await request.user.agent.didcomm.connections.findAllByQuery({

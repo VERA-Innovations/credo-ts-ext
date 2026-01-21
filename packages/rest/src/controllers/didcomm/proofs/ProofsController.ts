@@ -11,7 +11,7 @@ import { injectable } from 'tsyringe'
 
 import { RequestWithAgent } from '../../../tenantMiddleware'
 import { apiErrorResponse } from '../../../utils/response'
-import { RecordId, ThreadId } from '../../types'
+import { Cursor, RecordId, ThreadId } from '../../types'
 
 import {
   didCommProofsCreateRequestResponse,
@@ -45,6 +45,9 @@ export class ProofsController extends Controller {
     @Query('state') state?: DidCommProofState,
     @Query('parentThreadId') parentThreadId?: ThreadId,
     @Query('role') role?: DidCommProofRole,
+    @Query('before') before?: Cursor,
+    @Query('after') after?: Cursor,
+    @Query('limit') limit?: number
   ): Promise<DidCommProofExchangeRecord[]> {
     const proofs = await request.user.agent.didcomm.proofs.findAllByQuery({
       threadId,
@@ -52,6 +55,9 @@ export class ProofsController extends Controller {
       state,
       parentThreadId,
       role,
+    }, {
+      cursor: { before, after },
+      limit
     })
 
     return proofs.map(proofExchangeRecordToApiModel)

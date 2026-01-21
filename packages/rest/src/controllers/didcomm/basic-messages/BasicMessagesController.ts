@@ -5,7 +5,7 @@ import { injectable } from 'tsyringe'
 
 import { RequestWithAgent } from '../../../tenantMiddleware'
 import { apiErrorResponse } from '../../../utils/response'
-import { RecordId, ThreadId } from '../../types'
+import { Cursor, RecordId, ThreadId } from '../../types'
 
 import { basicMessageRecordExample } from './BasicMessagesControllerExamples'
 import {
@@ -33,12 +33,18 @@ export class DidCommBasicMessagesController extends Controller {
       @Query('role') role?: DidCommBasicMessageRole,
     @Query('threadId') threadId?: ThreadId,
     @Query('parentThreadId') parentThreadId?: ThreadId,
+    @Query('before') before?: Cursor,
+    @Query('after') after?: Cursor,
+    @Query('limit') limit?: number
   ): Promise<DidCommBasicMessageRecord[]> {
     const basicMessageRecords = await request.user.agent.didcomm.basicMessages.findAllByQuery({
       connectionId,
       role,
       threadId,
       parentThreadId,
+    }, {
+      cursor: { before, after },
+      limit
     })
     return basicMessageRecords.map(basicMessageRecordToApiModel)
   }

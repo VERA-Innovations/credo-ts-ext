@@ -120,6 +120,11 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Cursor": {
+        "dataType": "refAlias",
+        "type": {"dataType":"string","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ProofFormatDataMessagePayload_ProofFormats.proposal_": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
@@ -1799,6 +1804,9 @@ export function RegisterRoutes(app: Router) {
                     state: {"in":"query","name":"state","ref":"DidCommProofState"},
                     parentThreadId: {"in":"query","name":"parentThreadId","ref":"ThreadId"},
                     role: {"in":"query","name":"role","ref":"DidCommProofRole"},
+                    before: {"in":"query","name":"before","ref":"Cursor"},
+                    after: {"in":"query","name":"after","ref":"Cursor"},
+                    limit: {"in":"query","name":"limit","dataType":"double"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -2222,6 +2230,9 @@ export function RegisterRoutes(app: Router) {
                     role: {"in":"query","name":"role","ref":"DidCommOutOfBandRole"},
                     state: {"in":"query","name":"state","ref":"DidCommOutOfBandState"},
                     threadId: {"in":"query","name":"threadId","dataType":"string"},
+                    before: {"in":"query","name":"before","ref":"Cursor"},
+                    after: {"in":"query","name":"after","ref":"Cursor"},
+                    limit: {"in":"query","name":"limit","dataType":"double"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -2493,6 +2504,9 @@ export function RegisterRoutes(app: Router) {
                     connectionId: {"in":"query","name":"connectionId","ref":"RecordId"},
                     state: {"in":"query","name":"state","ref":"DidCommCredentialState"},
                     role: {"in":"query","name":"role","ref":"DidCommCredentialRole"},
+                    before: {"in":"query","name":"before","ref":"Cursor"},
+                    after: {"in":"query","name":"after","ref":"Cursor"},
+                    limit: {"in":"query","name":"limit","dataType":"double"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -2919,8 +2933,8 @@ export function RegisterRoutes(app: Router) {
                     did: {"in":"query","name":"did","ref":"Did"},
                     theirDid: {"in":"query","name":"theirDid","ref":"Did"},
                     theirLabel: {"in":"query","name":"theirLabel","dataType":"string"},
-                    before: {"in":"query","name":"before","dataType":"string"},
-                    after: {"in":"query","name":"after","dataType":"string"},
+                    before: {"in":"query","name":"before","ref":"Cursor"},
+                    after: {"in":"query","name":"after","ref":"Cursor"},
                     limit: {"in":"query","name":"limit","dataType":"double"},
             };
 
@@ -3115,6 +3129,9 @@ export function RegisterRoutes(app: Router) {
                     role: {"in":"query","name":"role","ref":"DidCommBasicMessageRole"},
                     threadId: {"in":"query","name":"threadId","ref":"ThreadId"},
                     parentThreadId: {"in":"query","name":"parentThreadId","ref":"ThreadId"},
+                    before: {"in":"query","name":"before","ref":"Cursor"},
+                    after: {"in":"query","name":"after","ref":"Cursor"},
+                    limit: {"in":"query","name":"limit","dataType":"double"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -3686,6 +3703,9 @@ export function RegisterRoutes(app: Router) {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     label: {"in":"query","name":"label","dataType":"string"},
                     storageVersion: {"in":"query","name":"storageVersion","dataType":"string"},
+                    before: {"in":"query","name":"before","ref":"Cursor"},
+                    after: {"in":"query","name":"after","ref":"Cursor"},
+                    limit: {"in":"query","name":"limit","dataType":"double"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

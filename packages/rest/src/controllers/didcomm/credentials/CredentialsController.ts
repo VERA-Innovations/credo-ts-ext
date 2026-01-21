@@ -11,7 +11,7 @@ import { injectable } from 'tsyringe'
 
 import { RequestWithAgent } from '../../../tenantMiddleware'
 import { apiErrorResponse } from '../../../utils/response'
-import { RecordId, ThreadId } from '../../types'
+import { Cursor, RecordId, ThreadId } from '../../types'
 
 import {
   credentialExchangeRecordExample,
@@ -45,6 +45,9 @@ export class CredentialsController extends Controller {
     @Query('connectionId') connectionId?: RecordId,
     @Query('state') state?: DidCommCredentialState,
     @Query('role') role?: DidCommCredentialRole,
+    @Query('before') before?: Cursor,
+    @Query('after') after?: Cursor,
+    @Query('limit') limit?: number
   ) {
     const credentials = await request.user.agent.didcomm.credentials.findAllByQuery({
       connectionId,
@@ -52,6 +55,9 @@ export class CredentialsController extends Controller {
       state,
       parentThreadId,
       role,
+    }, {
+      cursor: { before, after },
+      limit
     })
 
     return credentials.map(credentialExchangeRecordToApiModel)

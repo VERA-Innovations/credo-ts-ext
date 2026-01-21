@@ -8,6 +8,7 @@ import { RequestWithRootTenantAgent } from '../../tenantMiddleware'
 
 import { tenantRecordExample } from './TenantControllerExamples'
 import { tenantRecordToApiModel, TenantsCreateOptions, TenantsUpdateOptions } from './TenantsControllerTypes'
+import { Cursor } from '../types'
 
 @Tags('Tenants')
 @Route('/tenants')
@@ -97,10 +98,16 @@ export class TenantsController extends Controller {
     @Request() request: RequestWithRootTenantAgent,
     @Query('label') label?: string,
     @Query('storageVersion') storageVersion?: string,
+    @Query('before') before?: Cursor,
+    @Query('after') after?: Cursor,
+    @Query('limit') limit?: number
   ): Promise<TenantRecord[]> {
     const tenants = await request.user.agent.modules.tenants.findTenantsByQuery({
       label,
       storageVersion: storageVersion as VersionString,
+    }, {
+      cursor: { before, after },
+      limit
     })
 
     return tenants.map(tenantRecordToApiModel)

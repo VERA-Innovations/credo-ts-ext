@@ -19,7 +19,7 @@ import { injectable } from 'tsyringe'
 
 import { RequestWithAgent } from '../../../tenantMiddleware'
 import { apiErrorResponse } from '../../../utils/response'
-import { RecordId } from '../../types'
+import { Cursor, RecordId } from '../../types'
 import { connectionRecordExample } from '../connections/ConnectionsControllerExamples'
 import { connectionRecordToApiModel, type DidCommConnectionRecord } from '../connections/ConnectionsControllerTypes'
 
@@ -53,12 +53,18 @@ export class OutOfBandController extends Controller {
     @Query('role') role?: DidCommOutOfBandRole,
     @Query('state') state?: DidCommOutOfBandState,
     @Query('threadId') threadId?: string,
+    @Query('before') before?: Cursor,
+    @Query('after') after?: Cursor,
+    @Query('limit') limit?: number
   ): Promise<DidCommOutOfBandRecord[]> {
     const outOfBandRecords = await request.user.agent.didcomm.oob.findAllByQuery({
       invitationId,
       role,
       state,
       threadId,
+    }, {
+      cursor: { before, after },
+      limit
     })
 
     return outOfBandRecords.map(outOfBandRecordToApiModel)

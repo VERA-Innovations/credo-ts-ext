@@ -14,6 +14,15 @@ export type RecordId = string
 export type ThreadId = string
 
 /**
+ * @description Create the cursor using the '/agent/recordToClass' endpoint. This internally uses the 'recordToCursor' function exported by '@credo-ts/core'
+ *
+ * @example "eyJjcmVhdGVkQXQiOiIyMDI2LTAxLTIwVDEzOjQ4OjUxLjc0MVoiLCJpZCI6IjViZmVhZjAyLTgxMzQtNDM1OC04NDg1LTE2M2MwZDdmZTgyYyJ9"
+ */
+export type Cursor = string
+
+
+
+/**
  * Base record model for Credo
  */
 export interface CredoBaseRecord {
