@@ -1,5 +1,7 @@
 // import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
+import type { CredoRestAgentConfig } from '../setup/CredoRestConfig.js'
 import type { AnonCredsRegistry } from '@credo-ts/anoncreds'
+import type { AskarPostgresConfig, AskarPostgresCredentials, AskarPostgresStorageConfig } from '@credo-ts/askar'
 import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
 import type { DidCommAutoAcceptCredential, DidCommAutoAcceptProof } from '@credo-ts/didcomm'
 import type { TenantAgent } from '@credo-ts/tenants'
@@ -37,12 +39,12 @@ import {
 } from '@credo-ts/indy-vdr'
 import { TenantsModule } from '@credo-ts/tenants'
 import { anoncreds } from '@hyperledger/anoncreds-nodejs'
+// eslint-disable-next-line import/order
 import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
 
 // import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
 import { askar as askarNodeJS } from '@openwallet-foundation/askar-nodejs'
 
-import { parsedArgs } from '../cli'
 
 import { getDatabaseConfig } from './util'
 
@@ -62,6 +64,7 @@ export function getAgentModules(options: {
   cheqdLedgers?: CheqdModuleConfigOptions
   extraAnonCredsRegistries?: AnonCredsRegistry[]
   multiTenant: boolean
+  credoConfig: Pick<CredoRestAgentConfig, 'walletConfig' | 'label' | 'endpoints' | 'extraModules'>
   // baseUrl: string
 }) {
   const legacyIndyCredentialFormatService = new LegacyIndyDidCommCredentialFormatService()
@@ -78,13 +81,24 @@ export function getAgentModules(options: {
       askar: askarNodeJS,
       // multiWalletDatabaseScheme: AskarMultiWalletDatabaseScheme.ProfilePerWallet,
       store: {
-        id: parsedArgs['wallet-id'],
-        key: parsedArgs['wallet-key'],
-        database: getDatabaseConfig(parsedArgs),
+        id: options.credoConfig.walletConfig.id,
+        key: options.credoConfig.walletConfig.key,
+        database: getDatabaseConfig({
+          'db-type': options.credoConfig.walletConfig.database,
+          'postgres-host': (options.credoConfig.walletConfig.database?.config as AskarPostgresConfig).host,
+          'postgres-username': (
+            (options.credoConfig.walletConfig.database as AskarPostgresStorageConfig)
+              ?.credentials as AskarPostgresCredentials
+          ).account,
+          'postgres-password': (
+            (options.credoConfig.walletConfig.database as AskarPostgresStorageConfig)
+              ?.credentials as AskarPostgresCredentials
+          ).password,
+        }),
       },
     }),
     didcomm: new DidCommModule({
-      endpoints: parsedArgs.endpoint ?? [],
+      endpoints: options.credoConfig.endpoints ?? [],
       processDidCommMessagesConcurrently: true,
       mediationRecipient: true,
       messagePickup: true,

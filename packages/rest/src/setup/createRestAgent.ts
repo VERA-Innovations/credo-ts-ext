@@ -1,17 +1,18 @@
-import type { CredoRestAgentConfig } from './CredoRestConfig'
-import type { RestRootAgent, RestRootAgentWithTenants } from '../utils/agent'
+import type { CredoRestAgentConfig } from './CredoRestConfig.js'
+import type { RestRootAgent, RestRootAgentWithTenants } from '../utils/agent.js'
 import type { InitConfig } from '@credo-ts/core'
 import type { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
 
-import {LogLevel, Agent } from '@credo-ts/core'
-import { agentDependencies, DidCommHttpInboundTransport } from '@credo-ts/node'
+import { LogLevel, Agent } from '@credo-ts/core'
 import { DidCommAutoAcceptProof } from '@credo-ts/didcomm'
 import { DidCommAutoAcceptCredential } from '@credo-ts/didcomm'
+import { agentDependencies } from '@credo-ts/node'
 
-import { getAgentModules } from '../utils/agent'
-import { TsLogger } from '../utils/logger'
+// eslint-disable-next-line import/no-cycle
+import { getAgentModules } from '../utils/agent.js'
+import { TsLogger } from '../utils/logger.js'
 
-import { outboundTransportMapping, inboundTransportMapping } from './CredoRestConfig'
+import { outboundTransportMapping, inboundTransportMapping } from './CredoRestConfig.js'
 
 export async function createRestAgent(config: CredoRestAgentConfig): Promise<RestRootAgent | RestRootAgentWithTenants> {
   const {
@@ -35,9 +36,9 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     logger,
   }
 
-  const httpEndpoint = credoConfig.endpoints?.find(
-    (endpoint) => endpoint.startsWith('http://') || endpoint.startsWith('https://'),
-  )
+  // const httpEndpoint = credoConfig.endpoints?.find(
+  //   (endpoint) => endpoint.startsWith('http://') || endpoint.startsWith('https://'),
+  // )
   // FIXME: For OID4VC this will be required
   // if (!httpEndpoint) {
   //   throw new Error('No http endpoint found in config, unable to set up OpenID4VC modules.')
@@ -54,9 +55,9 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     indyLedgers: maybeIndyLedgers,
     cheqdLedgers: maybeCheqdLedgers,
     multiTenant,
+    credoConfig,
     // baseUrl: httpEndpoint,
   })
-
   const agent = new Agent({
     config: agentConfig,
     dependencies: agentDependencies,

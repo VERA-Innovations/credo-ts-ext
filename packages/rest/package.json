@@ -3,7 +3,7 @@
   "main": "build/index",
   "type": "module",
   "types": "build/index",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "files": [
     "build"
   ],
@@ -25,7 +25,7 @@
     "tsoa": "tsoa spec-and-routes && tsc -p tsconfig.build.json",
     "dev": "yarn tsoa && tsnd --respawn samples/sampleWithApp.ts",
     "sample": "yarn tsoa && tsnd --respawn samples/sample.ts",
-    "sample:with-app": "yarn tsoa && tsnd --respawn samples/sampleWithApp.ts",
+    "sample:with-app": "yarn tsoa && tsx samples/sampleWithApp.ts",
     "sample:cli-config": "yarn tsoa && tsx src/cli.ts --config ./samples/cliConfig.json",
     "sample:cli": "yarn tsoa && sh samples/sampleCli.sh",
     "build": "yarn run clean && yarn run compile",

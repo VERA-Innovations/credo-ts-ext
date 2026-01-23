@@ -4,8 +4,8 @@ import type {
   DidCommCredentialsGetFormatDataResponse,
 } from './CredentialsControllerTypes'
 
-import { DidCommCredentialState, DidCommCredentialRole } from '@credo-ts/didcomm'
 import { RecordNotFoundError } from '@credo-ts/core'
+import { DidCommCredentialState, DidCommCredentialRole } from '@credo-ts/didcomm'
 import { Body, Controller, Delete, Get, Path, Post, Route, Tags, Example, Query, Security, Request } from 'tsoa'
 import { injectable } from 'tsyringe'
 

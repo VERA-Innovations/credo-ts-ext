@@ -2,8 +2,11 @@
  * This is required in Credo v0.6.x to prevent 'keyGetJwkSecret' undefined errors.
  * @see https://github.com/openwallet-foundation/credo-ts/issues/2597
  */
-import '@openwallet-foundation/askar-nodejs' 
+import '@openwallet-foundation/askar-nodejs'
+import type { InboundTransport, Transports } from './setup/CredoRestConfig'
 import type { AskarPostgresStorageConfig } from '@credo-ts/askar'
+import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
+import type { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
 
 import { DidCommAutoAcceptCredential, DidCommAutoAcceptProof } from '@credo-ts/didcomm'
 import process from 'node:process'
@@ -11,10 +14,8 @@ import process from 'node:process'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
+// eslint-disable-next-line import/no-cycle
 import { setupApp } from './setup/setupApp'
-import { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
-import { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
-import { InboundTransport, Transports } from './setup/CredoRestConfig'
 
 interface CliArgs {
   label: string
@@ -211,7 +212,7 @@ export async function runCliServer() {
                   account: parsedArgs['postgres-username'] as string,
                   password: parsedArgs['postgres-password'] as string,
                 },
-            } satisfies AskarPostgresStorageConfig),
+              } satisfies AskarPostgresStorageConfig),
       },
       indyLedgers: parsedArgs['indy-ledger'],
       cheqdLedgers: parsedArgs['cheqd-ledger'],

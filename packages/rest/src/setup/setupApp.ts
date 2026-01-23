@@ -16,16 +16,16 @@ import { ValidateError } from 'tsoa'
 import { container } from 'tsyringe'
 import ws from 'ws'
 
-import { didcommBasicMessageEvents } from '../events/didcommBasicMessageEvents'
-import { didcommConnectionEvents } from '../events/didcommConnectionEvents'
-import { didcommCredentialEvents } from '../events/didcommCredentialEvents'
-import { didcommOutOfBandEvents } from '../events/didcommOutOfBandEvents'
-import { didcommProofEvents } from '../events/didcommProofEvents'
+import { didcommBasicMessageEvents } from '../events/didcommBasicMessageEvents.js'
+import { didcommConnectionEvents } from '../events/didcommConnectionEvents.js'
+import { didcommCredentialEvents } from '../events/didcommCredentialEvents.js'
+import { didcommOutOfBandEvents } from '../events/didcommOutOfBandEvents.js'
+import { didcommProofEvents } from '../events/didcommProofEvents.js'
 // import { openId4VcIssuanceSessionEvents } from '../events/openId4VcIssuanceSessionEvents'
 // import { openId4VcVerificationSessionEvents } from '../events/openId4VcVerificationSessionEvents'
-import { RegisterRoutes } from '../generated/routes'
+import { RegisterRoutes } from '../generated/routes.js'
 
-import { createRestAgent } from './createRestAgent'
+import { createRestAgent } from './createRestAgent.js'
 
 const WsServer = ws.Server
 

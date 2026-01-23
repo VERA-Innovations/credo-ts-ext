@@ -2,7 +2,7 @@
 	"openapi": "3.0.0",
 	"info": {
 		"title": "Credo REST API",
-		"version": "0.10.0",
+		"version": "0.10.1",
 		"description": "Rest API for using Credo over HTTP",
 		"license": {
 			"name": "Apache-2.0"
@@ -10,6 +10,263 @@
 		"contact": {}
 	},
 	"paths": {
+		"/tenants": {
+			"post": {
+				"operationId": "CreateTenant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TenantRecord"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"config": {
+												"label": "Example"
+											},
+											"createdAt": "2022-08-18T08:38:40.216Z",
+											"updatedAt": "2022-08-18T08:38:40.216Z",
+											"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
+											"storageVersion": "0.5",
+											"type": "TenantRecord"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"description": "create new tenant",
+				"tags": [
+					"Tenants"
+				],
+				"security": [
+					{
+						"tenants": [
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TenantsCreateOptions"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetTenantsByQuery",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/TenantRecord"
+									},
+									"type": "array"
+								},
+								"examples": {
+									"Example 1": {
+										"value": [
+											{
+												"config": {
+													"label": "Example"
+												},
+												"createdAt": "2022-08-18T08:38:40.216Z",
+												"updatedAt": "2022-08-18T08:38:40.216Z",
+												"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
+												"storageVersion": "0.5",
+												"type": "TenantRecord"
+											}
+										]
+									}
+								}
+							}
+						}
+					}
+				},
+				"description": "get tenants by query",
+				"tags": [
+					"Tenants"
+				],
+				"security": [
+					{
+						"tenants": [
+							"admin"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "label",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "storageVersion",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/tenants/{tenantId}": {
+			"get": {
+				"operationId": "GetTenant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TenantRecord"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"config": {
+												"label": "Example"
+											},
+											"createdAt": "2022-08-18T08:38:40.216Z",
+											"updatedAt": "2022-08-18T08:38:40.216Z",
+											"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
+											"storageVersion": "0.5",
+											"type": "TenantRecord"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"description": "get tenant by id",
+				"tags": [
+					"Tenants"
+				],
+				"security": [
+					{
+						"tenants": [
+							"admin"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tenantId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateTenant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TenantRecord"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"config": {
+												"label": "Example"
+											},
+											"createdAt": "2022-08-18T08:38:40.216Z",
+											"updatedAt": "2022-08-18T08:38:40.216Z",
+											"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
+											"storageVersion": "0.5",
+											"type": "TenantRecord"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"description": "update tenant by id.\n\nNOTE: this does not overwrite the entire tenant record, only the properties that are passed in the body.\nIf you want to unset an non-required value, you can pass `null`.",
+				"tags": [
+					"Tenants"
+				],
+				"security": [
+					{
+						"tenants": [
+							"admin"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tenantId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TenantsUpdateOptions"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteTenant",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "delete tenant by id",
+				"tags": [
+					"Tenants"
+				],
+				"security": [
+					{
+						"tenants": [
+							"admin"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tenantId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/didcomm/proofs": {
 			"get": {
 				"operationId": "FindProofsByQuery",
@@ -3419,263 +3676,6 @@
 				],
 				"parameters": []
 			}
-		},
-		"/tenants": {
-			"post": {
-				"operationId": "CreateTenant",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/TenantRecord"
-								},
-								"examples": {
-									"Example 1": {
-										"value": {
-											"config": {
-												"label": "Example"
-											},
-											"createdAt": "2022-08-18T08:38:40.216Z",
-											"updatedAt": "2022-08-18T08:38:40.216Z",
-											"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
-											"storageVersion": "0.5",
-											"type": "TenantRecord"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"description": "create new tenant",
-				"tags": [
-					"Tenants"
-				],
-				"security": [
-					{
-						"tenants": [
-							"admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/TenantsCreateOptions"
-							}
-						}
-					}
-				}
-			},
-			"get": {
-				"operationId": "GetTenantsByQuery",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/TenantRecord"
-									},
-									"type": "array"
-								},
-								"examples": {
-									"Example 1": {
-										"value": [
-											{
-												"config": {
-													"label": "Example"
-												},
-												"createdAt": "2022-08-18T08:38:40.216Z",
-												"updatedAt": "2022-08-18T08:38:40.216Z",
-												"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
-												"storageVersion": "0.5",
-												"type": "TenantRecord"
-											}
-										]
-									}
-								}
-							}
-						}
-					}
-				},
-				"description": "get tenants by query",
-				"tags": [
-					"Tenants"
-				],
-				"security": [
-					{
-						"tenants": [
-							"admin"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "label",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "storageVersion",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/tenants/{tenantId}": {
-			"get": {
-				"operationId": "GetTenant",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/TenantRecord"
-								},
-								"examples": {
-									"Example 1": {
-										"value": {
-											"config": {
-												"label": "Example"
-											},
-											"createdAt": "2022-08-18T08:38:40.216Z",
-											"updatedAt": "2022-08-18T08:38:40.216Z",
-											"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
-											"storageVersion": "0.5",
-											"type": "TenantRecord"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"description": "get tenant by id",
-				"tags": [
-					"Tenants"
-				],
-				"security": [
-					{
-						"tenants": [
-							"admin"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "tenantId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"put": {
-				"operationId": "UpdateTenant",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/TenantRecord"
-								},
-								"examples": {
-									"Example 1": {
-										"value": {
-											"config": {
-												"label": "Example"
-											},
-											"createdAt": "2022-08-18T08:38:40.216Z",
-											"updatedAt": "2022-08-18T08:38:40.216Z",
-											"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
-											"storageVersion": "0.5",
-											"type": "TenantRecord"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"description": "update tenant by id.\n\nNOTE: this does not overwrite the entire tenant record, only the properties that are passed in the body.\nIf you want to unset an non-required value, you can pass `null`.",
-				"tags": [
-					"Tenants"
-				],
-				"security": [
-					{
-						"tenants": [
-							"admin"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "tenantId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/TenantsUpdateOptions"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteTenant",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"description": "delete tenant by id",
-				"tags": [
-					"Tenants"
-				],
-				"security": [
-					{
-						"tenants": [
-							"admin"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "tenantId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
 		}
 	},
 	"servers": [
@@ -3690,9 +3690,102 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"Pick_TenantConfig.Exclude_keyofTenantConfig.walletConfig__": {
+				"properties": {
+					"label": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"label"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_TenantConfig.walletConfig_": {
+				"$ref": "#/components/schemas/Pick_TenantConfig.Exclude_keyofTenantConfig.walletConfig__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"TenantApiConfig": {
+				"$ref": "#/components/schemas/Omit_TenantConfig.walletConfig_"
+			},
 			"RecordId": {
 				"type": "string",
 				"example": "821f9b26-ad04-4f56-89b6-e2ef9c72b36e"
+			},
+			"TenantRecord": {
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/RecordId"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"type": {
+						"type": "string"
+					},
+					"storageVersion": {
+						"type": "string"
+					},
+					"config": {
+						"$ref": "#/components/schemas/TenantApiConfig"
+					}
+				},
+				"required": [
+					"id",
+					"createdAt",
+					"type",
+					"storageVersion",
+					"config"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TenantsCreateOptions": {
+				"properties": {
+					"config": {
+						"properties": {
+							"connectionImageUrl": {
+								"type": "string"
+							},
+							"label": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"label"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"config"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TenantsUpdateOptions": {
+				"properties": {
+					"config": {
+						"properties": {
+							"connectionImageUrl": {
+								"type": "string",
+								"nullable": true
+							},
+							"label": {
+								"type": "string"
+							}
+						},
+						"type": "object"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
 			},
 			"ThreadId": {
 				"type": "string",
@@ -4715,13 +4808,13 @@
 			},
 			"Pick_CreateOutOfBandInvitationConfig.Exclude_keyofCreateOutOfBandInvitationConfig.routing-or-appendedAttachments-or-messages__": {
 				"properties": {
+					"label": {
+						"type": "string"
+					},
 					"goalCode": {
 						"type": "string"
 					},
 					"goal": {
-						"type": "string"
-					},
-					"label": {
 						"type": "string"
 					},
 					"alias": {
@@ -4755,13 +4848,13 @@
 			},
 			"DidCommOutOfBandCreateInvitationOptions": {
 				"properties": {
+					"label": {
+						"type": "string"
+					},
 					"goalCode": {
 						"type": "string"
 					},
 					"goal": {
-						"type": "string"
-					},
-					"label": {
 						"type": "string"
 					},
 					"alias": {
@@ -7509,99 +7602,6 @@
 				"required": [
 					"isInitialized"
 				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Pick_TenantConfig.Exclude_keyofTenantConfig.walletConfig__": {
-				"properties": {
-					"label": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"label"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"Omit_TenantConfig.walletConfig_": {
-				"$ref": "#/components/schemas/Pick_TenantConfig.Exclude_keyofTenantConfig.walletConfig__",
-				"description": "Construct a type with the properties of T except for those in type K."
-			},
-			"TenantApiConfig": {
-				"$ref": "#/components/schemas/Omit_TenantConfig.walletConfig_"
-			},
-			"TenantRecord": {
-				"properties": {
-					"id": {
-						"$ref": "#/components/schemas/RecordId"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"updatedAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"type": {
-						"type": "string"
-					},
-					"storageVersion": {
-						"type": "string"
-					},
-					"config": {
-						"$ref": "#/components/schemas/TenantApiConfig"
-					}
-				},
-				"required": [
-					"id",
-					"createdAt",
-					"type",
-					"storageVersion",
-					"config"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"TenantsCreateOptions": {
-				"properties": {
-					"config": {
-						"properties": {
-							"connectionImageUrl": {
-								"type": "string"
-							},
-							"label": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"label"
-						],
-						"type": "object"
-					}
-				},
-				"required": [
-					"config"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"TenantsUpdateOptions": {
-				"properties": {
-					"config": {
-						"properties": {
-							"connectionImageUrl": {
-								"type": "string",
-								"nullable": true
-							},
-							"label": {
-								"type": "string"
-							}
-						},
-						"type": "object"
-					}
-				},
 				"type": "object",
 				"additionalProperties": false
 			}

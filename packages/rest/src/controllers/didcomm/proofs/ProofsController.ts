@@ -4,8 +4,8 @@ import type {
   DidCommProofsGetFormatDataResponse,
 } from './ProofsControllerTypes'
 
-import { DidCommProofRole, DidCommProofState } from '@credo-ts/didcomm'
 import { RecordNotFoundError } from '@credo-ts/core'
+import { DidCommProofRole, DidCommProofState } from '@credo-ts/didcomm'
 import { Body, Controller, Delete, Example, Get, Path, Post, Query, Request, Route, Security, Tags } from 'tsoa'
 import { injectable } from 'tsyringe'
 
@@ -44,7 +44,7 @@ export class ProofsController extends Controller {
     @Query('connectionId') connectionId?: RecordId,
     @Query('state') state?: DidCommProofState,
     @Query('parentThreadId') parentThreadId?: ThreadId,
-      @Query('role') role?: DidCommProofRole,
+    @Query('role') role?: DidCommProofRole,
   ): Promise<DidCommProofExchangeRecord[]> {
     const proofs = await request.user.agent.didcomm.proofs.findAllByQuery({
       threadId,
