@@ -11,6 +11,9 @@ patchedDependencies:
   '@credo-ts/anoncreds@0.6.1':
     hash: 974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5
     path: patches/@credo-ts__anoncreds@0.6.1.patch
+  '@credo-ts/askar':
+    hash: 92b8295325af8b9d0fd0abdb14387185723bd91f9f1815dfe5df0f0d172bc18c
+    path: patches/@credo-ts__askar.patch
   '@credo-ts/core':
     hash: c7f914f0e7e36ff71652eb4a65dfe4cf06a56c3503af067f882b7c0e3866bafa
     path: patches/@credo-ts__core.patch
@@ -30,7 +33,7 @@ importers:
         version: 0.6.1(patch_hash=974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5)(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
       '@credo-ts/askar':
         specifier: ^0.6.1
-        version: 0.6.1(@openwallet-foundation/askar-shared@0.4.3)(typescript@5.9.3)
+        version: 0.6.1(patch_hash=92b8295325af8b9d0fd0abdb14387185723bd91f9f1815dfe5df0f0d172bc18c)(@openwallet-foundation/askar-shared@0.4.3)(typescript@5.9.3)
       '@credo-ts/cheqd':
         specifier: ^0.6.1
         version: 0.6.1(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
@@ -3320,7 +3323,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@credo-ts/askar@0.6.1(@openwallet-foundation/askar-shared@0.4.3)(typescript@5.9.3)':
+  '@credo-ts/askar@0.6.1(patch_hash=92b8295325af8b9d0fd0abdb14387185723bd91f9f1815dfe5df0f0d172bc18c)(@openwallet-foundation/askar-shared@0.4.3)(typescript@5.9.3)':
     dependencies:
       '@credo-ts/core': 0.6.1(patch_hash=c7f914f0e7e36ff71652eb4a65dfe4cf06a56c3503af067f882b7c0e3866bafa)(typescript@5.9.3)
       '@openwallet-foundation/askar-shared': 0.4.3
