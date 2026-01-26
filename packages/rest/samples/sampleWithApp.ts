@@ -23,7 +23,18 @@ const run = async () => {
     walletConfig: {
       id: 'test-agent',
       key: 'test-agent',
-    },
+      // Postgres config
+      // database: {
+      //   type: 'postgres',
+      //   config: {
+      //     host: 'localhost:5432',
+      //   },
+      //   credentials: {
+      //     account: 'postgres',
+      //     password: 'postgres',
+      //   }
+      // }
+    }
   })
 
   const app = express()

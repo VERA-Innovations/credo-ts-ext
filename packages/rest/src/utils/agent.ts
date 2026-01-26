@@ -85,15 +85,15 @@ export function getAgentModules(options: {
         key: options.credoConfig.walletConfig.key,
         database: getDatabaseConfig({
           'db-type': options.credoConfig.walletConfig.database,
-          'postgres-host': (options.credoConfig.walletConfig.database?.config as AskarPostgresConfig).host,
+          'postgres-host': (options.credoConfig.walletConfig.database?.config as AskarPostgresConfig)?.host,
           'postgres-username': (
             (options.credoConfig.walletConfig.database as AskarPostgresStorageConfig)
               ?.credentials as AskarPostgresCredentials
-          ).account,
+          )?.account,
           'postgres-password': (
             (options.credoConfig.walletConfig.database as AskarPostgresStorageConfig)
               ?.credentials as AskarPostgresCredentials
-          ).password,
+          )?.password,
         }),
       },
     }),
