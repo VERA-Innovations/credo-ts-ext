@@ -27,6 +27,7 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     autoAcceptProofs = DidCommAutoAcceptProof.ContentApproved,
     multiTenant = false,
     drizzleStorageEnable = false,
+    drizzleStorageConfigOptions,
     ...credoConfig
   } = config
 
@@ -57,7 +58,8 @@ export async function createRestAgent(config: CredoRestAgentConfig): Promise<Res
     cheqdLedgers: maybeCheqdLedgers,
     multiTenant,
     credoConfig,
-    drizzleStorageEnable
+    drizzleStorageConfigOptions,
+    drizzleStorageEnable,
     // baseUrl: httpEndpoint,
   })
   const agent = new Agent({

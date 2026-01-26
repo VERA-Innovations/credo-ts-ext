@@ -21,7 +21,7 @@ export interface CliArgs {
   label: string
   'wallet-id': string
   'wallet-key': string
-  'drizzle-enable-storage': boolean
+  'drizzle-storage-enable': boolean
   'drizzle-storage-db-url': string
   // 'askar-enable-kms': boolean
   'admin-port': number
@@ -74,7 +74,7 @@ const parsed = yargs(hideBin(process.argv))
     type: 'string',
     demandOption: true,
   })
-  .option('drizzle-enable-storage', {
+  .option('drizzle-storage-enable', {
     // default to askar as storage if drizzle is disabled 
     type: 'boolean',
     default: false,
@@ -258,6 +258,11 @@ export async function runCliServer() {
       outboundTransports: parsedArgs['outbound-transport'],
       connectionImageUrl: parsedArgs['connection-image-url'],
       multiTenant: parsedArgs['multi-tenant'],
+      drizzleStorageConfigOptions: {
+        drizzleDatabaseUrl: parsedArgs['drizzle-storage-db-url'],
+        drizzleDatabaseType: parsedArgs['drizzle-storage-type'] || 'sqlite',
+      },
+      drizzleStorageEnable: parsedArgs['drizzle-storage-enable'] || false,
     },
   })
 

@@ -1,5 +1,5 @@
 // import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
-import type { CredoRestAgentConfig } from '../setup/CredoRestConfig.js'
+import type { CredoDrizzleStorageConfigOptions, CredoRestAgentConfig } from '../setup/CredoRestConfig.js'
 import type { AnonCredsRegistry } from '@credo-ts/anoncreds'
 import type { AskarPostgresConfig, AskarPostgresCredentials, AskarPostgresStorageConfig } from '@credo-ts/askar'
 import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
@@ -72,11 +72,19 @@ export function getAgentModules(options: {
   extraAnonCredsRegistries?: AnonCredsRegistry[]
   multiTenant: boolean
   credoConfig: Pick<CredoRestAgentConfig, 'walletConfig' | 'label' | 'endpoints' | 'extraModules'>
+  drizzleStorageConfigOptions?: CredoDrizzleStorageConfigOptions
   drizzleStorageEnable: boolean
   // baseUrl: string
 }) {
   const legacyIndyCredentialFormatService = new LegacyIndyDidCommCredentialFormatService()
   const legacyIndyProofFormatService = new LegacyIndyDidCommProofFormatService()
+
+  // Normalize drizzle enable/disabled
+  options.drizzleStorageEnable
+  ? (options.drizzleStorageEnable = options.drizzleStorageEnable)
+    : options.drizzleStorageConfigOptions
+    ? (options.drizzleStorageEnable = true)
+    : (options.drizzleStorageEnable = false)
 
   // const baseUrlWithoutSlash = options.baseUrl.endsWith('/') ? options.baseUrl.slice(0, -1) : options.baseUrl
 
@@ -91,8 +99,9 @@ export function getAgentModules(options: {
       store: {
         id: options.credoConfig.walletConfig.id,
         key: options.credoConfig.walletConfig.key,
+        // TODO: Do we need to handle scenario where 'sqlite-path' and 'sqlite-in-memory' for 'db-type'
         database: getAskarDatabaseConfig({
-          'db-type': options.credoConfig.walletConfig.database,
+          'db-type': options.credoConfig.walletConfig.database?.type,
           'postgres-host': (options.credoConfig.walletConfig.database?.config as AskarPostgresConfig)?.host,
           'postgres-username': (
             (options.credoConfig.walletConfig.database as AskarPostgresStorageConfig)
@@ -104,6 +113,7 @@ export function getAgentModules(options: {
           )?.password,
         }),
       },
+      // Triage: Probably we'll need to not be completely dependent of the explicit flag, instead also check the availability of the drizzle config options
       enableStorage: !options.drizzleStorageEnable,
       enableKms: options.drizzleStorageEnable
     }),
@@ -202,10 +212,14 @@ export function getAgentModules(options: {
   }
 
   if (options.drizzleStorageEnable) {
-    modules.drizzleStorage = new DrizzleStorageModule({
-      bundles: [coreBundle, didcommBundle, actionMenuBundle, anoncredsBundle, tenantsBundle, questionAnswerBundle],
-      database: getDrizzleDatabaseConfig(options).database
-    })
+    if (options.drizzleStorageConfigOptions) {
+      modules.drizzleStorage = new DrizzleStorageModule({
+        bundles: [coreBundle, didcommBundle, actionMenuBundle, anoncredsBundle, tenantsBundle, questionAnswerBundle],
+        database: getDrizzleDatabaseConfig(options.drizzleStorageConfigOptions).database
+      })
+    } else {
+      throw new Error("Drizzle storage configuration is required when drizzleStorageEnable is true.")
+    }
   }
 
   // Register indy module and related resolvers/registrars

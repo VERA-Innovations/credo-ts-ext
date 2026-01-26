@@ -93,6 +93,13 @@ export interface CredoRestAgentConfig {
   indyLedgers?: IndyVdrPoolConfig[]
   cheqdLedgers?: CheqdModuleConfigOptions
   extraModules?: Record<string, unknown>
+  drizzleStorageConfigOptions?: CredoDrizzleStorageConfigOptions
+}
+
+export interface CredoDrizzleStorageConfigOptions {
+  drizzleDatabaseUrl: string,
+  drizzleDatabaseType: 'postgres' | 'sqlite'
+  // TODO: add bundles as well?
 }
 
 export interface CredoRestSetupAppConfig {

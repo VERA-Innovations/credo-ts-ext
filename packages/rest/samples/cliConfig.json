@@ -6,7 +6,7 @@
   "postgres-host": "localhost:5432",
   "postgres-username": "postgres",
   "postgres-password": "postgres",
-  "drizzle-enable-storage": true,
+  "drizzle-storage-enable": true,
   "drizzle-storage-db-url": "postgresql://postgres:postgres@localhost:5432/vera-credo-ext-drizzle",
   "drizzle-storage-type": "postgres",
   "indyLedger": [

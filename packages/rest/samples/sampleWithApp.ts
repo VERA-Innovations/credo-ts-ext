@@ -40,18 +40,26 @@ const run = async () => {
     logLevel: LogLevel.debug,
     endpoints: ['http://localhost:3001'],
     walletConfig: {
-      id: 'sample10',
-      key: 'sample10',
-      database: {
-        type: 'postgres',
-        config: {
-          host: 'localhost:5453',
-        },
-        credentials: {
-          account: 'root',
-          password: 'root',
-        },
-      },
+      id: 'test-agent',
+      key: 'test-agent',
+      // Postgres config
+      // database: {
+      //   type: 'postgres',
+      //   config: {
+      //     host: 'localhost:5432',
+      //   },
+      //   credentials: {
+      //     account: 'postgres',
+      //     password: 'postgres',
+      //   }
+      // }
+    },
+    drizzleStorageEnable: true,
+    drizzleStorageConfigOptions: {
+      // Please create a database named 'vera-credo-ext-drizzle' in your PostgreSQL instance & migrations
+      // Read: https://github.com/openwallet-foundation/credo-ts/tree/main/packages/drizzle-storage#migrations
+      drizzleDatabaseUrl: 'postgres://postgres:postgres@localhost:5432/vera-credo-ext-drizzle',
+      drizzleDatabaseType: 'postgres',
     },
   })
 
