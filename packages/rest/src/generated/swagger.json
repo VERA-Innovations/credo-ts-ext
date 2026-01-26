@@ -122,6 +122,31 @@
 						"schema": {
 							"type": "string"
 						}
+					},
+					{
+						"in": "query",
+						"name": "before",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/Cursor"
+						}
+					},
+					{
+						"in": "query",
+						"name": "after",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/Cursor"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
 					}
 				]
 			}
@@ -3801,6 +3826,54 @@
 				],
 				"parameters": []
 			}
+		},
+		"/agent/recordToCursor": {
+			"post": {
+				"operationId": "RecordToCursor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"cursor": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"cursor"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Convert record to cursor",
+				"tags": [
+					"Agent"
+				],
+				"security": [
+					{
+						"tenants": [
+							"tenant",
+							"default"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CursorBody"
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"servers": [
@@ -3854,74 +3927,19 @@
 					"type": {
 						"type": "string"
 					},
-					{
-						"in": "query",
-						"name": "storageVersion",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
+					"storageVersion": {
+						"type": "string"
 					},
-					{
-						"in": "query",
-						"name": "before",
-						"required": false,
-						"schema": {
-							"$ref": "#/components/schemas/Cursor"
-						}
-					},
-					{
-						"in": "query",
-						"name": "after",
-						"required": false,
-						"schema": {
-							"$ref": "#/components/schemas/Cursor"
-						}
-					},
-					{
-						"in": "query",
-						"name": "limit",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/tenants/{tenantId}": {
-			"get": {
-				"operationId": "GetTenant",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/TenantRecord"
-								},
-								"examples": {
-									"Example 1": {
-										"value": {
-											"config": {
-												"label": "Example"
-											},
-											"createdAt": "2022-08-18T08:38:40.216Z",
-											"updatedAt": "2022-08-18T08:38:40.216Z",
-											"id": "27137142-2e5b-471b-a427-7d5d3fd6d39b",
-											"storageVersion": "0.5",
-											"type": "TenantRecord"
-										}
-									}
-								}
-							}
-						}
+					"config": {
+						"$ref": "#/components/schemas/TenantApiConfig"
 					}
 				},
-				"description": "get tenant by id",
-				"tags": [
-					"Tenants"
+				"required": [
+					"id",
+					"createdAt",
+					"type",
+					"storageVersion",
+					"config"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -3966,6 +3984,10 @@
 				},
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Cursor": {
+				"type": "string",
+				"example": "eyJjcmVhdGVkQXQiOiIyMDI2LTAxLTIwVDEzOjQ4OjUxLjc0MVoiLCJpZCI6IjViZmVhZjAyLTgxMzQtNDM1OC04NDg1LTE2M2MwZDdmZTgyYyJ9"
 			},
 			"ThreadId": {
 				"type": "string",
@@ -4054,10 +4076,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"Cursor": {
-				"type": "string",
-				"example": "eyJjcmVhdGVkQXQiOiIyMDI2LTAxLTIwVDEzOjQ4OjUxLjc0MVoiLCJpZCI6IjViZmVhZjAyLTgxMzQtNDM1OC04NDg1LTE2M2MwZDdmZTgyYyJ9"
 			},
 			"ProofFormatDataMessagePayload_ProofFormats.proposal_": {
 				"properties": {},
@@ -7788,6 +7806,28 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"CursorBody": {
+				"allOf": [
+					{
+						"properties": {
+							"createdAt": {
+								"type": "string"
+							},
+							"id": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"createdAt",
+							"id"
+						],
+						"type": "object"
+					},
+					{
+						"$ref": "#/components/schemas/Record_string.unknown_"
+					}
+				]
 			}
 		},
 		"securitySchemes": {
