@@ -1,11 +1,13 @@
-import type { AskarModuleConfigStoreOptions } from '@credo-ts/askar'
 import type { RestRootAgent, RestRootAgentWithTenants } from '../utils/agent'
-import type { InitConfig, LogLevel } from '@credo-ts/core'
-import { DidCommHttpOutboundTransport, DidCommWsOutboundTransport, DidCommAutoAcceptCredential, DidCommAutoAcceptProof } from '@credo-ts/didcomm'
-import type { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
-import { DidCommHttpInboundTransport, DidCommWsInboundTransport } from '@credo-ts/node'
-import type { Express } from 'express'
+import type { AskarModuleConfigStoreOptions } from '@credo-ts/askar'
 import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
+import type { InitConfig, LogLevel } from '@credo-ts/core'
+import type { DidCommAutoAcceptCredential, DidCommAutoAcceptProof } from '@credo-ts/didcomm'
+import type { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
+import type { Express } from 'express'
+
+import { DidCommHttpOutboundTransport, DidCommWsOutboundTransport } from '@credo-ts/didcomm'
+import { DidCommHttpInboundTransport, DidCommWsInboundTransport } from '@credo-ts/node'
 
 export type Transports = 'ws' | 'http'
 export type InboundTransport = {
@@ -28,7 +30,6 @@ export const outboundTransportMapping = {
 export interface CredoRestAgentConfig {
   label: string
   walletConfig: InitConfig & AskarModuleConfigStoreOptions
-
 
   /**
    * @default false
@@ -122,5 +123,5 @@ export interface CredoRestSetupAppConfig {
 
   registerExtraRoutes?: (app: Express) => void
 
-    customSwaggerJson?: any
+  customSwaggerJson?: any
 }
