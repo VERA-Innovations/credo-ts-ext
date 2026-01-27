@@ -7571,10 +7571,6 @@
 					},
 					"allowInsecureHttpUrls": {
 						"type": "boolean"
-					},
-					"validitySkewSeconds": {
-						"type": "number",
-						"format": "double"
 					}
 				},
 				"type": "object",
@@ -7587,10 +7583,6 @@
 					},
 					"allowInsecureHttpUrls": {
 						"type": "boolean"
-					},
-					"validitySkewSeconds": {
-						"type": "number",
-						"format": "double"
 					}
 				},
 				"type": "object",

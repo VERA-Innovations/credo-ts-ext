@@ -12,7 +12,6 @@ import express from 'express'
 
 import { createRestAgent, setupApp } from '../src/index'
 
-
 const run = async () => {
   const agent = await createRestAgent({
     label: 'Aries Test Agent',
@@ -75,68 +74,4 @@ const run = async () => {
 
   start()
 }
-
-const runSecondAgent = async () => {
-  const agent = await createRestAgent({
-    label: 'Aries Test Agent',
-    inboundTransports: [
-      {
-        transport: 'http',
-        port: 3003,
-      },
-    ],
-    outboundTransports: ['http', 'ws'],
-    multiTenant: true,
-    autoUpdateStorageOnStartup: false,
-    useDidSovPrefixWhereAllowed: false,
-    autoAcceptCredentials: DidCommAutoAcceptCredential.Always,
-    autoAcceptProofs: DidCommAutoAcceptProof.ContentApproved,
-    autoAcceptConnections: true,
-    cheqdLedgers: {
-      networks: [
-        { network: 'mainnet' },
-        {
-          network: 'testnet',
-          cosmosPayerSeed: 'oval cargo light exile eyebrow leaf debris net fold help segment raven',
-        },
-      ],
-    } as CheqdModuleConfigOptions,
-    logLevel: LogLevel.debug,
-    endpoints: ['http://localhost:3003'],
-    walletConfig: {
-      id: 'sample11',
-      key: 'sample11',
-      database: {
-        type: 'postgres',
-        config: {
-          host: 'localhost:5453',
-        },
-        credentials: {
-          account: 'root',
-          password: 'root',
-        },
-      },
-    },
-  })
-
-  const app = express()
-  const jsonParser = bodyParser.json()
-
-  app.get('/greeting', jsonParser, (_, res) => {
-    const config = agent.config
-
-    res.send(`Hello!`)
-  })
-
-  const { start } = await setupApp({
-    baseApp: app,
-    adminPort: 3004,
-    enableCors: true,
-
-    agent,
-  })
-
-  start()
-}
 run()
-// runSecondAgent()
