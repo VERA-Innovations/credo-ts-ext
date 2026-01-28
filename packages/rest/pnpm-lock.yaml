@@ -45,7 +45,7 @@ importers:
         version: 0.6.1(typescript@5.9.3)
       '@credo-ts/drizzle-storage':
         specifier: ^0.6.1
-        version: 0.6.1(patch_hash=0edb1cffdbffaafa1fa4d79de4d141f68cf17b5d5742f7a7391f6054d31a4a8f)(@hyperledger/anoncreds-shared@0.3.1)(drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.1))(typescript@5.9.3)
+        version: 0.6.1(patch_hash=0edb1cffdbffaafa1fa4d79de4d141f68cf17b5d5742f7a7391f6054d31a4a8f)(@hyperledger/anoncreds-shared@0.3.1)(drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.2))(typescript@5.9.3)
       '@credo-ts/indy-vdr':
         specifier: ^0.6.1
         version: 0.6.1(patch_hash=55e9983854550d4ef986e6b70fdf6501128307b1457e8ee59ed92948dc4579f1)(@hyperledger/anoncreds-shared@0.3.1)(@hyperledger/indy-vdr-shared@0.2.2)(typescript@5.9.3)
@@ -90,10 +90,10 @@ importers:
         version: 1.20.4
       cors:
         specifier: ^2.8.5
-        version: 2.8.5
+        version: 2.8.6
       drizzle-orm:
         specifier: ^0.45.1
-        version: 0.45.1(@libsql/client@0.17.0)(pg@8.17.1)
+        version: 0.45.1(@libsql/client@0.17.0)(pg@8.17.2)
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -102,10 +102,10 @@ importers:
         version: 2.7.0
       pg:
         specifier: ^8.17.1
-        version: 8.17.1
+        version: 8.17.2
       pnpm:
         specifier: ^10.28.1
-        version: 10.28.1
+        version: 10.28.2
       swagger-ui-express:
         specifier: ^5.0.0
         version: 5.0.1(express@5.2.1)
@@ -1189,7 +1189,6 @@ packages:
 
   '@sphereon/kmp-mdoc-core@0.2.0-SNAPSHOT.26':
     resolution: {integrity: sha512-QXJ6R8ENiZV2rPMbn06cw5JKwqUYN1kzVRbYfONqE1PEXx1noQ4md7uxr2zSczi0ubKkNcbyYDNtIMTZIhGzmQ==}
-    bundledDependencies: []
 
   '@sphereon/oid4vc-common@0.20.0':
     resolution: {integrity: sha512-G3IcXKM1LANk/1LoWulp/e38yPz+i5xnfG6LylxYiYAKOyzvBsncTu6ZPjN13Q9/mPG64pR0JGLPe9jxCh/fHQ==}
@@ -1612,8 +1611,8 @@ packages:
   cookiejar@2.1.4:
     resolution: {integrity: sha512-LDx6oHrK+PhzLKJU9j5S7/Y3jM/mUHvD/DeI1WQmJn652iPC5Y4TBzC9l+5OMOXlyTTA+SmVUPm0HQUwpD5Jqw==}
 
-  cors@2.8.5:
-    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+  cors@2.8.6:
+    resolution: {integrity: sha512-tJtZBBHA6vjIAaF6EnIaq6laBBP9aq/Y3ouVJjEfoHbRBcHBAHYcMh/w8LDrk2PvIMMq8gmopa5D4V8RmbrxGw==}
     engines: {node: '>= 0.10'}
 
   cosmjs-types@0.10.1:
@@ -2215,8 +2214,8 @@ packages:
     resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
     engines: {node: '>=18'}
 
-  ky@1.14.2:
-    resolution: {integrity: sha512-q3RBbsO5A5zrPhB6CaCS8ZUv+NWCXv6JJT4Em0i264G9W0fdPB8YRfnnEi7Dm7X7omAkBIPojzYJ2D1oHTHqug==}
+  ky@1.14.3:
+    resolution: {integrity: sha512-9zy9lkjac+TR1c2tG+mkNSVlyOpInnWdSMiue4F+kq8TwJSgv6o8jhLRg8Ho6SnZ9wOYUq/yozts9qQCfk7bIw==}
     engines: {node: '>=18'}
 
   levn@0.3.0:
@@ -2237,8 +2236,8 @@ packages:
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
-  lru-cache@11.2.4:
-    resolution: {integrity: sha512-B5Y16Jr9LB9dHVkh6ZevG+vAbOsNOYCX+sXvFWFu7B3Iz5mijW3zdbMyhsh8ANd2mSWBYdJgnqi+mL7/LrOPYg==}
+  lru-cache@11.2.5:
+    resolution: {integrity: sha512-vFrFJkWtJvJnD5hg+hJvVE8Lh/TcMzKnTgCWmtBipwI5yLX/iX+5UB2tfuyODF5E7k9xEzMdYgGqaSb1c0c5Yw==}
     engines: {node: 20 || >=22}
 
   lru-cache@6.0.0:
@@ -2507,8 +2506,8 @@ packages:
   pg-cloudflare@1.3.0:
     resolution: {integrity: sha512-6lswVVSztmHiRtD6I8hw4qP/nDm1EJbKMRhf3HCYaqud7frGysPv7FYJ5noZQdhQtN2xJnimfMtvQq21pdbzyQ==}
 
-  pg-connection-string@2.10.0:
-    resolution: {integrity: sha512-ur/eoPKzDx2IjPaYyXS6Y8NSblxM7X64deV2ObV57vhjsWiwLvUD6meukAzogiOsu60GO8m/3Cb6FdJsWNjwXg==}
+  pg-connection-string@2.10.1:
+    resolution: {integrity: sha512-iNzslsoeSH2/gmDDKiyMqF64DATUCWj3YJ0wP14kqcsf2TUklwimd+66yYojKwZCA7h2yRNLGug71hCBA2a4sw==}
 
   pg-int8@1.0.1:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
@@ -2526,8 +2525,8 @@ packages:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
     engines: {node: '>=4'}
 
-  pg@8.17.1:
-    resolution: {integrity: sha512-EIR+jXdYNSMOrpRp7g6WgQr7SaZNZfS7IzZIO0oTNEeibq956JxeD15t3Jk3zZH0KH8DmOIx38qJfQenoE8bXQ==}
+  pg@8.17.2:
+    resolution: {integrity: sha512-vjbKdiBJRqzcYw1fNU5KuHyYvdJ1qpcQg1CeBrHFqV1pWgHeVR6j/+kX0E1AAXfyuLUGY1ICrN2ELKA/z2HWzw==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       pg-native: '>=3.0.1'
@@ -2545,8 +2544,8 @@ packages:
   plug-and-play@2.6.0:
     resolution: {integrity: sha512-R6Z763YsQKxsQYNVrj1vs4pVWjgyKfNrVp6F6SwM9jBZkNJuBTc/aMcQ35UAgpD9pkVFVr9SjNqlYTDrsUmMgg==}
 
-  pnpm@10.28.1:
-    resolution: {integrity: sha512-fX27yp6ZRHt8O/enMoavqva+mSUeuUmLrvp9QGiS9nuHmts6HX5of8TMwaOIxxdfuq5WeiarRNEGe1T8sNajFg==}
+  pnpm@10.28.2:
+    resolution: {integrity: sha512-QYcvA3rSL3NI47Heu69+hnz9RI8nJtnPdMCPGVB8MdLI56EVJbmD/rwt9kC1Q43uYCPrsfhO1DzC1lTSvDJiZA==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -2841,8 +2840,8 @@ packages:
     engines: {node: '>=10'}
     deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
-  tar@7.5.6:
-    resolution: {integrity: sha512-xqUeu2JAIJpXyvskvU3uvQW8PAmHrtXp2KDuMJwQqW8Sqq0CaZBAQ+dKS3RBXVhU4wC5NjAdKrmh84241gO9cA==}
+  tar@7.5.7:
+    resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
     engines: {node: '>=18'}
 
   to-regex-range@5.0.1:
@@ -3126,8 +3125,8 @@ packages:
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
 
-  zod@4.3.5:
-    resolution: {integrity: sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g==}
+  zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
 
 snapshots:
 
@@ -3402,7 +3401,7 @@ snapshots:
       varint: 6.0.0
       web-did-resolver: 2.0.32
       webcrypto-core: 1.8.1
-      zod: 4.3.5
+      zod: 4.3.6
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -3421,7 +3420,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@credo-ts/drizzle-storage@0.6.1(patch_hash=0edb1cffdbffaafa1fa4d79de4d141f68cf17b5d5742f7a7391f6054d31a4a8f)(@hyperledger/anoncreds-shared@0.3.1)(drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.1))(typescript@5.9.3)':
+  '@credo-ts/drizzle-storage@0.6.1(patch_hash=0edb1cffdbffaafa1fa4d79de4d141f68cf17b5d5742f7a7391f6054d31a4a8f)(@hyperledger/anoncreds-shared@0.3.1)(drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.2))(typescript@5.9.3)':
     dependencies:
       '@credo-ts/action-menu': 0.6.1(typescript@5.9.3)
       '@credo-ts/anoncreds': 0.6.1(patch_hash=974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5)(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
@@ -3434,10 +3433,10 @@ snapshots:
       class-transformer: 0.5.1
       class-validator: 0.14.3
       drizzle-kit: 0.31.8
-      drizzle-orm: 0.45.1(@libsql/client@0.17.0)(pg@8.17.1)
+      drizzle-orm: 0.45.1(@libsql/client@0.17.0)(pg@8.17.2)
       shell: 0.12.0
       tsyringe: 4.10.0
-      zod: 4.3.5
+      zod: 4.3.6
     transitivePeerDependencies:
       - '@hyperledger/anoncreds-shared'
       - encoding
@@ -3492,7 +3491,7 @@ snapshots:
       class-transformer: 0.5.1
       express: 5.2.1
       rxjs: 7.8.2
-      zod: 4.3.5
+      zod: 4.3.6
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -3530,7 +3529,7 @@ snapshots:
 
   '@digitalcredentials/http-client@5.0.4':
     dependencies:
-      ky: 1.14.2
+      ky: 1.14.3
       undici: 6.23.0
 
   '@digitalcredentials/jsonld-signatures@12.0.1':
@@ -3967,7 +3966,7 @@ snapshots:
 
   '@hyperledger/anoncreds-shared@0.3.1':
     dependencies:
-      tar: 7.5.6
+      tar: 7.5.7
 
   '@hyperledger/indy-vdr-nodejs@0.2.2':
     dependencies:
@@ -4117,25 +4116,25 @@ snapshots:
   '@openid4vc/oauth2@0.4.4':
     dependencies:
       '@openid4vc/utils': 0.4.4
-      zod: 4.3.5
+      zod: 4.3.6
 
   '@openid4vc/openid4vci@0.4.4':
     dependencies:
       '@openid4vc/oauth2': 0.4.4
       '@openid4vc/utils': 0.4.4
-      zod: 4.3.5
+      zod: 4.3.6
 
   '@openid4vc/openid4vp@0.4.4':
     dependencies:
       '@openid4vc/oauth2': 0.4.4
       '@openid4vc/utils': 0.4.4
-      zod: 4.3.5
+      zod: 4.3.6
 
   '@openid4vc/utils@0.4.4':
     dependencies:
       buffer: 6.0.3
-      zod: 4.3.5
-      zod-validation-error: 5.0.0(zod@4.3.5)
+      zod: 4.3.6
+      zod-validation-error: 5.0.0(zod@4.3.6)
 
   '@openwallet-foundation/askar-nodejs@0.4.3':
     dependencies:
@@ -4150,7 +4149,7 @@ snapshots:
   '@openwallet-foundation/askar-shared@0.4.3':
     dependencies:
       buffer: 6.0.3
-      tar: 7.5.6
+      tar: 7.5.7
 
   '@paralleldrive/cuid2@2.3.1':
     dependencies:
@@ -4892,7 +4891,7 @@ snapshots:
 
   cookiejar@2.1.4: {}
 
-  cors@2.8.5:
+  cors@2.8.6:
     dependencies:
       object-assign: 4.1.1
       vary: 1.1.2
@@ -5008,10 +5007,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.1):
+  drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.2):
     optionalDependencies:
       '@libsql/client': 0.17.0
-      pg: 8.17.1
+      pg: 8.17.2
 
   dunder-proto@1.0.1:
     dependencies:
@@ -5581,7 +5580,7 @@ snapshots:
 
   jwt-decode@4.0.0: {}
 
-  ky@1.14.2: {}
+  ky@1.14.3: {}
 
   levn@0.3.0:
     dependencies:
@@ -5609,7 +5608,7 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
-  lru-cache@11.2.4: {}
+  lru-cache@11.2.5: {}
 
   lru-cache@6.0.0:
     dependencies:
@@ -5799,7 +5798,7 @@ snapshots:
 
   path-scurry@2.0.1:
     dependencies:
-      lru-cache: 11.2.4
+      lru-cache: 11.2.5
       minipass: 7.1.2
 
   path-to-regexp@0.1.12: {}
@@ -5809,13 +5808,13 @@ snapshots:
   pg-cloudflare@1.3.0:
     optional: true
 
-  pg-connection-string@2.10.0: {}
+  pg-connection-string@2.10.1: {}
 
   pg-int8@1.0.1: {}
 
-  pg-pool@3.11.0(pg@8.17.1):
+  pg-pool@3.11.0(pg@8.17.2):
     dependencies:
-      pg: 8.17.1
+      pg: 8.17.2
 
   pg-protocol@1.11.0: {}
 
@@ -5827,10 +5826,10 @@ snapshots:
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
 
-  pg@8.17.1:
+  pg@8.17.2:
     dependencies:
-      pg-connection-string: 2.10.0
-      pg-pool: 3.11.0(pg@8.17.1)
+      pg-connection-string: 2.10.1
+      pg-pool: 3.11.0(pg@8.17.2)
       pg-protocol: 1.11.0
       pg-types: 2.2.0
       pgpass: 1.0.5
@@ -5848,7 +5847,7 @@ snapshots:
       mixme: 2.0.2
       toposort: 2.0.2
 
-  pnpm@10.28.1: {}
+  pnpm@10.28.2: {}
 
   postgres-array@2.0.0: {}
 
@@ -6201,7 +6200,7 @@ snapshots:
       mkdirp: 1.0.4
       yallist: 4.0.0
 
-  tar@7.5.6:
+  tar@7.5.7:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
@@ -6443,8 +6442,8 @@ snapshots:
 
   yn@3.1.1: {}
 
-  zod-validation-error@5.0.0(zod@4.3.5):
+  zod-validation-error@5.0.0(zod@4.3.6):
     dependencies:
-      zod: 4.3.5
+      zod: 4.3.6
 
-  zod@4.3.5: {}
+  zod@4.3.6: {}
