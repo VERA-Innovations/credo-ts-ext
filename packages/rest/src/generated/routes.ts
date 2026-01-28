@@ -1568,7 +1568,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_ReturnType_AgentConfig-at-toJSON_.Exclude_keyofReturnType_AgentConfig-at-toJSON_.walletConfig-or-logger-or-agentDependencies__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"autoUpdateStorageOnStartup":{"dataType":"boolean"},"allowInsecureHttpUrls":{"dataType":"boolean"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"autoUpdateStorageOnStartup":{"dataType":"boolean"},"allowInsecureHttpUrls":{"dataType":"boolean"},"validitySkewSeconds":{"dataType":"double"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ApiAgentConfig": {
@@ -1576,6 +1576,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "autoUpdateStorageOnStartup": {"dataType":"boolean"},
             "allowInsecureHttpUrls": {"dataType":"boolean"},
+            "validitySkewSeconds": {"dataType":"double"},
         },
         "additionalProperties": false,
     },
