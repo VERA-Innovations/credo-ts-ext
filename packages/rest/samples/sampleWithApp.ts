@@ -54,7 +54,7 @@ const run = async () => {
       //   }
       // }
     },
-    drizzleStorageEnable: true,
+    drizzleStorageEnable: false,
     drizzleStorageConfigOptions: {
       // Please create a database named 'vera-credo-ext-drizzle' in your PostgreSQL instance & migrations
       // Read: https://github.com/openwallet-foundation/credo-ts/tree/main/packages/drizzle-storage#migrations
