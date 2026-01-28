@@ -103,8 +103,8 @@
       "@credo-ts/indy-vdr@0.6.1": "patches/@credo-ts__indy-vdr@0.6.1.patch",
       "@credo-ts/anoncreds@0.6.1": "patches/@credo-ts__anoncreds@0.6.1.patch",
       "@credo-ts/core": "patches/@credo-ts__core.patch",
-      "@credo-ts/drizzle-storage": "patches/@credo-ts__drizzle-storage.patch",
-      "@credo-ts/askar": "patches/@credo-ts__askar.patch"
+      "@credo-ts/askar": "patches/@credo-ts__askar.patch",
+      "@credo-ts/drizzle-storage": "patches/@credo-ts__drizzle-storage.patch"
     }
   }
 }

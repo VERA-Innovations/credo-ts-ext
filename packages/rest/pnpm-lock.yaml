@@ -18,7 +18,7 @@ patchedDependencies:
     hash: c7f914f0e7e36ff71652eb4a65dfe4cf06a56c3503af067f882b7c0e3866bafa
     path: patches/@credo-ts__core.patch
   '@credo-ts/drizzle-storage':
-    hash: df6f4cfd926423075f2185ba1f22cd0eb0aa89d56e66de1058837d54cfb98ea3
+    hash: 0edb1cffdbffaafa1fa4d79de4d141f68cf17b5d5742f7a7391f6054d31a4a8f
     path: patches/@credo-ts__drizzle-storage.patch
   '@credo-ts/indy-vdr@0.6.1':
     hash: 55e9983854550d4ef986e6b70fdf6501128307b1457e8ee59ed92948dc4579f1
@@ -45,7 +45,7 @@ importers:
         version: 0.6.1(typescript@5.9.3)
       '@credo-ts/drizzle-storage':
         specifier: ^0.6.1
-        version: 0.6.1(patch_hash=df6f4cfd926423075f2185ba1f22cd0eb0aa89d56e66de1058837d54cfb98ea3)(@hyperledger/anoncreds-shared@0.3.1)(drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.1))(typescript@5.9.3)
+        version: 0.6.1(patch_hash=0edb1cffdbffaafa1fa4d79de4d141f68cf17b5d5742f7a7391f6054d31a4a8f)(@hyperledger/anoncreds-shared@0.3.1)(drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.1))(typescript@5.9.3)
       '@credo-ts/indy-vdr':
         specifier: ^0.6.1
         version: 0.6.1(patch_hash=55e9983854550d4ef986e6b70fdf6501128307b1457e8ee59ed92948dc4579f1)(@hyperledger/anoncreds-shared@0.3.1)(@hyperledger/indy-vdr-shared@0.2.2)(typescript@5.9.3)
@@ -1189,6 +1189,7 @@ packages:
 
   '@sphereon/kmp-mdoc-core@0.2.0-SNAPSHOT.26':
     resolution: {integrity: sha512-QXJ6R8ENiZV2rPMbn06cw5JKwqUYN1kzVRbYfONqE1PEXx1noQ4md7uxr2zSczi0ubKkNcbyYDNtIMTZIhGzmQ==}
+    bundledDependencies: []
 
   '@sphereon/oid4vc-common@0.20.0':
     resolution: {integrity: sha512-G3IcXKM1LANk/1LoWulp/e38yPz+i5xnfG6LylxYiYAKOyzvBsncTu6ZPjN13Q9/mPG64pR0JGLPe9jxCh/fHQ==}
@@ -3420,7 +3421,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@credo-ts/drizzle-storage@0.6.1(patch_hash=df6f4cfd926423075f2185ba1f22cd0eb0aa89d56e66de1058837d54cfb98ea3)(@hyperledger/anoncreds-shared@0.3.1)(drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.1))(typescript@5.9.3)':
+  '@credo-ts/drizzle-storage@0.6.1(patch_hash=0edb1cffdbffaafa1fa4d79de4d141f68cf17b5d5742f7a7391f6054d31a4a8f)(@hyperledger/anoncreds-shared@0.3.1)(drizzle-orm@0.45.1(@libsql/client@0.17.0)(pg@8.17.1))(typescript@5.9.3)':
     dependencies:
       '@credo-ts/action-menu': 0.6.1(typescript@5.9.3)
       '@credo-ts/anoncreds': 0.6.1(patch_hash=974f3d12cbf17ea35974c0581e8ea49525c157681c39e17e10f3dbed68040dd5)(@hyperledger/anoncreds-shared@0.3.1)(typescript@5.9.3)
