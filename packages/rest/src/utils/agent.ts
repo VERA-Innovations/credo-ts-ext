@@ -114,8 +114,7 @@ export function getAgentModules(options: {
         }),
       },
       // Triage: Probably we'll need to not be completely dependent of the explicit flag, instead also check the availability of the drizzle config options
-      enableStorage: !options.drizzleStorageEnable,
-      enableKms: options.drizzleStorageEnable
+      enableStorage: !options.drizzleStorageEnable
     }),
     didcomm: new DidCommModule({
       endpoints: options.credoConfig.endpoints ?? [],
