@@ -2,7 +2,7 @@
 	"openapi": "3.0.0",
 	"info": {
 		"title": "Credo REST API",
-		"version": "0.10.2",
+		"version": "0.11.0",
 		"description": "Rest API for using Credo over HTTP",
 		"license": {
 			"name": "Apache-2.0"
