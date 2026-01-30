@@ -24,7 +24,7 @@
   "devDependencies": {
     "@types/eslint": "^8.56.2",
     "@types/jest": "^29.5.2",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.19.25",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
     "conventional-changelog-conventionalcommits": "^7.0.2",
@@ -38,7 +38,7 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.9.3",
     "rimraf": "^5.0.5"
   },
   "engines": {

@@ -43,7 +43,7 @@ import { anoncreds } from '@hyperledger/anoncreds-nodejs'
 import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
 
 // import type { OpenId4VcIssuanceSessionCreateOfferSdJwtCredentialOptions } from '../controllers/openid4vc/issuance-sessions/OpenId4VcIssuanceSessionsControllerTypes'
-import { askar as askarNodeJS } from '@openwallet-foundation/askar-nodejs'
+import { askarNodeJS } from '@openwallet-foundation/askar-nodejs'
 
 
 import { getAskarDatabaseConfig, getDrizzleDatabaseConfig } from './util'
@@ -213,7 +213,7 @@ export function getAgentModules(options: {
   if (options.drizzleStorageEnable) {
     if (options.drizzleStorageConfigOptions) {
       modules.drizzleStorage = new DrizzleStorageModule({
-        bundles: [coreBundle, didcommBundle, actionMenuBundle, anoncredsBundle, tenantsBundle, questionAnswerBundle],
+        bundles: [coreBundle, didcommBundle, actionMenuBundle, anoncredsBundle, tenantsBundle, questionAnswerBundle, ...(options.drizzleStorageConfigOptions?.additionalDrizzleBundles ?? [])],
         database: getDrizzleDatabaseConfig(options.drizzleStorageConfigOptions).database
       })
     } else {

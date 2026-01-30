@@ -1,7 +1,7 @@
-diff --git a/build/pool/IndyVdrPool.mjs b/build/pool/IndyVdrPool.mjs
-index db1bed2d787a0667e26317e45640ac5aa72546cf..a6b66c1abbd77b1c7b016d84629d80572a268c5c 100644
---- a/build/pool/IndyVdrPool.mjs
-+++ b/build/pool/IndyVdrPool.mjs
+diff --git a/node_modules/@credo-ts/indy-vdr/build/pool/IndyVdrPool.mjs b/node_modules/@credo-ts/indy-vdr/build/pool/IndyVdrPool.mjs
+index db1bed2..a6b66c1 100644
+--- a/node_modules/@credo-ts/indy-vdr/build/pool/IndyVdrPool.mjs
++++ b/node_modules/@credo-ts/indy-vdr/build/pool/IndyVdrPool.mjs
 @@ -3,6 +3,7 @@ import "../error/index.mjs";
  import { parseIndyDid } from "@credo-ts/anoncreds";
  import { AgentContext, Kms, TypedArrayEncoder } from "@credo-ts/core";

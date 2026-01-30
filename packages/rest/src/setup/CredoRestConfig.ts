@@ -8,6 +8,7 @@ import type { Express } from 'express'
 
 import { DidCommHttpOutboundTransport, DidCommWsOutboundTransport } from '@credo-ts/didcomm'
 import { DidCommHttpInboundTransport, DidCommWsInboundTransport } from '@credo-ts/node'
+import { DrizzleRecordBundle } from '@credo-ts/drizzle-storage'
 
 export type Transports = 'ws' | 'http'
 export type InboundTransport = {
@@ -99,7 +100,7 @@ export interface CredoRestAgentConfig {
 export interface CredoDrizzleStorageConfigOptions {
   drizzleDatabaseUrl: string,
   drizzleDatabaseType: 'postgres' | 'sqlite'
-  // TODO: add bundles as well?
+  additionalDrizzleBundles?: DrizzleRecordBundle[]
 }
 
 export interface CredoRestSetupAppConfig {
