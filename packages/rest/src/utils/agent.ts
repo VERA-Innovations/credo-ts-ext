@@ -55,6 +55,7 @@ import { didcommBundle } from '@credo-ts/drizzle-storage/didcomm'
 import { tenantsBundle } from '@credo-ts/drizzle-storage/tenants'
 import { questionAnswerBundle } from '@credo-ts/drizzle-storage/question-answer'
 import { mediaSharingBundle } from '@credo-ts/drizzle-storage/media-sharing'
+import { userProfileBundle } from '@credo-ts/drizzle-storage/user-profile'
 
 type ModulesWithoutTenants = Omit<ReturnType<typeof getAgentModules>, 'tenants'>
 
@@ -214,7 +215,7 @@ export function getAgentModules(options: {
   if (options.drizzleStorageEnable) {
     if (options.drizzleStorageConfigOptions) {
       modules.drizzleStorage = new DrizzleStorageModule({
-        bundles: [coreBundle, didcommBundle, actionMenuBundle, anoncredsBundle, tenantsBundle, questionAnswerBundle, mediaSharingBundle, ...(options.drizzleStorageConfigOptions?.additionalDrizzleBundles ?? [])],
+        bundles: [coreBundle, didcommBundle, actionMenuBundle, anoncredsBundle, tenantsBundle, questionAnswerBundle, mediaSharingBundle, userProfileBundle, ...(options.drizzleStorageConfigOptions?.additionalDrizzleBundles ?? [])],
         database: getDrizzleDatabaseConfig(options.drizzleStorageConfigOptions).database
       })
     } else {

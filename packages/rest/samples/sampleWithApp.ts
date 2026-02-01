@@ -12,6 +12,7 @@ import express from 'express'
 
 import { createRestAgent, setupApp } from '../src/index'
 import { mediaSharingBundle } from '@credo-ts/drizzle-storage/media-sharing'
+import { userProfileBundle } from '@credo-ts/drizzle-storage/user-profile'
 
 const run = async () => {
   const agent = await createRestAgent({
@@ -61,7 +62,7 @@ const run = async () => {
       // Read: https://github.com/openwallet-foundation/credo-ts/tree/main/packages/drizzle-storage#migrations
       drizzleDatabaseUrl: 'postgres://postgres:postgres@localhost:5432/vera-credo-ext-drizzle',
       drizzleDatabaseType: 'postgres',
-      additionalDrizzleBundles: [mediaSharingBundle]
+      additionalDrizzleBundles: [mediaSharingBundle, userProfileBundle]
     },
   })
 
