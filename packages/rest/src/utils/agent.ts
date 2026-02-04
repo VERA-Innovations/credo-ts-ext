@@ -46,7 +46,7 @@ import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
 import { askarNodeJS } from '@openwallet-foundation/askar-nodejs'
 
 
-import { getAskarDatabaseConfig, getDrizzleDatabaseConfig } from './util'
+import { getAskarDatabaseConfig, getDrizzleDatabaseConfig } from './util.js'
 import { DrizzleStorageModule } from '@credo-ts/drizzle-storage'
 import { coreBundle } from '@credo-ts/drizzle-storage/core'
 import { actionMenuBundle } from '@credo-ts/drizzle-storage/action-menu'

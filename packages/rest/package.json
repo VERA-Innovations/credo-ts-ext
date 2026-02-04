@@ -3,11 +3,12 @@
   "main": "build/index",
   "type": "module",
   "types": "build/index",
-  "version": "0.11.0",
+  "version": "0.11.5",
   "files": [
     "build",
     "bin",
-    "patches"
+    "patches",
+    "scripts"
   ],
   "publishConfig": {
     "access": "public"
@@ -33,11 +34,13 @@
     "build": "yarn run clean && yarn run compile",
     "clean": "rimraf -rf ./build",
     "compile": "yarn tsoa && tsc -p tsconfig.build.json",
-    "postinstall": "patch-package",
+    "postinstall": "node scripts/comprehensive-patch.mjs && patch-package",
     "prepublishOnly": "yarn run build",
     "test": "jest"
   },
   "dependencies": {
+    "@2060.io/credo-ts-didcomm-media-sharing": "^0.0.6",
+    "@2060.io/credo-ts-didcomm-user-profile": "^0.0.8",
     "@credo-ts/anoncreds": "^0.6.1",
     "@credo-ts/askar": "^0.6.1",
     "@credo-ts/cheqd": "^0.6.1",

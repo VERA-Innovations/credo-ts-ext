@@ -1,4 +1,4 @@
-import type { RestRootAgent, RestRootAgentWithTenants } from '../utils/agent'
+import type { RestRootAgent, RestRootAgentWithTenants } from '../utils/agent.js'
 import type { AskarModuleConfigStoreOptions } from '@credo-ts/askar'
 import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
 import type { InitConfig, LogLevel } from '@credo-ts/core'
