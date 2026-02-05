@@ -6983,12 +6983,12 @@ index 891139a..0e1cc60 100644
        tableName: "DidcommOutOfBand";
        dataType: "json";
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.d.mts b/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.d.mts
-index 03e189c..da385d3 100644
+index 03e189c..f1ba387 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.d.mts
 +++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.d.mts
 @@ -1,20 +1,20 @@
 -import * as drizzle_orm_pg_core339 from "drizzle-orm/pg-core";
-+import * as drizzle_orm_pg_core524 from "drizzle-orm/pg-core";
++import * as drizzle_orm_pg_core137 from "drizzle-orm/pg-core";
  
  //#region src/didcomm/proof-exchange-record/postgres.d.ts
  declare namespace postgres_d_exports {
@@ -6996,20 +6996,20 @@ index 03e189c..da385d3 100644
  }
  declare const didcommProofExchangeRoles: readonly ["verifier", "prover"];
 -declare const didcommProofExchangeRoleEnum: drizzle_orm_pg_core339.PgEnum<["verifier", "prover"]>;
-+declare const didcommProofExchangeRoleEnum: drizzle_orm_pg_core524.PgEnum<["verifier", "prover"]>;
++declare const didcommProofExchangeRoleEnum: drizzle_orm_pg_core137.PgEnum<["verifier", "prover"]>;
  declare const didcommProofExchangeStates: readonly ["proposal-sent", "proposal-received", "request-sent", "request-received", "presentation-sent", "presentation-received", "declined", "abandoned", "done"];
 -declare const didcommProofExchangeStateEnum: drizzle_orm_pg_core339.PgEnum<["proposal-sent", "proposal-received", "request-sent", "request-received", "presentation-sent", "presentation-received", "declined", "abandoned", "done"]>;
-+declare const didcommProofExchangeStateEnum: drizzle_orm_pg_core524.PgEnum<["proposal-sent", "proposal-received", "request-sent", "request-received", "presentation-sent", "presentation-received", "declined", "abandoned", "done"]>;
++declare const didcommProofExchangeStateEnum: drizzle_orm_pg_core137.PgEnum<["proposal-sent", "proposal-received", "request-sent", "request-received", "presentation-sent", "presentation-received", "declined", "abandoned", "done"]>;
  declare const didcommProofExchangeAutoAccepts: readonly ["always", "contentApproved", "never"];
 -declare const didcommProofExchangeAutoAcceptEnum: drizzle_orm_pg_core339.PgEnum<["always", "contentApproved", "never"]>;
 -declare const didcommProofExchange: drizzle_orm_pg_core339.PgTableWithColumns<{
-+declare const didcommProofExchangeAutoAcceptEnum: drizzle_orm_pg_core524.PgEnum<["always", "contentApproved", "never"]>;
-+declare const didcommProofExchange: drizzle_orm_pg_core524.PgTableWithColumns<{
++declare const didcommProofExchangeAutoAcceptEnum: drizzle_orm_pg_core137.PgEnum<["always", "contentApproved", "never"]>;
++declare const didcommProofExchange: drizzle_orm_pg_core137.PgTableWithColumns<{
    name: "DidcommProofExchange";
    schema: undefined;
    columns: {
 -    connectionId: drizzle_orm_pg_core339.PgColumn<{
-+    connectionId: drizzle_orm_pg_core524.PgColumn<{
++    connectionId: drizzle_orm_pg_core137.PgColumn<{
        name: "connection_id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7018,7 +7018,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    threadId: drizzle_orm_pg_core339.PgColumn<{
-+    threadId: drizzle_orm_pg_core524.PgColumn<{
++    threadId: drizzle_orm_pg_core137.PgColumn<{
        name: "thread_id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7027,7 +7027,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    protocolVersion: drizzle_orm_pg_core339.PgColumn<{
-+    protocolVersion: drizzle_orm_pg_core524.PgColumn<{
++    protocolVersion: drizzle_orm_pg_core137.PgColumn<{
        name: "protocol_version";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7036,7 +7036,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    parentThreadId: drizzle_orm_pg_core339.PgColumn<{
-+    parentThreadId: drizzle_orm_pg_core524.PgColumn<{
++    parentThreadId: drizzle_orm_pg_core137.PgColumn<{
        name: "parent_thread_id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7045,25 +7045,36 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    isVerified: drizzle_orm_pg_core339.PgColumn<{
-+    isVerified: drizzle_orm_pg_core524.PgColumn<{
++    isVerified: drizzle_orm_pg_core137.PgColumn<{
        name: "is_verified";
        tableName: "DidcommProofExchange";
        dataType: "boolean";
-@@ -99,7 +99,7 @@ declare const didcommProofExchange: drizzle_orm_pg_core339.PgTableWithColumns<{
+@@ -99,24 +99,24 @@ declare const didcommProofExchange: drizzle_orm_pg_core339.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    state: drizzle_orm_pg_core339.PgColumn<{
-+    state: drizzle_orm_pg_core524.PgColumn<{
++    state: drizzle_orm_pg_core137.PgColumn<{
        name: "state";
        tableName: "DidcommProofExchange";
        dataType: "string";
-@@ -116,7 +116,7 @@ declare const didcommProofExchange: drizzle_orm_pg_core339.PgTableWithColumns<{
+       columnType: "PgEnumColumn";
+-      data: "verifier" | "prover";
++      data: "request-sent" | "request-received" | "abandoned" | "proposal-sent" | "proposal-received" | "declined" | "done" | "presentation-sent" | "presentation-received";
+       driverParam: string;
+       notNull: true;
+       hasDefault: false;
+       isPrimaryKey: false;
+       isAutoincrement: false;
+       hasRuntimeDefault: false;
+-      enumValues: ["verifier", "prover"];
++      enumValues: ["proposal-sent", "proposal-received", "request-sent", "request-received", "presentation-sent", "presentation-received", "declined", "abandoned", "done"];
+       baseColumn: never;
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    role: drizzle_orm_pg_core339.PgColumn<{
-+    role: drizzle_orm_pg_core524.PgColumn<{
++    role: drizzle_orm_pg_core137.PgColumn<{
        name: "role";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7072,7 +7083,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    autoAcceptProof: drizzle_orm_pg_core339.PgColumn<{
-+    autoAcceptProof: drizzle_orm_pg_core524.PgColumn<{
++    autoAcceptProof: drizzle_orm_pg_core137.PgColumn<{
        name: "auto_accept_proof";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7081,7 +7092,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    errorMessage: drizzle_orm_pg_core339.PgColumn<{
-+    errorMessage: drizzle_orm_pg_core524.PgColumn<{
++    errorMessage: drizzle_orm_pg_core137.PgColumn<{
        name: "error_message";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7090,7 +7101,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    contextCorrelationId: drizzle_orm_pg_core339.PgColumn<{
-+    contextCorrelationId: drizzle_orm_pg_core524.PgColumn<{
++    contextCorrelationId: drizzle_orm_pg_core137.PgColumn<{
        name: "context_correlation_id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7099,7 +7110,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    id: drizzle_orm_pg_core339.PgColumn<{
-+    id: drizzle_orm_pg_core524.PgColumn<{
++    id: drizzle_orm_pg_core137.PgColumn<{
        name: "id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7108,7 +7119,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    createdAt: drizzle_orm_pg_core339.PgColumn<{
-+    createdAt: drizzle_orm_pg_core524.PgColumn<{
++    createdAt: drizzle_orm_pg_core137.PgColumn<{
        name: "created_at";
        tableName: "DidcommProofExchange";
        dataType: "date";
@@ -7117,7 +7128,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    updatedAt: drizzle_orm_pg_core339.PgColumn<{
-+    updatedAt: drizzle_orm_pg_core524.PgColumn<{
++    updatedAt: drizzle_orm_pg_core137.PgColumn<{
        name: "updated_at";
        tableName: "DidcommProofExchange";
        dataType: "date";
@@ -7126,7 +7137,7 @@ index 03e189c..da385d3 100644
        generated: undefined;
      }, {}, {}>;
 -    metadata: drizzle_orm_pg_core339.PgColumn<{
-+    metadata: drizzle_orm_pg_core524.PgColumn<{
++    metadata: drizzle_orm_pg_core137.PgColumn<{
        name: "metadata";
        tableName: "DidcommProofExchange";
        dataType: "json";
@@ -7135,17 +7146,39 @@ index 03e189c..da385d3 100644
        $type: Record<string, Record<string, unknown> | undefined>;
      }>;
 -    customTags: drizzle_orm_pg_core339.PgColumn<{
-+    customTags: drizzle_orm_pg_core524.PgColumn<{
++    customTags: drizzle_orm_pg_core137.PgColumn<{
        name: "custom_tags";
        tableName: "DidcommProofExchange";
        dataType: "json";
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.mjs b/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.mjs
+index 921546c..bc3caf0 100644
+--- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.mjs
++++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.mjs
+@@ -41,7 +41,7 @@ const didcommProofExchange = pgTable("DidcommProofExchange", {
+ 	protocolVersion: text("protocol_version").notNull(),
+ 	parentThreadId: text("parent_thread_id"),
+ 	isVerified: boolean("is_verified"),
+-	state: didcommProofExchangeRoleEnum().notNull(),
++	state: didcommProofExchangeStateEnum().notNull(),
+ 	role: didcommProofExchangeRoleEnum().notNull(),
+ 	autoAcceptProof: didcommProofExchangeAutoAcceptEnum("auto_accept_proof"),
+ 	errorMessage: text("error_message")
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.mjs.map
+index f96543a..35c3b59 100644
+--- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.mjs.map
++++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/postgres.mjs.map
+@@ -1 +1 @@
+-{"version":3,"file":"postgres.mjs","names":[],"sources":["../../../src/didcomm/proof-exchange-record/postgres.ts"],"sourcesContent":["import type { DidCommAutoAcceptProof, DidCommProofRole, DidCommProofState } from '@credo-ts/didcomm'\nimport { boolean, foreignKey, pgEnum, pgTable, text, unique } from 'drizzle-orm/pg-core'\nimport { getPostgresBaseRecordTable, postgresBaseRecordIndexes } from '../../postgres/baseRecord'\nimport { exhaustiveArray } from '../../util'\nimport { didcommConnection } from '../connection-record/postgres'\n\nexport const didcommProofExchangeRoles = exhaustiveArray({} as DidCommProofRole, ['verifier', 'prover'] as const)\nexport const didcommProofExchangeRoleEnum = pgEnum('DidcommProofExchangeRole', didcommProofExchangeRoles)\n\nexport const didcommProofExchangeStates = exhaustiveArray(\n  {} as DidCommProofState,\n  [\n    'proposal-sent',\n    'proposal-received',\n    'request-sent',\n    'request-received',\n    'presentation-sent',\n    'presentation-received',\n    'declined',\n    'abandoned',\n    'done',\n  ] as const\n)\nexport const didcommProofExchangeStateEnum = pgEnum('DidcommProofExchangeState', didcommProofExchangeStates)\n\nexport const didcommProofExchangeAutoAccepts = exhaustiveArray(\n  {} as DidCommAutoAcceptProof,\n  ['always', 'contentApproved', 'never'] as const\n)\nexport const didcommProofExchangeAutoAcceptEnum = pgEnum(\n  'DidcommProofExchangeAutoAccept',\n  didcommProofExchangeAutoAccepts\n)\n\nexport const didcommProofExchange = pgTable(\n  'DidcommProofExchange',\n  {\n    ...getPostgresBaseRecordTable(),\n\n    connectionId: text('connection_id'),\n    threadId: text('thread_id').notNull(),\n    protocolVersion: text('protocol_version').notNull(),\n    parentThreadId: text('parent_thread_id'),\n    isVerified: boolean('is_verified'),\n    state: didcommProofExchangeRoleEnum().notNull(),\n    role: didcommProofExchangeRoleEnum().notNull(),\n    autoAcceptProof: didcommProofExchangeAutoAcceptEnum('auto_accept_proof'),\n    errorMessage: text('error_message'),\n  },\n  (table) => [\n    ...postgresBaseRecordIndexes(table, 'didcommProofExchange'),\n    foreignKey({\n      columns: [table.connectionId, table.contextCorrelationId],\n      foreignColumns: [didcommConnection.id, didcommConnection.contextCorrelationId],\n    }).onDelete('cascade'),\n    unique().on(table.contextCorrelationId, table.threadId, table.role),\n  ]\n)\n"],"mappings":";;;;;;;;;;;;;;;;AAMA,MAAa,4BAA4B,gBAAgB,EAAE,EAAsB,CAAC,YAAY,SAAS,CAAU;AACjH,MAAa,+BAA+B,OAAO,4BAA4B,0BAA0B;AAEzG,MAAa,6BAA6B,gBACxC,EAAE,EACF;CACE;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACD,CACF;AACD,MAAa,gCAAgC,OAAO,6BAA6B,2BAA2B;AAE5G,MAAa,kCAAkC,gBAC7C,EAAE,EACF;CAAC;CAAU;CAAmB;CAAQ,CACvC;AACD,MAAa,qCAAqC,OAChD,kCACA,gCACD;AAED,MAAa,uBAAuB,QAClC,wBACA;CACE,GAAG,4BAA4B;CAE/B,cAAc,KAAK,gBAAgB;CACnC,UAAU,KAAK,YAAY,CAAC,SAAS;CACrC,iBAAiB,KAAK,mBAAmB,CAAC,SAAS;CACnD,gBAAgB,KAAK,mBAAmB;CACxC,YAAY,QAAQ,cAAc;CAClC,OAAO,8BAA8B,CAAC,SAAS;CAC/C,MAAM,8BAA8B,CAAC,SAAS;CAC9C,iBAAiB,mCAAmC,oBAAoB;CACxE,cAAc,KAAK,gBAAgB;CACpC,GACA,UAAU;CACT,GAAG,0BAA0B,OAAO,uBAAuB;CAC3D,WAAW;EACT,SAAS,CAAC,MAAM,cAAc,MAAM,qBAAqB;EACzD,gBAAgB,CAAC,kBAAkB,IAAI,kBAAkB,qBAAqB;EAC/E,CAAC,CAAC,SAAS,UAAU;CACtB,QAAQ,CAAC,GAAG,MAAM,sBAAsB,MAAM,UAAU,MAAM,KAAK;CACpE,CACF"}
+\ No newline at end of file
++{"version":3,"file":"postgres.mjs","names":[],"sources":["../../../src/didcomm/proof-exchange-record/postgres.ts"],"sourcesContent":["import type { DidCommAutoAcceptProof, DidCommProofRole, DidCommProofState } from '@credo-ts/didcomm'\nimport { boolean, foreignKey, pgEnum, pgTable, text, unique } from 'drizzle-orm/pg-core'\nimport { getPostgresBaseRecordTable, postgresBaseRecordIndexes } from '../../postgres/baseRecord'\nimport { exhaustiveArray } from '../../util'\nimport { didcommConnection } from '../connection-record/postgres'\n\nexport const didcommProofExchangeRoles = exhaustiveArray({} as DidCommProofRole, ['verifier', 'prover'] as const)\nexport const didcommProofExchangeRoleEnum = pgEnum('DidcommProofExchangeRole', didcommProofExchangeRoles)\n\nexport const didcommProofExchangeStates = exhaustiveArray(\n  {} as DidCommProofState,\n  [\n    'proposal-sent',\n    'proposal-received',\n    'request-sent',\n    'request-received',\n    'presentation-sent',\n    'presentation-received',\n    'declined',\n    'abandoned',\n    'done',\n  ] as const\n)\nexport const didcommProofExchangeStateEnum = pgEnum('DidcommProofExchangeState', didcommProofExchangeStates)\n\nexport const didcommProofExchangeAutoAccepts = exhaustiveArray(\n  {} as DidCommAutoAcceptProof,\n  ['always', 'contentApproved', 'never'] as const\n)\nexport const didcommProofExchangeAutoAcceptEnum = pgEnum(\n  'DidcommProofExchangeAutoAccept',\n  didcommProofExchangeAutoAccepts\n)\n\nexport const didcommProofExchange = pgTable(\n  'DidcommProofExchange',\n  {\n    ...getPostgresBaseRecordTable(),\n\n    connectionId: text('connection_id'),\n    threadId: text('thread_id').notNull(),\n    protocolVersion: text('protocol_version').notNull(),\n    parentThreadId: text('parent_thread_id'),\n    isVerified: boolean('is_verified'),\n    state: didcommProofExchangeStateEnum().notNull(),\n    role: didcommProofExchangeRoleEnum().notNull(),\n    autoAcceptProof: didcommProofExchangeAutoAcceptEnum('auto_accept_proof'),\n    errorMessage: text('error_message'),\n  },\n  (table) => [\n    ...postgresBaseRecordIndexes(table, 'didcommProofExchange'),\n    foreignKey({\n      columns: [table.connectionId, table.contextCorrelationId],\n      foreignColumns: [didcommConnection.id, didcommConnection.contextCorrelationId],\n    }).onDelete('cascade'),\n    unique().on(table.contextCorrelationId, table.threadId, table.role),\n  ]\n)\n"],"mappings":";;;;;;;;;;;;;;;;AAMA,MAAa,4BAA4B,gBAAgB,EAAE,EAAsB,CAAC,YAAY,SAAS,CAAU;AACjH,MAAa,+BAA+B,OAAO,4BAA4B,0BAA0B;AAEzG,MAAa,6BAA6B,gBACxC,EAAE,EACF;CACE;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACD,CACF;AACD,MAAa,gCAAgC,OAAO,6BAA6B,2BAA2B;AAE5G,MAAa,kCAAkC,gBAC7C,EAAE,EACF;CAAC;CAAU;CAAmB;CAAQ,CACvC;AACD,MAAa,qCAAqC,OAChD,kCACA,gCACD;AAED,MAAa,uBAAuB,QAClC,wBACA;CACE,GAAG,4BAA4B;CAE/B,cAAc,KAAK,gBAAgB;CACnC,UAAU,KAAK,YAAY,CAAC,SAAS;CACrC,iBAAiB,KAAK,mBAAmB,CAAC,SAAS;CACnD,gBAAgB,KAAK,mBAAmB;CACxC,YAAY,QAAQ,cAAc;CAClC,OAAO,+BAA+B,CAAC,SAAS;CAChD,MAAM,8BAA8B,CAAC,SAAS;CAC9C,iBAAiB,mCAAmC,oBAAoB;CACxE,cAAc,KAAK,gBAAgB;CACpC,GACA,UAAU;CACT,GAAG,0BAA0B,OAAO,uBAAuB;CAC3D,WAAW;EACT,SAAS,CAAC,MAAM,cAAc,MAAM,qBAAqB;EACzD,gBAAgB,CAAC,kBAAkB,IAAI,kBAAkB,qBAAqB;EAC/E,CAAC,CAAC,SAAS,UAAU;CACtB,QAAQ,CAAC,GAAG,MAAM,sBAAsB,MAAM,UAAU,MAAM,KAAK;CACpE,CACF"}
+\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/sqlite.d.mts b/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/sqlite.d.mts
-index effe0c8..0ef0018 100644
+index effe0c8..c33aeff 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/sqlite.d.mts
 +++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/proof-exchange-record/sqlite.d.mts
 @@ -1,15 +1,15 @@
 -import * as drizzle_orm_sqlite_core198 from "drizzle-orm/sqlite-core";
-+import * as drizzle_orm_sqlite_core472 from "drizzle-orm/sqlite-core";
++import * as drizzle_orm_sqlite_core115 from "drizzle-orm/sqlite-core";
  import { DidCommAutoAcceptProof, DidCommProofRole, DidCommProofState } from "@credo-ts/didcomm";
  
  //#region src/didcomm/proof-exchange-record/sqlite.d.ts
@@ -7153,12 +7186,12 @@ index effe0c8..0ef0018 100644
    export { didcommProofExchange };
  }
 -declare const didcommProofExchange: drizzle_orm_sqlite_core198.SQLiteTableWithColumns<{
-+declare const didcommProofExchange: drizzle_orm_sqlite_core472.SQLiteTableWithColumns<{
++declare const didcommProofExchange: drizzle_orm_sqlite_core115.SQLiteTableWithColumns<{
    name: "DidcommProofExchange";
    schema: undefined;
    columns: {
 -    connectionId: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    connectionId: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    connectionId: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "connection_id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7167,7 +7200,7 @@ index effe0c8..0ef0018 100644
        length: number | undefined;
      }>;
 -    threadId: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    threadId: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    threadId: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "thread_id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7176,7 +7209,7 @@ index effe0c8..0ef0018 100644
        length: number | undefined;
      }>;
 -    protocolVersion: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    protocolVersion: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    protocolVersion: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "protocol_version";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7185,7 +7218,7 @@ index effe0c8..0ef0018 100644
        length: number | undefined;
      }>;
 -    parentThreadId: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    parentThreadId: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    parentThreadId: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "parent_thread_id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7194,7 +7227,7 @@ index effe0c8..0ef0018 100644
        length: number | undefined;
      }>;
 -    isVerified: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    isVerified: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    isVerified: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "is_verified";
        tableName: "DidcommProofExchange";
        dataType: "boolean";
@@ -7203,7 +7236,7 @@ index effe0c8..0ef0018 100644
        generated: undefined;
      }, {}, {}>;
 -    state: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    state: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    state: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "state";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7212,7 +7245,7 @@ index effe0c8..0ef0018 100644
        $type: DidCommProofState;
      }>;
 -    role: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    role: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    role: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "role";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7221,7 +7254,7 @@ index effe0c8..0ef0018 100644
        $type: DidCommProofRole;
      }>;
 -    autoAcceptProof: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    autoAcceptProof: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    autoAcceptProof: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "auto_accept_proof";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7230,7 +7263,7 @@ index effe0c8..0ef0018 100644
        $type: DidCommAutoAcceptProof;
      }>;
 -    errorMessage: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    errorMessage: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    errorMessage: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "error_message";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7239,7 +7272,7 @@ index effe0c8..0ef0018 100644
        length: number | undefined;
      }>;
 -    contextCorrelationId: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    contextCorrelationId: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    contextCorrelationId: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "context_correlation_id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7248,7 +7281,7 @@ index effe0c8..0ef0018 100644
        length: number | undefined;
      }>;
 -    id: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    id: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    id: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "id";
        tableName: "DidcommProofExchange";
        dataType: "string";
@@ -7257,7 +7290,7 @@ index effe0c8..0ef0018 100644
        length: undefined;
      }>;
 -    createdAt: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    createdAt: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    createdAt: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "created_at";
        tableName: "DidcommProofExchange";
        dataType: "date";
@@ -7266,7 +7299,7 @@ index effe0c8..0ef0018 100644
        generated: undefined;
      }, {}, {}>;
 -    updatedAt: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    updatedAt: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    updatedAt: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "updated_at";
        tableName: "DidcommProofExchange";
        dataType: "date";
@@ -7275,7 +7308,7 @@ index effe0c8..0ef0018 100644
        generated: undefined;
      }, {}, {}>;
 -    metadata: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    metadata: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    metadata: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "metadata";
        tableName: "DidcommProofExchange";
        dataType: "json";
@@ -7284,7 +7317,7 @@ index effe0c8..0ef0018 100644
        $type: Record<string, Record<string, unknown> | undefined>;
      }>;
 -    customTags: drizzle_orm_sqlite_core198.SQLiteColumn<{
-+    customTags: drizzle_orm_sqlite_core472.SQLiteColumn<{
++    customTags: drizzle_orm_sqlite_core115.SQLiteColumn<{
        name: "custom_tags";
        tableName: "DidcommProofExchange";
        dataType: "json";
@@ -10111,6 +10144,944 @@ index 75ed14d..f7c570e 100644
  export { getPostgresBaseRecordTable, postgresBaseRecordIndexes };
  //# sourceMappingURL=baseRecord.d.mts.map
 \ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.d.mts b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.d.mts
+new file mode 100644
+index 0000000..ed73576
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.d.mts
+@@ -0,0 +1,59 @@
++import { BaseRecord } from "@credo-ts/core";
++import { CipheringInfo } from "@2060.io/credo-ts-didcomm-media-sharing";
++
++//#region src/private-media-sharing/PrivateMediaTypes.d.ts
++interface PrivateMediaItem {
++  id: string;
++  uri: string;
++  mimeType: string;
++  description?: string;
++  byteCount?: number;
++  fileName?: string;
++  ciphering?: CipheringInfo;
++  metadata?: Record<string, unknown>;
++}
++type DefaultPrivateMediaTags = {
++  userId: string;
++};
++type CustomPrivateMediaTags = {
++  mediaType?: 'image' | 'video' | 'document' | 'audio';
++  isPublic?: string;
++  sharedWith?: string[];
++  customTags?: string[];
++};
++type PrivateMediaRecordProps = {
++  id?: string;
++  createdAt?: Date;
++  userId: string;
++  description?: string;
++  threadId?: string;
++  parentThreadId?: string;
++  items?: PrivateMediaItem[];
++  version?: string;
++  isPublic?: string;
++  sharedWith?: string[];
++  customTags?: string[];
++};
++declare class PrivateMediaRecord extends BaseRecord<DefaultPrivateMediaTags, CustomPrivateMediaTags> {
++  static readonly type = "PrivateMediaRecord";
++  readonly type = "PrivateMediaRecord";
++  userId: string;
++  threadId?: string;
++  description?: string;
++  parentThreadId?: string;
++  items?: PrivateMediaItem[];
++  version?: string;
++  constructor(props: PrivateMediaRecordProps);
++  getTags(): {
++    userId: string;
++    mediaType?: "image" | "video" | "document" | "audio";
++    isPublic?: string;
++    sharedWith?: string[];
++    customTags?: string[];
++  };
++  addCustomTag(tag: string): void;
++  removeCustomTag(tag: string): void;
++}
++//#endregion
++export { PrivateMediaItem, PrivateMediaRecord };
++//# sourceMappingURL=PrivateMediaTypes.d.mts.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.d.mts.map
+new file mode 100644
+index 0000000..57f5ae0
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.d.mts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"PrivateMediaTypes.d.mts","names":[],"sources":["../../src/private-media-sharing/PrivateMediaTypes.ts"],"sourcesContent":[],"mappings":";;;;UAGiB,gBAAA;;EAAA,GAAA,EAAA,MAAA;EAWZ,QAAA,EAAA,MAAA;EAIA,WAAA,CAAA,EAAA,MAAA;EAUA,SAAA,CAAA,EAAA,MAAA;EAgBQ,QAAA,CAAA,EAAA,MAAA;EAAsC,SAAA,CAAA,EAlCpC,aAkCoC;EAAyB,QAAA,CAAA,EAjC9D,MAiC8D,CAAA,MAAA,EAAA,OAAA,CAAA;;KA9BvE,uBAAA,GAyCuB;EAXY,MAAA,EAAA,MAAA;CAAU;KA1B7C,sBAAA;;;;;;KAUA,uBAAA;;cAEU;;;;;UAKJ;;;;;;cASE,kBAAA,SAA2B,WAAW,yBAAyB;;;;;;;UAQ3D;;qBAGW"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.mjs
+new file mode 100644
+index 0000000..e7bd37c
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.mjs
+@@ -0,0 +1,48 @@
++import { BaseRecord, utils } from "@credo-ts/core";
++
++//#region src/private-media-sharing/PrivateMediaTypes.ts
++var PrivateMediaRecord = class PrivateMediaRecord extends BaseRecord {
++	constructor(props) {
++		super();
++		this.type = PrivateMediaRecord.type;
++		if (props) {
++			this.id = props.id ?? utils.uuid();
++			this.createdAt = props.createdAt ?? /* @__PURE__ */ new Date();
++			this.userId = props.userId;
++			this.userId = props.userId;
++			this.threadId = props.threadId ?? utils.uuid();
++			this.parentThreadId = props.parentThreadId ?? void 0;
++			this.description = props.description;
++			this.items = props.items ?? [];
++			this.version = String(props.version ?? 1);
++			this.setTag("isPublic", props.isPublic ?? "false");
++			if (props.customTags && props.customTags.length > 0) this.setTag("customTags", props.customTags);
++		}
++	}
++	getTags() {
++		const baseTags = { userId: this.userId };
++		const dynamicTags = {};
++		if (this.items?.length) {
++			const mediaTypes = [...new Set(this.items.map((item) => item.mimeType?.split("/")[0]))];
++			if (mediaTypes.length === 1) dynamicTags.mediaType = mediaTypes[0];
++		}
++		return {
++			...this._tags,
++			...baseTags,
++			...dynamicTags
++		};
++	}
++	addCustomTag(tag) {
++		const currentTags = this.getTag("customTags") || [];
++		if (!currentTags.includes(tag)) this.setTag("customTags", [...currentTags, tag]);
++	}
++	removeCustomTag(tag) {
++		const currentTags = this.getTag("customTags") || [];
++		this.setTag("customTags", currentTags.filter((t) => t !== tag));
++	}
++};
++PrivateMediaRecord.type = "PrivateMediaRecord";
++
++//#endregion
++export { PrivateMediaRecord };
++//# sourceMappingURL=PrivateMediaTypes.mjs.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.mjs.map
+new file mode 100644
+index 0000000..0d69166
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/PrivateMediaTypes.mjs.map
+@@ -0,0 +1 @@
++{"version":3,"file":"PrivateMediaTypes.mjs","names":["dynamicTags: Record<string, unknown>"],"sources":["../../src/private-media-sharing/PrivateMediaTypes.ts"],"sourcesContent":["import type { CipheringInfo } from \"@2060.io/credo-ts-didcomm-media-sharing\"\nimport { BaseRecord, utils } from \"@credo-ts/core\"\n\nexport interface PrivateMediaItem {    \n   id: string;  \n   uri: string;  \n   mimeType: string;  \n   description?: string;  \n   byteCount?: number;  \n   fileName?: string;  \n   ciphering?: CipheringInfo;  \n   metadata?: Record<string, unknown>;  \n}  \n  \ntype DefaultPrivateMediaTags = {  \n  userId: string    \n}  \n  \ntype CustomPrivateMediaTags = {  \n  // File categorization  \n  mediaType?: 'image' | 'video' | 'document' | 'audio'  \n  // Access control  \n  isPublic?: string  \n  sharedWith?: string[]  // Array of user IDs  OR DIDComm connection IDs\n  // User-defined custom tags  \n  customTags?: string[]  // e.g., ['invoice', 'receipt', 'contract']  \n}  \n\ntype PrivateMediaRecordProps = {\n  id? : string\n  createdAt? : Date  // Optional, will default to new Date()  \n  userId: string\n  description? : string\n  threadId? : string\n  parentThreadId? : string\n  items? : PrivateMediaItem[]\n  version? : string\n  // Note: I think we don't need the media type as it is generated from the item's mime type\n  // mediaType? : 'image' | 'video' | 'document' | 'audio'\n  isPublic? : string\n  sharedWith? : string[]  // Array of user IDs  OR DIDComm connection IDs\n  customTags? : string[]\n}\n\nexport class PrivateMediaRecord extends BaseRecord<DefaultPrivateMediaTags, CustomPrivateMediaTags> {    \n  public static readonly type = 'PrivateMediaRecord'    \n  public readonly type = PrivateMediaRecord.type  \n  \n  public userId!: string    \n  public threadId?: string\n  public description?: string\n  public parentThreadId?: string\n  public items?: PrivateMediaItem[]    \n  public version?: string    \n    \n  public constructor(props: PrivateMediaRecordProps) {    \n    super()    \n    if (props) {    \n      this.id = props.id ?? utils.uuid()    \n      this.createdAt = props.createdAt ?? new Date()  \n      this.userId = props.userId\n      this.userId = props.userId\n      this.threadId = props.threadId ?? utils.uuid()\n      this.parentThreadId = props.parentThreadId ?? undefined\n      this.description = props.description    \n      this.items = props.items ?? []  // Default to empty array\n      this.version = String(props.version ?? 1)  // Default to version 1\n      this.setTag('isPublic', props.isPublic ?? 'false') \n      if (props.customTags && props.customTags.length > 0) {  \n        this.setTag('customTags', props.customTags)  \n      }   \n    }    \n  }    \n    \n  public getTags() {      \n  const baseTags = {      \n    userId: this.userId,      \n  };  \n  \n  const dynamicTags: Record<string, unknown> = {};  \n    \n  if (this.items?.length) {  \n    // dynamicTags.itemCount = this.items.length;  \n    // dynamicTags.hasItems = true;  \n      \n    const mediaTypes = [...new Set(this.items.map(item => item.mimeType?.split('/')[0]))];  \n    if (mediaTypes.length === 1) {  \n      dynamicTags.mediaType = mediaTypes[0];  \n    }  \n  }  \n  \n  return { ...this._tags, ...baseTags, ...dynamicTags }      \n}\n\n  // Helper method for custom tagging  \n  public addCustomTag(tag: string) {  \n    const currentTags = this.getTag('customTags') as string[] || [];  \n    if (!currentTags.includes(tag)) {  \n      this.setTag('customTags', [...currentTags, tag]);  \n    }  \n  }  \n    \n  public removeCustomTag(tag: string) {  \n    const currentTags = this.getTag('customTags') as string[] || [];  \n    this.setTag('customTags', currentTags.filter(t => t !== tag));  \n  }  \n}"],"mappings":";;;AA4CA,IAAa,qBAAb,MAAa,2BAA2B,WAA4D;CAWlG,AAAO,YAAY,OAAgC;AACjD,SAAO;OAVO,OAAO,mBAAmB;AAWxC,MAAI,OAAO;AACT,QAAK,KAAK,MAAM,MAAM,MAAM,MAAM;AAClC,QAAK,YAAY,MAAM,6BAAa,IAAI,MAAM;AAC9C,QAAK,SAAS,MAAM;AACpB,QAAK,SAAS,MAAM;AACpB,QAAK,WAAW,MAAM,YAAY,MAAM,MAAM;AAC9C,QAAK,iBAAiB,MAAM,kBAAkB;AAC9C,QAAK,cAAc,MAAM;AACzB,QAAK,QAAQ,MAAM,SAAS,EAAE;AAC9B,QAAK,UAAU,OAAO,MAAM,WAAW,EAAE;AACzC,QAAK,OAAO,YAAY,MAAM,YAAY,QAAQ;AAClD,OAAI,MAAM,cAAc,MAAM,WAAW,SAAS,EAChD,MAAK,OAAO,cAAc,MAAM,WAAW;;;CAKjD,AAAO,UAAU;EACjB,MAAM,WAAW,EACf,QAAQ,KAAK,QACd;EAED,MAAMA,cAAuC,EAAE;AAE/C,MAAI,KAAK,OAAO,QAAQ;GAItB,MAAM,aAAa,CAAC,GAAG,IAAI,IAAI,KAAK,MAAM,KAAI,SAAQ,KAAK,UAAU,MAAM,IAAI,CAAC,GAAG,CAAC,CAAC;AACrF,OAAI,WAAW,WAAW,EACxB,aAAY,YAAY,WAAW;;AAIvC,SAAO;GAAE,GAAG,KAAK;GAAO,GAAG;GAAU,GAAG;GAAa;;CAIrD,AAAO,aAAa,KAAa;EAC/B,MAAM,cAAc,KAAK,OAAO,aAAa,IAAgB,EAAE;AAC/D,MAAI,CAAC,YAAY,SAAS,IAAI,CAC5B,MAAK,OAAO,cAAc,CAAC,GAAG,aAAa,IAAI,CAAC;;CAIpD,AAAO,gBAAgB,KAAa;EAClC,MAAM,cAAc,KAAK,OAAO,aAAa,IAAgB,EAAE;AAC/D,OAAK,OAAO,cAAc,YAAY,QAAO,MAAK,MAAM,IAAI,CAAC;;;mBA3DxC,OAAO"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.d.mts b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.d.mts
+new file mode 100644
+index 0000000..6ee06b5
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.d.mts
+@@ -0,0 +1,26 @@
++import { postgres_d_exports } from "./private-media-sharing-record/postgres.mjs";
++import { sqlite_d_exports } from "./private-media-sharing-record/sqlite.mjs";
++import { DrizzleDidcommPrivateMediaSharingRecordAdapter } from "./private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs";
++
++//#region src/private-media-sharing/bundle.d.ts
++declare const privateMediaSharingBundle: {
++  readonly name: "private-media-sharing";
++  readonly records: [{
++    adapter: typeof DrizzleDidcommPrivateMediaSharingRecordAdapter;
++    postgres: typeof postgres_d_exports;
++    sqlite: typeof sqlite_d_exports;
++  }];
++  readonly migrations: {
++    sqlite: {
++      schemaPath: string;
++      migrationsPath: string;
++    };
++    postgres: {
++      schemaPath: string;
++      migrationsPath: string;
++    };
++  };
++};
++//#endregion
++export { privateMediaSharingBundle };
++//# sourceMappingURL=bundle.d.mts.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.d.mts.map
+new file mode 100644
+index 0000000..c56deb6
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.d.mts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"bundle.d.mts","names":[],"sources":["../../src/private-media-sharing/bundle.ts"],"sourcesContent":[],"mappings":";;;;;cAIa;;;oBAI2B;;IAJ3B,MAAA,EAAA,uBAI2B;EAAA,CAAA,CAAA"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.mjs
+new file mode 100644
+index 0000000..7c0daa3
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.mjs
+@@ -0,0 +1,13 @@
++import { bundleMigrationDefinition } from "../util.mjs";
++import { didcommPrivateMediaSharingDrizzleRecord } from "./private-media-sharing-record/index.mjs";
++
++//#region src/private-media-sharing/bundle.ts
++const privateMediaSharingBundle = {
++	name: "private-media-sharing",
++	records: [didcommPrivateMediaSharingDrizzleRecord],
++	migrations: bundleMigrationDefinition("private-media-sharing")
++};
++
++//#endregion
++export { privateMediaSharingBundle };
++//# sourceMappingURL=bundle.mjs.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.mjs.map
+new file mode 100644
+index 0000000..e40b4c2
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/bundle.mjs.map
+@@ -0,0 +1 @@
++{"version":3,"file":"bundle.mjs","names":[],"sources":["../../src/private-media-sharing/bundle.ts"],"sourcesContent":["import { didcommPrivateMediaSharingDrizzleRecord } from './private-media-sharing-record'\nimport { bundleMigrationDefinition } from '../util'\nimport type { DrizzleRecordBundle } from '../DrizzleRecord'\n\nexport const privateMediaSharingBundle = {\n  name: 'private-media-sharing',\n  records: [didcommPrivateMediaSharingDrizzleRecord],\n  migrations: bundleMigrationDefinition('private-media-sharing'),\n} as const satisfies DrizzleRecordBundle\n"],"mappings":";;;;AAIA,MAAa,4BAA4B;CACvC,MAAM;CACN,SAAS,CAAC,wCAAwC;CAClD,YAAY,0BAA0B,wBAAwB;CAC/D"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/postgres.d.mts b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/postgres.d.mts
+new file mode 100644
+index 0000000..41ccc14
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/postgres.d.mts
+@@ -0,0 +1,2 @@
++import { didcommPrivateMediaSharing } from "./private-media-sharing-record/postgres.mjs";
++export { didcommPrivateMediaSharing };
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/postgres.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/postgres.mjs
+new file mode 100644
+index 0000000..a216199
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/postgres.mjs
+@@ -0,0 +1,3 @@
++import { didcommPrivateMediaSharing } from "./private-media-sharing-record/postgres.mjs";
++
++export { didcommPrivateMediaSharing };
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts
+new file mode 100644
+index 0000000..4eae633
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts
+@@ -0,0 +1,29 @@
++import { DrizzleDatabase } from "../../DrizzleDatabase.mjs";
++import { BaseDrizzleRecordAdapter, DrizzleAdapterRecordValues } from "../../adapter/BaseDrizzleRecordAdapter.mjs";
++import "../../adapter/index.mjs";
++import { PrivateMediaItem, PrivateMediaRecord } from "../PrivateMediaTypes.mjs";
++import { didcommPrivateMediaSharing, postgres_d_exports } from "./postgres.mjs";
++import { didcommPrivateMediaSharing as didcommPrivateMediaSharing$1, sqlite_d_exports } from "./sqlite.mjs";
++
++//#region src/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.ts
++type DrizzleDidcommPrivateMediaSharingAdapterValues = DrizzleAdapterRecordValues<(typeof sqlite_d_exports)['didcommPrivateMediaSharing']>;
++declare class DrizzleDidcommPrivateMediaSharingRecordAdapter extends BaseDrizzleRecordAdapter<PrivateMediaRecord, typeof didcommPrivateMediaSharing, typeof postgres_d_exports, typeof didcommPrivateMediaSharing$1, typeof sqlite_d_exports> {
++  constructor(database: DrizzleDatabase<typeof postgres_d_exports, typeof sqlite_d_exports>);
++  getValues(record: PrivateMediaRecord): {
++    /** BaseRecord fields handled by BaseDrizzleRecordAdapter */
++    userId: string;
++    threadId: string;
++    parentThreadId: string | null;
++    description: string | null;
++    items: PrivateMediaItem[] | null;
++    version: string;
++    customTags: {
++      sharedWith?: string[];
++      customTags?: string[];
++    };
++  };
++  toRecord(values: DrizzleDidcommPrivateMediaSharingAdapterValues): PrivateMediaRecord;
++}
++//#endregion
++export { DrizzleDidcommPrivateMediaSharingRecordAdapter };
++//# sourceMappingURL=DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts.map
+new file mode 100644
+index 0000000..2c1bc54
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts","names":[],"sources":["../../../src/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.ts"],"sourcesContent":[],"mappings":";;;;;;;;KAQK,8CAAA,GACH,mCAAmC;cAExB,8CAAA,SAAuD,yBAClE,2BACO,mCACA,2BACA,qCACA;EARJ,WAAA,CAAA,QAAA,EAU0B,eAV1B,CAAA,OAUiD,kBAVH,EAAA,OAUoB,gBATlC,CAAA;EAExB,SAAA,CAAA,MAAA,EAec,kBAfd,CAAA,EAAA;IACX;IACO,MAAA,EAAA,MAAA;IACA,QAAA,EAAA,MAAA;IACA,cAAA,EAAA,MAAA,GAAA,IAAA;IACA,WAAA,EAAA,MAAA,GAAA,IAAA;IAE6C,KAAA,kBAAA,EAAA,GAAA,IAAA;IAAiB,OAAA,EAAA,MAAA;IAAxC,UAAA,EAAA;MAQJ,UAAA,CAAA,EAAA,MAAA,EAAA;;IA2BD,CAAA;EAAiD,CAAA;EA1CP,QAAA,CAAA,MAAA,EA0C1C,8CA1C0C,CAAA,EA0CO,kBA1CP"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs
+new file mode 100644
+index 0000000..cc454ee
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs
+@@ -0,0 +1,38 @@
++import { BaseDrizzleRecordAdapter } from "../../adapter/BaseDrizzleRecordAdapter.mjs";
++import "../../adapter/index.mjs";
++import { didcommPrivateMediaSharing } from "./postgres.mjs";
++import { didcommPrivateMediaSharing as didcommPrivateMediaSharing$1 } from "./sqlite.mjs";
++import { PrivateMediaRecord } from "../PrivateMediaTypes.mjs";
++import { JsonTransformer, utils } from "@credo-ts/core";
++
++//#region src/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.ts
++var DrizzleDidcommPrivateMediaSharingRecordAdapter = class extends BaseDrizzleRecordAdapter {
++	constructor(database) {
++		super(database, {
++			postgres: didcommPrivateMediaSharing,
++			sqlite: didcommPrivateMediaSharing$1
++		}, PrivateMediaRecord);
++	}
++	getValues(record) {
++		const { userId, mediaType, isPublic, ...customTags } = record.getTags();
++		return {
++			userId,
++			threadId: record.threadId ?? utils.uuid(),
++			parentThreadId: record.parentThreadId ?? null,
++			description: record.description ?? null,
++			items: record.items ? JsonTransformer.toJSON(record.items) : null,
++			version: String(record.version ?? 1),
++			customTags
++		};
++	}
++	toRecord(values) {
++		const { customTags, ...recordValues } = values;
++		const record = JsonTransformer.fromJSON(recordValues, PrivateMediaRecord);
++		if (customTags) record.setTags(customTags);
++		return record;
++	}
++};
++
++//#endregion
++export { DrizzleDidcommPrivateMediaSharingRecordAdapter };
++//# sourceMappingURL=DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs.map
+new file mode 100644
+index 0000000..fb0f50b
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs.map
+@@ -0,0 +1 @@
++{"version":3,"file":"DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs","names":["postgres.didcommPrivateMediaSharing","sqlite.didcommPrivateMediaSharing"],"sources":["../../../src/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.ts"],"sourcesContent":["import { JsonTransformer, utils, type TagsBase } from '@credo-ts/core'\nimport { BaseDrizzleRecordAdapter, type DrizzleAdapterRecordValues } from '../../adapter'\nimport type { DrizzleDatabase } from '../../DrizzleDatabase'\nimport * as postgres from './postgres'\nimport * as sqlite from './sqlite'\nimport type { PrivateMediaItem } from '../PrivateMediaTypes'\nimport { PrivateMediaRecord } from '../PrivateMediaTypes'\n\ntype DrizzleDidcommPrivateMediaSharingAdapterValues =\n  DrizzleAdapterRecordValues<(typeof sqlite)['didcommPrivateMediaSharing']>\n\nexport class DrizzleDidcommPrivateMediaSharingRecordAdapter extends BaseDrizzleRecordAdapter<\n  PrivateMediaRecord,\n  typeof postgres.didcommPrivateMediaSharing,\n  typeof postgres,\n  typeof sqlite.didcommPrivateMediaSharing,\n  typeof sqlite\n> {\n  public constructor(database: DrizzleDatabase<typeof postgres, typeof sqlite>) {\n    super(\n      database,\n      { postgres: postgres.didcommPrivateMediaSharing, sqlite: sqlite.didcommPrivateMediaSharing },\n      PrivateMediaRecord\n    )\n  }\n\n  public getValues(record: PrivateMediaRecord) {\n    const {\n      userId,\n      mediaType,\n      isPublic,\n      ...customTags\n    } = record.getTags()\n\n    return {\n      /** BaseRecord fields handled by BaseDrizzleRecordAdapter */\n\n      userId,\n\n      threadId: record.threadId ?? utils.uuid(),\n      parentThreadId: record.parentThreadId ?? null,\n      description: record.description ?? null,\n\n      items: record.items\n        ? (JsonTransformer.toJSON(record.items) as PrivateMediaItem[])\n        : null,\n\n      version: String(record.version ?? 1),\n\n      customTags,\n    }\n  }\n\n  public toRecord(values: DrizzleDidcommPrivateMediaSharingAdapterValues): PrivateMediaRecord {\n    const { customTags, ...recordValues } = values\n\n    const record = JsonTransformer.fromJSON(recordValues, PrivateMediaRecord)\n\n    if (customTags) {\n      record.setTags(customTags as TagsBase)\n    }\n\n    return record\n  }\n}\n"],"mappings":";;;;;;;;AAWA,IAAa,iDAAb,cAAoE,yBAMlE;CACA,AAAO,YAAY,UAA2D;AAC5E,QACE,UACA;GAAE,UAAUA;GAAqC,QAAQC;GAAmC,EAC5F,mBACD;;CAGH,AAAO,UAAU,QAA4B;EAC3C,MAAM,EACJ,QACA,WACA,UACA,GAAG,eACD,OAAO,SAAS;AAEpB,SAAO;GAGL;GAEA,UAAU,OAAO,YAAY,MAAM,MAAM;GACzC,gBAAgB,OAAO,kBAAkB;GACzC,aAAa,OAAO,eAAe;GAEnC,OAAO,OAAO,QACT,gBAAgB,OAAO,OAAO,MAAM,GACrC;GAEJ,SAAS,OAAO,OAAO,WAAW,EAAE;GAEpC;GACD;;CAGH,AAAO,SAAS,QAA4E;EAC1F,MAAM,EAAE,YAAY,GAAG,iBAAiB;EAExC,MAAM,SAAS,gBAAgB,SAAS,cAAc,mBAAmB;AAEzE,MAAI,WACF,QAAO,QAAQ,WAAuB;AAGxC,SAAO"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/index.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/index.mjs
+new file mode 100644
+index 0000000..ab72404
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/index.mjs
+@@ -0,0 +1,14 @@
++import { postgres_exports } from "./postgres.mjs";
++import { sqlite_exports } from "./sqlite.mjs";
++import { DrizzleDidcommPrivateMediaSharingRecordAdapter } from "./DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs";
++
++//#region src/private-media-sharing/private-media-sharing-record/index.ts
++const didcommPrivateMediaSharingDrizzleRecord = {
++	adapter: DrizzleDidcommPrivateMediaSharingRecordAdapter,
++	postgres: postgres_exports,
++	sqlite: sqlite_exports
++};
++
++//#endregion
++export { didcommPrivateMediaSharingDrizzleRecord };
++//# sourceMappingURL=index.mjs.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/index.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/index.mjs.map
+new file mode 100644
+index 0000000..b678dce
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/index.mjs.map
+@@ -0,0 +1 @@
++{"version":3,"file":"index.mjs","names":[],"sources":["../../../src/private-media-sharing/private-media-sharing-record/index.ts"],"sourcesContent":["import type { DrizzleRecord } from '../../DrizzleRecord'\nimport { DrizzleDidcommPrivateMediaSharingRecordAdapter } from './DrizzleDidcommPrivateMediaSharingRecordAdapter'\nimport * as postgres from './postgres'\nimport * as sqlite from './sqlite'\n\nexport const didcommPrivateMediaSharingDrizzleRecord = {\n  adapter: DrizzleDidcommPrivateMediaSharingRecordAdapter,\n  postgres,\n  sqlite,\n} satisfies DrizzleRecord\n"],"mappings":";;;;;AAKA,MAAa,0CAA0C;CACrD,SAAS;CACT;CACA;CACD"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.d.mts b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.d.mts
+new file mode 100644
+index 0000000..007d4d5
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.d.mts
+@@ -0,0 +1,227 @@
++import { PrivateMediaItem } from "../PrivateMediaTypes.mjs";
++import * as drizzle_orm_pg_core503 from "drizzle-orm/pg-core";
++
++//#region src/private-media-sharing/private-media-sharing-record/postgres.d.ts
++declare namespace postgres_d_exports {
++  export { didcommPrivateMediaSharing };
++}
++declare const didcommPrivateMediaSharing: drizzle_orm_pg_core503.PgTableWithColumns<{
++  name: "DidcommPrivateMediaSharing";
++  schema: undefined;
++  columns: {
++    userId: drizzle_orm_pg_core503.PgColumn<{
++      name: "user_id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "PgText";
++      data: string;
++      driverParam: string;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    description: drizzle_orm_pg_core503.PgColumn<{
++      name: "description";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "PgText";
++      data: string;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    threadId: drizzle_orm_pg_core503.PgColumn<{
++      name: "thread_id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "PgText";
++      data: string;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    parentThreadId: drizzle_orm_pg_core503.PgColumn<{
++      name: "parent_thread_id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "PgText";
++      data: string;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    items: drizzle_orm_pg_core503.PgColumn<{
++      name: "items";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "json";
++      columnType: "PgJsonb";
++      data: PrivateMediaItem[];
++      driverParam: unknown;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      $type: PrivateMediaItem[];
++    }>;
++    version: drizzle_orm_pg_core503.PgColumn<{
++      name: "version";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "PgText";
++      data: string;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    contextCorrelationId: drizzle_orm_pg_core503.PgColumn<{
++      name: "context_correlation_id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "PgText";
++      data: string;
++      driverParam: string;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    id: drizzle_orm_pg_core503.PgColumn<{
++      name: "id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "PgText";
++      data: string;
++      driverParam: string;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    createdAt: drizzle_orm_pg_core503.PgColumn<{
++      name: "created_at";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "date";
++      columnType: "PgTimestamp";
++      data: Date;
++      driverParam: string;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    updatedAt: drizzle_orm_pg_core503.PgColumn<{
++      name: "updated_at";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "date";
++      columnType: "PgTimestamp";
++      data: Date;
++      driverParam: string;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    metadata: drizzle_orm_pg_core503.PgColumn<{
++      name: "metadata";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "json";
++      columnType: "PgJsonb";
++      data: Record<string, Record<string, unknown> | undefined>;
++      driverParam: unknown;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      $type: Record<string, Record<string, unknown> | undefined>;
++    }>;
++    customTags: drizzle_orm_pg_core503.PgColumn<{
++      name: "custom_tags";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "json";
++      columnType: "PgJsonb";
++      data: Record<string, string | number | boolean | string[] | null>;
++      driverParam: unknown;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      $type: Record<string, string | number | boolean | string[] | null>;
++    }>;
++  };
++  dialect: "pg";
++}>;
++//#endregion
++export { didcommPrivateMediaSharing, postgres_d_exports };
++//# sourceMappingURL=postgres.d.mts.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.d.mts.map
+new file mode 100644
+index 0000000..ec7b84f
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.d.mts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"postgres.d.mts","names":[],"sources":["../../../src/private-media-sharing/private-media-sharing-record/postgres.ts"],"sourcesContent":[],"mappings":";;;;;;;cA0Da,mDAA0B;;;;YA2BtC,sBAAA,CAAA;MA3BY,IAAA,EAAA,SAAA;MA2BZ,SAAA,EAAA,4BAAA;;;;;;;;;;;;;;;;;;;;;;oBA3BsC;MAAA,UAAA,EAAA,KAAA"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.mjs
+new file mode 100644
+index 0000000..e703cc5
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.mjs
+@@ -0,0 +1,20 @@
++import { __export } from "../../_virtual/rolldown_runtime.mjs";
++import { getPostgresBaseRecordTable, postgresBaseRecordIndexes } from "../../postgres/baseRecord.mjs";
++import "../../postgres/index.mjs";
++import { jsonb, pgTable, text, unique } from "drizzle-orm/pg-core";
++
++//#region src/private-media-sharing/private-media-sharing-record/postgres.ts
++var postgres_exports = /* @__PURE__ */ __export({ didcommPrivateMediaSharing: () => didcommPrivateMediaSharing });
++const didcommPrivateMediaSharing = pgTable("DidcommPrivateMediaSharing", {
++	...getPostgresBaseRecordTable(),
++	userId: text("user_id").notNull(),
++	description: text("description"),
++	threadId: text("thread_id"),
++	parentThreadId: text("parent_thread_id"),
++	items: jsonb("items").$type(),
++	version: text("version")
++}, (table) => [...postgresBaseRecordIndexes(table, "didcommPrivateMediaSharing"), unique().on(table.contextCorrelationId, table.threadId)]);
++
++//#endregion
++export { didcommPrivateMediaSharing, postgres_exports };
++//# sourceMappingURL=postgres.mjs.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.mjs.map
+new file mode 100644
+index 0000000..8d7cdcb
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/postgres.mjs.map
+@@ -0,0 +1 @@
++{"version":3,"file":"postgres.mjs","names":[],"sources":["../../../src/private-media-sharing/private-media-sharing-record/postgres.ts"],"sourcesContent":["// import type {\n//   DidCommMediaSharingRole,\n//   DidCommMediaSharingState,\n//   SharedMediaItem,\n// } from '@2060.io/credo-ts-didcomm-media-sharing'\n// import { foreignKey, jsonb, pgEnum, pgTable, text, timestamp, unique } from 'drizzle-orm/pg-core'\n// import { didcommConnection } from '../../didcomm/postgres'\n// import { getPostgresBaseRecordTable, postgresBaseRecordIndexes } from '../../postgres'\n// import { exhaustiveArray } from '../../util'\n\n// /**\n//  * Enums\n//  */\n// const mediaSharingStates = exhaustiveArray(\n//   {} as DidCommMediaSharingState,\n//   ['init', 'media-requested', 'media-shared', 'done'] as const\n// )\n// export const didcommMediaSharingStateEnum = pgEnum('DidcommMediaSharingState', mediaSharingStates)\n\n// const mediaSharingRoles = exhaustiveArray({} as DidCommMediaSharingRole, ['sender', 'receiver'] as const)\n// export const didcommMediaSharingRoleEnum = pgEnum('DidcommMediaSharingRole', mediaSharingRoles)\n\n// /**\n//  * Table\n//  */\n// export const didcommMediaSharing = pgTable(\n//   'DidcommMediaSharing',\n//   {\n//     ...getPostgresBaseRecordTable(),\n\n//     sentTime: timestamp('sent_time', { withTimezone: true, precision: 3 }),\n\n//     state: didcommMediaSharingStateEnum().notNull(),\n//     role: didcommMediaSharingRoleEnum().notNull(),\n\n//     connectionId: text('connection_id').notNull(),\n//     threadId: text('thread_id'),\n//     parentThreadId: text('parent_thread_id'),\n//     description: text('description'),\n\n//     items: jsonb('items').$type<SharedMediaItem[]>(),\n//   },\n//   (table) => [\n//     ...postgresBaseRecordIndexes(table, 'didcommMediaSharing'),\n\n//     unique().on(table.contextCorrelationId, table.threadId),\n\n//     foreignKey({\n//       columns: [table.connectionId, table.contextCorrelationId],\n//       foreignColumns: [didcommConnection.id, didcommConnection.contextCorrelationId],\n//     }).onDelete('cascade'),\n//   ]\n// )\n\nimport { jsonb, pgTable, text, unique } from 'drizzle-orm/pg-core'\nimport { getPostgresBaseRecordTable, postgresBaseRecordIndexes } from '../../postgres'\nimport type { PrivateMediaItem } from '../PrivateMediaTypes'\n\nexport const didcommPrivateMediaSharing = pgTable(\n  'DidcommPrivateMediaSharing',\n  {\n    ...getPostgresBaseRecordTable(),\n\n    /** Owner */\n    userId: text('user_id').notNull(),\n\n    /** Optional description */\n    description: text('description'),\n\n    /** DIDComm threading (optional but future-proof) */\n    threadId: text('thread_id'),\n    parentThreadId: text('parent_thread_id'),\n\n    /** Media items (encrypted or plain depending on ciphering info) */\n    items: jsonb('items').$type<PrivateMediaItem[]>(),\n\n    /** Versioning for optimistic updates / migrations */\n    version: text('version'),\n  },\n  (table) => [\n    ...postgresBaseRecordIndexes(table, 'didcommPrivateMediaSharing'),\n\n    /** Prevent duplicate threads per user + context */\n    unique().on(table.contextCorrelationId, table.threadId),\n  ]\n)\n"],"mappings":";;;;;;;AA0DA,MAAa,6BAA6B,QACxC,8BACA;CACE,GAAG,4BAA4B;CAG/B,QAAQ,KAAK,UAAU,CAAC,SAAS;CAGjC,aAAa,KAAK,cAAc;CAGhC,UAAU,KAAK,YAAY;CAC3B,gBAAgB,KAAK,mBAAmB;CAGxC,OAAO,MAAM,QAAQ,CAAC,OAA2B;CAGjD,SAAS,KAAK,UAAU;CACzB,GACA,UAAU,CACT,GAAG,0BAA0B,OAAO,6BAA6B,EAGjE,QAAQ,CAAC,GAAG,MAAM,sBAAsB,MAAM,SAAS,CACxD,CACF"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.d.mts b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.d.mts
+new file mode 100644
+index 0000000..12df864
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.d.mts
+@@ -0,0 +1,241 @@
++import { PrivateMediaItem } from "../PrivateMediaTypes.mjs";
++import * as drizzle_orm_sqlite_core245 from "drizzle-orm/sqlite-core";
++
++//#region src/private-media-sharing/private-media-sharing-record/sqlite.d.ts
++declare namespace sqlite_d_exports {
++  export { didcommPrivateMediaSharing };
++}
++declare const didcommPrivateMediaSharing: drizzle_orm_sqlite_core245.SQLiteTableWithColumns<{
++  name: "DidcommPrivateMediaSharing";
++  schema: undefined;
++  columns: {
++    userId: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "user_id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "SQLiteText";
++      data: string;
++      driverParam: string;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      length: number | undefined;
++    }>;
++    description: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "description";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "SQLiteText";
++      data: string;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      length: number | undefined;
++    }>;
++    threadId: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "thread_id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "SQLiteText";
++      data: string;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      length: number | undefined;
++    }>;
++    parentThreadId: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "parent_thread_id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "SQLiteText";
++      data: string;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      length: number | undefined;
++    }>;
++    items: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "items";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "json";
++      columnType: "SQLiteTextJson";
++      data: PrivateMediaItem[];
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      $type: PrivateMediaItem[];
++    }>;
++    version: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "version";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "SQLiteText";
++      data: string;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      length: number | undefined;
++    }>;
++    contextCorrelationId: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "context_correlation_id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "SQLiteText";
++      data: string;
++      driverParam: string;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      length: number | undefined;
++    }>;
++    id: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "id";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "string";
++      columnType: "SQLiteText";
++      data: string;
++      driverParam: string;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      length: undefined;
++    }>;
++    createdAt: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "created_at";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "date";
++      columnType: "SQLiteTimestamp";
++      data: Date;
++      driverParam: number;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    updatedAt: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "updated_at";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "date";
++      columnType: "SQLiteTimestamp";
++      data: Date;
++      driverParam: number;
++      notNull: true;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {}>;
++    metadata: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "metadata";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "json";
++      columnType: "SQLiteTextJson";
++      data: Record<string, Record<string, unknown> | undefined>;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      $type: Record<string, Record<string, unknown> | undefined>;
++    }>;
++    customTags: drizzle_orm_sqlite_core245.SQLiteColumn<{
++      name: "custom_tags";
++      tableName: "DidcommPrivateMediaSharing";
++      dataType: "json";
++      columnType: "SQLiteTextJson";
++      data: Record<string, string | number | boolean | string[] | null | undefined>;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: undefined;
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      $type: Record<string, string | number | boolean | string[] | null | undefined>;
++    }>;
++  };
++  dialect: "sqlite";
++}>;
++//#endregion
++export { didcommPrivateMediaSharing, sqlite_d_exports };
++//# sourceMappingURL=sqlite.d.mts.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.d.mts.map
+new file mode 100644
+index 0000000..bbd8048
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.d.mts.map
+@@ -0,0 +1 @@
++{"version":3,"file":"sqlite.d.mts","names":[],"sources":["../../../src/private-media-sharing/private-media-sharing-record/sqlite.ts"],"sourcesContent":[],"mappings":";;;;;;;cAIa,uDAA0B;;;;YA8BtC,0BAAA,CAAA;MA9BY,IAAA,EAAA,SAAA;MA8BZ,SAAA,EAAA,4BAAA;;;;;;;;;;;;;;;;;;;;;;;MA9BsC,WAAA,EAAA,MAAA"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.mjs
+new file mode 100644
+index 0000000..e5939e0
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.mjs
+@@ -0,0 +1,20 @@
++import { __export } from "../../_virtual/rolldown_runtime.mjs";
++import { getSqliteBaseRecordTable, sqliteBaseRecordIndexes } from "../../sqlite/baseRecord.mjs";
++import "../../sqlite/index.mjs";
++import { sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
++
++//#region src/private-media-sharing/private-media-sharing-record/sqlite.ts
++var sqlite_exports = /* @__PURE__ */ __export({ didcommPrivateMediaSharing: () => didcommPrivateMediaSharing });
++const didcommPrivateMediaSharing = sqliteTable("DidcommPrivateMediaSharing", {
++	...getSqliteBaseRecordTable(),
++	userId: text("user_id").notNull(),
++	description: text("description"),
++	threadId: text("thread_id"),
++	parentThreadId: text("parent_thread_id"),
++	items: text("items", { mode: "json" }).$type(),
++	version: text("version")
++}, (table) => [...sqliteBaseRecordIndexes(table, "didcommPrivateMediaSharing"), unique().on(table.contextCorrelationId, table.threadId)]);
++
++//#endregion
++export { didcommPrivateMediaSharing, sqlite_exports };
++//# sourceMappingURL=sqlite.mjs.map
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.mjs.map
+new file mode 100644
+index 0000000..e2b61db
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/sqlite.mjs.map
+@@ -0,0 +1 @@
++{"version":3,"file":"sqlite.mjs","names":[],"sources":["../../../src/private-media-sharing/private-media-sharing-record/sqlite.ts"],"sourcesContent":["import { sqliteTable, text, unique } from 'drizzle-orm/sqlite-core'\nimport { getSqliteBaseRecordTable, sqliteBaseRecordIndexes } from '../../sqlite'\nimport type { PrivateMediaItem } from '../PrivateMediaTypes'\n\nexport const didcommPrivateMediaSharing = sqliteTable(\n  'DidcommPrivateMediaSharing',\n  {\n    ...getSqliteBaseRecordTable(),\n\n    /** Owner */\n    userId: text('user_id').notNull(),\n\n    /** Optional description */\n    description: text('description'),\n\n    /** DIDComm threading (optional but future-proof) */\n    threadId: text('thread_id'),\n    parentThreadId: text('parent_thread_id'),\n\n    /**\n     * SQLite stores JSON as TEXT\n     * Drizzle handles serialization/deserialization\n     */\n    items: text('items', { mode: 'json' }).$type<PrivateMediaItem[]>(),\n\n    /** Versioning for optimistic updates / migrations */\n    version: text('version'),\n  },\n  (table) => [\n    ...sqliteBaseRecordIndexes(table, 'didcommPrivateMediaSharing'),\n\n    /** Prevent duplicate threads per context */\n    unique().on(table.contextCorrelationId, table.threadId),\n  ]\n)\n\n"],"mappings":";;;;;;;AAIA,MAAa,6BAA6B,YACxC,8BACA;CACE,GAAG,0BAA0B;CAG7B,QAAQ,KAAK,UAAU,CAAC,SAAS;CAGjC,aAAa,KAAK,cAAc;CAGhC,UAAU,KAAK,YAAY;CAC3B,gBAAgB,KAAK,mBAAmB;CAMxC,OAAO,KAAK,SAAS,EAAE,MAAM,QAAQ,CAAC,CAAC,OAA2B;CAGlE,SAAS,KAAK,UAAU;CACzB,GACA,UAAU,CACT,GAAG,wBAAwB,OAAO,6BAA6B,EAG/D,QAAQ,CAAC,GAAG,MAAM,sBAAsB,MAAM,SAAS,CACxD,CACF"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/sqlite.d.mts b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/sqlite.d.mts
+new file mode 100644
+index 0000000..8bc8a15
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/sqlite.d.mts
+@@ -0,0 +1,2 @@
++import { didcommPrivateMediaSharing } from "./private-media-sharing-record/sqlite.mjs";
++export { didcommPrivateMediaSharing };
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/sqlite.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/sqlite.mjs
+new file mode 100644
+index 0000000..9a30080
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/sqlite.mjs
+@@ -0,0 +1,3 @@
++import { didcommPrivateMediaSharing } from "./private-media-sharing-record/sqlite.mjs";
++
++export { didcommPrivateMediaSharing };
+\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/question-answer/question-answer-record/postgres.d.mts b/node_modules/@credo-ts/drizzle-storage/build/question-answer/question-answer-record/postgres.d.mts
 index bd29272..b1e096c 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/question-answer/question-answer-record/postgres.d.mts
@@ -10471,16 +11442,16 @@ index d67c68c..965a143 100644
    private getAdapterForRecordType;
    save(agentContext: AgentContext, record: T): Promise<void>;
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.d.mts.map
-index a5e00fb..0288e1f 100644
+index a5e00fb..a0fee0c 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.d.mts.map
 +++ b/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.d.mts.map
 @@ -1 +1 @@
 -{"version":3,"file":"DrizzleStorageService.d.mts","names":[],"sources":["../../src/storage/DrizzleStorageService.ts"],"sourcesContent":[],"mappings":";;;;cAca,gCAAgC,uBAAuB,eAAe;UAC/C;EADvB,WAAA,CAAA,MAAA,EACuB,0BADF;EAAW,QAAA,uBAAA;EAAsC,IAAA,CAAA,YAAA,EAejD,YAfiD,EAAA,MAAA,EAe3B,CAf2B,CAAA,EAevB,OAfuB,CAAA,IAAA,CAAA;EAC/C,MAAA,CAAA,YAAA,EAsBA,YAtBA,EAAA,MAAA,EAsBsB,CAtBtB,CAAA,EAsB0B,OAtB1B,CAAA,IAAA,CAAA;EAAA;;;;;;EAsB0B,kBAAA,CAAA,YAAA,EAc5C,YAd4C,EAAA,WAAA,EAe7C,qBAf6C,CAevB,CAfuB,CAAA,EAAA,EAAA,EAAA,MAAA,EAAA,cAAA,EAAA,CAAA,MAAA,EAiBjC,CAjBiC,EAAA,GAiB3B,OAjB2B,CAiBnB,CAjBmB,CAAA,CAAA,EAkBzD,OAlByD,CAkBjD,CAlBiD,CAAA;EAc5C,MAAA,CAAA,YAAA,EAUkB,YAVlB,EAAA,MAAA,EAUwC,CAVxC,CAAA,EAU4C,OAV5C,CAAA,IAAA,CAAA;EACqB,UAAA,CAAA,YAAA,EAerB,YAfqB,EAAA,WAAA,EAgBtB,qBAhBsB,CAgBA,CAhBA,CAAA,EAAA,EAAA,EAAA,MAAA,CAAA,EAkBlC,OAlBkC,CAAA,IAAA,CAAA;EAAtB,OAAA,CAAA,YAAA,EAwBoB,YAxBpB,EAAA,WAAA,EAwB+C,qBAxB/C,CAwBqE,CAxBrE,CAAA,EAAA,EAAA,EAAA,MAAA,CAAA,EAwBsF,OAxBtF,CAwB8F,CAxB9F,CAAA;EAEY,MAAA,CAAA,YAAA,EA6BO,YA7BP,EAAA,WAAA,EA6BkC,qBA7BlC,CA6BwD,CA7BxD,CAAA,CAAA,EA6B6D,OA7B7D,CA6BqE,CA7BrE,EAAA,CAAA;EAAc,WAAA,CAAA,YAAA,EAqCzB,YArCyB,EAAA,WAAA,EAsC1B,qBAtC0B,CAsCJ,CAtCI,CAAA,EAAA,KAAA,EAuChC,KAvCgC,CAuC1B,CAvC0B,CAAA,EAAA,YAAA,CAAA,EAwCxB,YAxCwB,CAAA,EAyCtC,OAzCsC,CAyC9B,CAzC8B,EAAA,CAAA"}
 \ No newline at end of file
-+{"version":3,"file":"DrizzleStorageService.d.mts","names":[],"sources":["../../src/storage/DrizzleStorageService.ts"],"sourcesContent":[],"mappings":";;;;cAca,gCAAgC,uBAAuB,eAAe;UAG/C;EAHvB,SAAA,wBAAqB,GAAA,IAAA;EAAW,WAAA,CAAA,MAAA,EAGT,0BAHS;EAAsC,QAAA,uBAAA;EAG/C,IAAA,CAAA,YAAA,EAcF,YAdE,EAAA,MAAA,EAcoB,CAdpB,CAAA,EAcwB,OAdxB,CAAA,IAAA,CAAA;EAAA,MAAA,CAAA,YAAA,EAsBA,YAtBA,EAAA,MAAA,EAsBsB,CAtBtB,CAAA,EAsB0B,OAtB1B,CAAA,IAAA,CAAA;EAcF;;;;;;EAsBhB,kBAAA,CAAA,YAAA,EAAA,YAAA,EAAA,WAAA,EACD,qBADC,CACqB,CADrB,CAAA,EAAA,EAAA,EAAA,MAAA,EAAA,cAAA,EAAA,CAAA,MAAA,EAGW,CAHX,EAAA,GAGiB,OAHjB,CAGyB,CAHzB,CAAA,CAAA,EAIb,OAJa,CAIL,CAJK,CAAA;EACqB,MAAA,CAAA,YAAA,EASH,YATG,EAAA,MAAA,EASmB,CATnB,CAAA,EASuB,OATvB,CAAA,IAAA,CAAA;EAAtB,UAAA,CAAA,YAAA,EAeC,YAfD,EAAA,WAAA,EAgBA,qBAhBA,CAgBsB,CAhBtB,CAAA,EAAA,EAAA,EAAA,MAAA,CAAA,EAkBZ,OAlBY,CAAA,IAAA,CAAA;EAEY,OAAA,CAAA,YAAA,EAsBQ,YAtBR,EAAA,WAAA,EAsBmC,qBAtBnC,CAsByD,CAtBzD,CAAA,EAAA,EAAA,EAAA,MAAA,CAAA,EAsB0E,OAtB1E,CAsBkF,CAtBlF,CAAA;EAAc,MAAA,CAAA,YAAA,EA6BP,YA7BO,EAAA,WAAA,EA6BoB,qBA7BpB,CA6B0C,CA7B1C,CAAA,CAAA,EA6B+C,OA7B/C,CA6BuD,CA7BvD,EAAA,CAAA;EAAR,WAAA,CAAA,YAAA,EAqCjB,YArCiB,EAAA,WAAA,EAsClB,qBAtCkB,CAsCI,CAtCJ,CAAA,EAAA,KAAA,EAuCxB,KAvCwB,CAuClB,CAvCkB,CAAA,EAAA,YAAA,CAAA,EAwChB,YAxCgB,CAAA,EAyC9B,OAzC8B,CAyCtB,CAzCsB,EAAA,CAAA"}
++{"version":3,"file":"DrizzleStorageService.d.mts","names":[],"sources":["../../src/storage/DrizzleStorageService.ts"],"sourcesContent":[],"mappings":";;;;cAca,gCAAgC,uBAAuB,eAAe;UAG/C;EAHvB,SAAA,wBAAqB,GAAA,IAAA;EAAW,WAAA,CAAA,MAAA,EAGT,0BAHS;EAAsC,QAAA,uBAAA;EAG/C,IAAA,CAAA,YAAA,EAcF,YAdE,EAAA,MAAA,EAcoB,CAdpB,CAAA,EAcwB,OAdxB,CAAA,IAAA,CAAA;EAAA,MAAA,CAAA,YAAA,EAyBA,YAzBA,EAAA,MAAA,EAyBsB,CAzBtB,CAAA,EAyB0B,OAzB1B,CAAA,IAAA,CAAA;EAcF;;;;;;EAyBhB,kBAAA,CAAA,YAAA,EAAA,YAAA,EAAA,WAAA,EACD,qBADC,CACqB,CADrB,CAAA,EAAA,EAAA,EAAA,MAAA,EAAA,cAAA,EAAA,CAAA,MAAA,EAGW,CAHX,EAAA,GAGiB,OAHjB,CAGyB,CAHzB,CAAA,CAAA,EAIb,OAJa,CAIL,CAJK,CAAA;EACqB,MAAA,CAAA,YAAA,EASH,YATG,EAAA,MAAA,EASmB,CATnB,CAAA,EASuB,OATvB,CAAA,IAAA,CAAA;EAAtB,UAAA,CAAA,YAAA,EAeC,YAfD,EAAA,WAAA,EAgBA,qBAhBA,CAgBsB,CAhBtB,CAAA,EAAA,EAAA,EAAA,MAAA,CAAA,EAkBZ,OAlBY,CAAA,IAAA,CAAA;EAEY,OAAA,CAAA,YAAA,EAsBQ,YAtBR,EAAA,WAAA,EAsBmC,qBAtBnC,CAsByD,CAtBzD,CAAA,EAAA,EAAA,EAAA,MAAA,CAAA,EAsB0E,OAtB1E,CAsBkF,CAtBlF,CAAA;EAAc,MAAA,CAAA,YAAA,EA6BP,YA7BO,EAAA,WAAA,EA6BoB,qBA7BpB,CA6B0C,CA7B1C,CAAA,CAAA,EA6B+C,OA7B/C,CA6BuD,CA7BvD,EAAA,CAAA;EAAR,WAAA,CAAA,YAAA,EAqCjB,YArCiB,EAAA,WAAA,EAsClB,qBAtCkB,CAsCI,CAtCJ,CAAA,EAAA,KAAA,EAuCxB,KAvCwB,CAuClB,CAvCkB,CAAA,EAAA,YAAA,CAAA,EAwChB,YAxCgB,CAAA,EAyC9B,OAzC8B,CAyCtB,CAzCsB,EAAA,CAAA"}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.mjs b/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.mjs
-index 2a12c6c..b907178 100644
+index 2a12c6c..b9df9b2 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.mjs
 +++ b/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.mjs
 @@ -10,6 +10,7 @@ var _ref;
@@ -10491,14 +11462,23 @@ index 2a12c6c..b907178 100644
  	}
  	getAdapterForRecordType(recordType) {
  		const adapter = this.config.adapters.find((adapter$1) => adapter$1.recordClass.type === recordType);
+@@ -18,7 +19,7 @@ let DrizzleStorageService = class DrizzleStorageService$1 {
+ 	}
+ 	async save(agentContext, record) {
+ 		record.createdAt = record.createdAt ?? /* @__PURE__ */ new Date();
+-		record.updatedAt = record.createdAt;
++		record.updatedAt = /* @__PURE__ */ new Date();
+ 		await this.getAdapterForRecordType(record.type).insert(agentContext, record);
+ 	}
+ 	async update(agentContext, record) {
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.mjs.map
-index 739df7f..4a861b6 100644
+index 739df7f..dac17bc 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.mjs.map
 +++ b/node_modules/@credo-ts/drizzle-storage/build/storage/DrizzleStorageService.mjs.map
 @@ -1 +1 @@
 -{"version":3,"file":"DrizzleStorageService.mjs","names":["DrizzleStorageService","config: DrizzleStorageModuleConfig","adapter"],"sources":["../../src/storage/DrizzleStorageService.ts"],"sourcesContent":["import type {\n  AgentContext,\n  BaseRecord,\n  BaseRecordConstructor,\n  Query,\n  QueryOptions,\n  StorageService,\n} from '@credo-ts/core'\nimport { injectable } from '@credo-ts/core'\nimport { BaseDrizzleRecordAdapter } from '../adapter/BaseDrizzleRecordAdapter'\nimport { DrizzleStorageModuleConfig } from '../DrizzleStorageModuleConfig'\nimport { CredoDrizzleStorageError } from '../error/CredoDrizzleStorageError'\n\n@injectable()\nexport class DrizzleStorageService<T extends BaseRecord> implements StorageService<T> {\n  public constructor(public config: DrizzleStorageModuleConfig) {}\n\n  private getAdapterForRecordType(recordType: string) {\n    const adapter = this.config.adapters.find((adapter) => adapter.recordClass.type === recordType)\n    if (!adapter) {\n      throw new CredoDrizzleStorageError(\n        `Could not find a registered drizzle adapter for record type '${recordType}'. Make sure to register the record type in the DrizzleStorageModule.`\n      )\n    }\n\n    // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    return adapter as BaseDrizzleRecordAdapter<T, any, any, any, any>\n  }\n\n  public async save(agentContext: AgentContext, record: T): Promise<void> {\n    record.createdAt = record.createdAt ?? new Date()\n    record.updatedAt = record.createdAt\n\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.insert(agentContext, record)\n  }\n\n  public async update(agentContext: AgentContext, record: T): Promise<void> {\n    record.updatedAt = new Date()\n\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.update(agentContext, record)\n  }\n\n  /**\n   * Update the record by id with a lock based on the value returned in `updateCallback`.\n   *\n   * NOTE that this has no effect when SQLite is used, as SQLite does not support row level\n   * locking\n   */\n  public async updateByIdWithLock(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    id: string,\n    updateCallback: (record: T) => Promise<T>\n  ): Promise<T> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n    const updatedRecord = await adapter.updateByIdWithLock(agentContext, id, updateCallback)\n    return updatedRecord\n  }\n\n  public async delete(agentContext: AgentContext, record: T): Promise<void> {\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.delete(agentContext, record.id)\n  }\n\n  public async deleteById(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    id: string\n  ): Promise<void> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    await adapter.delete(agentContext, id)\n  }\n\n  public async getById(agentContext: AgentContext, recordClass: BaseRecordConstructor<T>, id: string): Promise<T> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const record = await adapter.getById(agentContext, id)\n    return record\n  }\n\n  public async getAll(agentContext: AgentContext, recordClass: BaseRecordConstructor<T>): Promise<T[]> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const records = await adapter.query(agentContext)\n    return records\n  }\n\n  public async findByQuery(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    query: Query<T>,\n    queryOptions?: QueryOptions\n  ): Promise<T[]> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const records = await adapter.query(agentContext, query, queryOptions)\n    return records\n  }\n}\n"],"mappings":";;;;;;;;;AAcO,kCAAMA,wBAAyE;CACpF,AAAO,YAAY,AAAOC,QAAoC;EAApC;;CAE1B,AAAQ,wBAAwB,YAAoB;EAClD,MAAM,UAAU,KAAK,OAAO,SAAS,MAAM,cAAYC,UAAQ,YAAY,SAAS,WAAW;AAC/F,MAAI,CAAC,QACH,OAAM,IAAI,yBACR,gEAAgE,WAAW,uEAC5E;AAIH,SAAO;;CAGT,MAAa,KAAK,cAA4B,QAA0B;AACtE,SAAO,YAAY,OAAO,6BAAa,IAAI,MAAM;AACjD,SAAO,YAAY,OAAO;AAG1B,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO;;CAG5C,MAAa,OAAO,cAA4B,QAA0B;AACxE,SAAO,4BAAY,IAAI,MAAM;AAG7B,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO;;;;;;;;CAS5C,MAAa,mBACX,cACA,aACA,IACA,gBACY;AAGZ,SADsB,MADN,KAAK,wBAAwB,YAAY,KAAK,CAC1B,mBAAmB,cAAc,IAAI,eAAe;;CAI1F,MAAa,OAAO,cAA4B,QAA0B;AAExE,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO,GAAG;;CAG/C,MAAa,WACX,cACA,aACA,IACe;AAGf,QAFgB,KAAK,wBAAwB,YAAY,KAAK,CAEhD,OAAO,cAAc,GAAG;;CAGxC,MAAa,QAAQ,cAA4B,aAAuC,IAAwB;AAI9G,SADe,MAFC,KAAK,wBAAwB,YAAY,KAAK,CAEjC,QAAQ,cAAc,GAAG;;CAIxD,MAAa,OAAO,cAA4B,aAAqD;AAInG,SADgB,MAFA,KAAK,wBAAwB,YAAY,KAAK,CAEhC,MAAM,aAAa;;CAInD,MAAa,YACX,cACA,aACA,OACA,cACc;AAId,SADgB,MAFA,KAAK,wBAAwB,YAAY,KAAK,CAEhC,MAAM,cAAc,OAAO,aAAa;;;oCArFzE,YAAY"}
 \ No newline at end of file
-+{"version":3,"file":"DrizzleStorageService.mjs","names":["DrizzleStorageService","config: DrizzleStorageModuleConfig","adapter"],"sources":["../../src/storage/DrizzleStorageService.ts"],"sourcesContent":["import type {\n  AgentContext,\n  BaseRecord,\n  BaseRecordConstructor,\n  Query,\n  QueryOptions,\n  StorageService,\n} from '@credo-ts/core'\nimport { injectable } from '@credo-ts/core'\nimport { BaseDrizzleRecordAdapter } from '../adapter/BaseDrizzleRecordAdapter'\nimport { DrizzleStorageModuleConfig } from '../DrizzleStorageModuleConfig'\nimport { CredoDrizzleStorageError } from '../error/CredoDrizzleStorageError'\n\n@injectable()\nexport class DrizzleStorageService<T extends BaseRecord> implements StorageService<T> {\n  public readonly supportsCursorPagination = true\n\n  public constructor(public config: DrizzleStorageModuleConfig) {}\n\n  private getAdapterForRecordType(recordType: string) {\n    const adapter = this.config.adapters.find((adapter) => adapter.recordClass.type === recordType)\n    if (!adapter) {\n      throw new CredoDrizzleStorageError(\n        `Could not find a registered drizzle adapter for record type '${recordType}'. Make sure to register the record type in the DrizzleStorageModule.`\n      )\n    }\n\n    // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    return adapter as BaseDrizzleRecordAdapter<T, any, any, any, any>\n  }\n\n  public async save(agentContext: AgentContext, record: T): Promise<void> {\n    record.createdAt = record.createdAt ?? new Date()\n    record.updatedAt = record.createdAt\n\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.insert(agentContext, record)\n  }\n\n  public async update(agentContext: AgentContext, record: T): Promise<void> {\n    record.updatedAt = new Date()\n\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.update(agentContext, record)\n  }\n\n  /**\n   * Update the record by id with a lock based on the value returned in `updateCallback`.\n   *\n   * NOTE that this has no effect when SQLite is used, as SQLite does not support row level\n   * locking\n   */\n  public async updateByIdWithLock(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    id: string,\n    updateCallback: (record: T) => Promise<T>\n  ): Promise<T> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n    const updatedRecord = await adapter.updateByIdWithLock(agentContext, id, updateCallback)\n    return updatedRecord\n  }\n\n  public async delete(agentContext: AgentContext, record: T): Promise<void> {\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.delete(agentContext, record.id)\n  }\n\n  public async deleteById(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    id: string\n  ): Promise<void> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    await adapter.delete(agentContext, id)\n  }\n\n  public async getById(agentContext: AgentContext, recordClass: BaseRecordConstructor<T>, id: string): Promise<T> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const record = await adapter.getById(agentContext, id)\n    return record\n  }\n\n  public async getAll(agentContext: AgentContext, recordClass: BaseRecordConstructor<T>): Promise<T[]> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const records = await adapter.query(agentContext)\n    return records\n  }\n\n  public async findByQuery(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    query: Query<T>,\n    queryOptions?: QueryOptions\n  ): Promise<T[]> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const records = await adapter.query(agentContext, query, queryOptions)\n    return records\n  }\n}\n"],"mappings":";;;;;;;;;AAcO,kCAAMA,wBAAyE;CAGpF,AAAO,YAAY,AAAOC,QAAoC;EAApC;OAFV,2BAA2B;;CAI3C,AAAQ,wBAAwB,YAAoB;EAClD,MAAM,UAAU,KAAK,OAAO,SAAS,MAAM,cAAYC,UAAQ,YAAY,SAAS,WAAW;AAC/F,MAAI,CAAC,QACH,OAAM,IAAI,yBACR,gEAAgE,WAAW,uEAC5E;AAIH,SAAO;;CAGT,MAAa,KAAK,cAA4B,QAA0B;AACtE,SAAO,YAAY,OAAO,6BAAa,IAAI,MAAM;AACjD,SAAO,YAAY,OAAO;AAG1B,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO;;CAG5C,MAAa,OAAO,cAA4B,QAA0B;AACxE,SAAO,4BAAY,IAAI,MAAM;AAG7B,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO;;;;;;;;CAS5C,MAAa,mBACX,cACA,aACA,IACA,gBACY;AAGZ,SADsB,MADN,KAAK,wBAAwB,YAAY,KAAK,CAC1B,mBAAmB,cAAc,IAAI,eAAe;;CAI1F,MAAa,OAAO,cAA4B,QAA0B;AAExE,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO,GAAG;;CAG/C,MAAa,WACX,cACA,aACA,IACe;AAGf,QAFgB,KAAK,wBAAwB,YAAY,KAAK,CAEhD,OAAO,cAAc,GAAG;;CAGxC,MAAa,QAAQ,cAA4B,aAAuC,IAAwB;AAI9G,SADe,MAFC,KAAK,wBAAwB,YAAY,KAAK,CAEjC,QAAQ,cAAc,GAAG;;CAIxD,MAAa,OAAO,cAA4B,aAAqD;AAInG,SADgB,MAFA,KAAK,wBAAwB,YAAY,KAAK,CAEhC,MAAM,aAAa;;CAInD,MAAa,YACX,cACA,aACA,OACA,cACc;AAId,SADgB,MAFA,KAAK,wBAAwB,YAAY,KAAK,CAEhC,MAAM,cAAc,OAAO,aAAa;;;oCAvFzE,YAAY"}
++{"version":3,"file":"DrizzleStorageService.mjs","names":["DrizzleStorageService","config: DrizzleStorageModuleConfig","adapter"],"sources":["../../src/storage/DrizzleStorageService.ts"],"sourcesContent":["import type {\n  AgentContext,\n  BaseRecord,\n  BaseRecordConstructor,\n  Query,\n  QueryOptions,\n  StorageService,\n} from '@credo-ts/core'\nimport { injectable } from '@credo-ts/core'\nimport { BaseDrizzleRecordAdapter } from '../adapter/BaseDrizzleRecordAdapter'\nimport { DrizzleStorageModuleConfig } from '../DrizzleStorageModuleConfig'\nimport { CredoDrizzleStorageError } from '../error/CredoDrizzleStorageError'\n\n@injectable()\nexport class DrizzleStorageService<T extends BaseRecord> implements StorageService<T> {\n  public readonly supportsCursorPagination = true\n\n  public constructor(public config: DrizzleStorageModuleConfig) {}\n\n  private getAdapterForRecordType(recordType: string) {\n    const adapter = this.config.adapters.find((adapter) => adapter.recordClass.type === recordType)\n    if (!adapter) {\n      throw new CredoDrizzleStorageError(\n        `Could not find a registered drizzle adapter for record type '${recordType}'. Make sure to register the record type in the DrizzleStorageModule.`\n      )\n    }\n\n    // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    return adapter as BaseDrizzleRecordAdapter<T, any, any, any, any>\n  }\n\n  public async save(agentContext: AgentContext, record: T): Promise<void> {\n    record.createdAt = record.createdAt ?? new Date()\n    // Triage: For some reason this would give error when storing the connection record\n    // Probably need to add it in credo-main branch\n    // Als, the logic makes more sense to use current time stamp then to take `createdAt`\n    record.updatedAt = new Date()\n\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.insert(agentContext, record)\n  }\n\n  public async update(agentContext: AgentContext, record: T): Promise<void> {\n    record.updatedAt = new Date()\n\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.update(agentContext, record)\n  }\n\n  /**\n   * Update the record by id with a lock based on the value returned in `updateCallback`.\n   *\n   * NOTE that this has no effect when SQLite is used, as SQLite does not support row level\n   * locking\n   */\n  public async updateByIdWithLock(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    id: string,\n    updateCallback: (record: T) => Promise<T>\n  ): Promise<T> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n    const updatedRecord = await adapter.updateByIdWithLock(agentContext, id, updateCallback)\n    return updatedRecord\n  }\n\n  public async delete(agentContext: AgentContext, record: T): Promise<void> {\n    const adapter = this.getAdapterForRecordType(record.type)\n    await adapter.delete(agentContext, record.id)\n  }\n\n  public async deleteById(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    id: string\n  ): Promise<void> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    await adapter.delete(agentContext, id)\n  }\n\n  public async getById(agentContext: AgentContext, recordClass: BaseRecordConstructor<T>, id: string): Promise<T> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const record = await adapter.getById(agentContext, id)\n    return record\n  }\n\n  public async getAll(agentContext: AgentContext, recordClass: BaseRecordConstructor<T>): Promise<T[]> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const records = await adapter.query(agentContext)\n    return records\n  }\n\n  public async findByQuery(\n    agentContext: AgentContext,\n    recordClass: BaseRecordConstructor<T>,\n    query: Query<T>,\n    queryOptions?: QueryOptions\n  ): Promise<T[]> {\n    const adapter = this.getAdapterForRecordType(recordClass.type)\n\n    const records = await adapter.query(agentContext, query, queryOptions)\n    return records\n  }\n}\n"],"mappings":";;;;;;;;;AAcO,kCAAMA,wBAAyE;CAGpF,AAAO,YAAY,AAAOC,QAAoC;EAApC;OAFV,2BAA2B;;CAI3C,AAAQ,wBAAwB,YAAoB;EAClD,MAAM,UAAU,KAAK,OAAO,SAAS,MAAM,cAAYC,UAAQ,YAAY,SAAS,WAAW;AAC/F,MAAI,CAAC,QACH,OAAM,IAAI,yBACR,gEAAgE,WAAW,uEAC5E;AAIH,SAAO;;CAGT,MAAa,KAAK,cAA4B,QAA0B;AACtE,SAAO,YAAY,OAAO,6BAAa,IAAI,MAAM;AAIjD,SAAO,4BAAY,IAAI,MAAM;AAG7B,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO;;CAG5C,MAAa,OAAO,cAA4B,QAA0B;AACxE,SAAO,4BAAY,IAAI,MAAM;AAG7B,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO;;;;;;;;CAS5C,MAAa,mBACX,cACA,aACA,IACA,gBACY;AAGZ,SADsB,MADN,KAAK,wBAAwB,YAAY,KAAK,CAC1B,mBAAmB,cAAc,IAAI,eAAe;;CAI1F,MAAa,OAAO,cAA4B,QAA0B;AAExE,QADgB,KAAK,wBAAwB,OAAO,KAAK,CAC3C,OAAO,cAAc,OAAO,GAAG;;CAG/C,MAAa,WACX,cACA,aACA,IACe;AAGf,QAFgB,KAAK,wBAAwB,YAAY,KAAK,CAEhD,OAAO,cAAc,GAAG;;CAGxC,MAAa,QAAQ,cAA4B,aAAuC,IAAwB;AAI9G,SADe,MAFC,KAAK,wBAAwB,YAAY,KAAK,CAEjC,QAAQ,cAAc,GAAG;;CAIxD,MAAa,OAAO,cAA4B,aAAqD;AAInG,SADgB,MAFA,KAAK,wBAAwB,YAAY,KAAK,CAEhC,MAAM,aAAa;;CAInD,MAAa,YACX,cACA,aACA,OACA,cACc;AAId,SADgB,MAFA,KAAK,wBAAwB,YAAY,KAAK,CAEhC,MAAM,cAAc,OAAO,aAAa;;;oCA1FzE,YAAY"}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/tenants/tenant-record/postgres.d.mts b/node_modules/@credo-ts/drizzle-storage/build/tenants/tenant-record/postgres.d.mts
 index 88940f5..5824d2d 100644
@@ -11656,21 +12636,21 @@ index 0000000..535c5e4
 +{"version":3,"file":"sqlite.mjs","names":[],"sources":["../../../src/user-profile/user-profile-record/sqlite.ts"],"sourcesContent":["import { sqliteTable, text } from 'drizzle-orm/sqlite-core'\nimport { getSqliteBaseRecordTable, sqliteBaseRecordIndexes } from '../../sqlite'\n\n/**\n * Table\n */\nexport const userProfile = sqliteTable(\n  'UserProfile',\n  {\n    ...getSqliteBaseRecordTable(),\n\n    displayName: text('display_name'),\n    description: text('description'),\n    preferredLanguage: text('preferred_language'),\n\n    /**\n     * SQLite stores JSON as text\n     */\n    displayPicture: text('display_picture', { mode: 'json' }).$type<Record<string, unknown> | undefined>(),\n    displayIcon: text('display_icon', { mode: 'json' }).$type<Record<string, unknown> | undefined>(),\n  },\n  (table) => [\n    ...sqliteBaseRecordIndexes(table, 'userProfile'),\n  ]\n)\n"],"mappings":";;;;;;;;;;AAMA,MAAa,cAAc,YACzB,eACA;CACE,GAAG,0BAA0B;CAE7B,aAAa,KAAK,eAAe;CACjC,aAAa,KAAK,cAAc;CAChC,mBAAmB,KAAK,qBAAqB;CAK7C,gBAAgB,KAAK,mBAAmB,EAAE,MAAM,QAAQ,CAAC,CAAC,OAA4C;CACtG,aAAa,KAAK,gBAAgB,EAAE,MAAM,QAAQ,CAAC,CAAC,OAA4C;CACjG,GACA,UAAU,CACT,GAAG,wBAAwB,OAAO,cAAc,CACjD,CACF"}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/util.mjs b/node_modules/@credo-ts/drizzle-storage/build/util.mjs
-index a40863c..a45079a 100644
+index a40863c..062fa5d 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/util.mjs
 +++ b/node_modules/@credo-ts/drizzle-storage/build/util.mjs
-@@ -1,5 +1,9 @@
+@@ -1,7 +1,9 @@
 +import { and, eq, gt, lt, or } from "drizzle-orm";
-+import { join } from "node:path";
-+import { fileURLToPath } from "node:url";
 +
  //#region src/util.ts
--const dirname = import.meta.dirname;
-+const dirname = join(fileURLToPath(import.meta.url), "..");
+ const dirname = import.meta.dirname;
  const rootDirectory = `${dirname}/..`;
- const addSchemaExtension = (path) => dirname.endsWith("/src") ? `${path}.ts` : `${path}.mjs`;
+-const addSchemaExtension = (path) => dirname.endsWith("/src") ? `${path}.ts` : `${path}.mjs`;
++const addSchemaExtension = (schemaPath) => dirname.endsWith("/src") ? `${schemaPath}.ts` : `${schemaPath}.mjs`;
  const bundleMigrationDefinition = (bundle) => ({
-@@ -15,7 +19,13 @@ const bundleMigrationDefinition = (bundle) => ({
+ 	postgres: {
+ 		schemaPath: addSchemaExtension(`${dirname}/${bundle}/postgres`),
+@@ -15,7 +17,13 @@ const bundleMigrationDefinition = (bundle) => ({
  function exhaustiveArray(_type, arr) {
  	return arr;
  }
@@ -11687,14 +12667,1330 @@ index a40863c..a45079a 100644
  //# sourceMappingURL=util.mjs.map
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/util.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/util.mjs.map
-index 204fa84..5677165 100644
+index 204fa84..2d2e4eb 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/util.mjs.map
 +++ b/node_modules/@credo-ts/drizzle-storage/build/util.mjs.map
 @@ -1 +1 @@
 -{"version":3,"file":"util.mjs","names":[],"sources":["../src/util.ts"],"sourcesContent":["import type { DrizzleRecordBundle } from './DrizzleRecord'\n\nexport const dirname = import.meta.dirname\nexport const rootDirectory = `${dirname}/..`\n\nconst addSchemaExtension = (path: string) => (dirname.endsWith('/src') ? `${path}.ts` : `${path}.mjs`)\n\nexport const bundleMigrationDefinition = (bundle: string): DrizzleRecordBundle['migrations'] => ({\n  postgres: {\n    schemaPath: addSchemaExtension(`${dirname}/${bundle}/postgres`),\n    migrationsPath: `${rootDirectory}/migrations/${bundle}/postgres`,\n  },\n  sqlite: {\n    schemaPath: addSchemaExtension(`${dirname}/${bundle}/sqlite`),\n    migrationsPath: `${rootDirectory}/migrations/${bundle}/sqlite`,\n  },\n})\n\n// NOTE: due to us using legacy decorators it's not really possible\n// to import the credo modules, since it causes parser errors\n// the exhaustive array method does type-checking (not runtime checking)\n// that all the enum values are present\nexport function exhaustiveArray<U extends string, T extends readonly string[]>(\n  _type: U,\n  arr: T &\n    (T[number] extends `${U}`\n      ? `${U}` extends T[number]\n        ? T\n        : `Expected array to contain '${U}'`\n      : `Expect array to contain '${U}'`)\n): T {\n  return arr\n}\n"],"mappings":";AAEA,MAAa,UAAU,OAAO,KAAK;AACnC,MAAa,gBAAgB,GAAG,QAAQ;AAExC,MAAM,sBAAsB,SAAkB,QAAQ,SAAS,OAAO,GAAG,GAAG,KAAK,OAAO,GAAG,KAAK;AAEhG,MAAa,6BAA6B,YAAuD;CAC/F,UAAU;EACR,YAAY,mBAAmB,GAAG,QAAQ,GAAG,OAAO,WAAW;EAC/D,gBAAgB,GAAG,cAAc,cAAc,OAAO;EACvD;CACD,QAAQ;EACN,YAAY,mBAAmB,GAAG,QAAQ,GAAG,OAAO,SAAS;EAC7D,gBAAgB,GAAG,cAAc,cAAc,OAAO;EACvD;CACF;AAMD,SAAgB,gBACd,OACA,KAMG;AACH,QAAO"}
 \ No newline at end of file
-+{"version":3,"file":"util.mjs","names":[],"sources":["../src/util.ts"],"sourcesContent":["// TODO: Maybe fix this for environment apart from node\n\nimport { and, eq, gt, lt, or } from 'drizzle-orm'\nimport type { ExtraConfigColumn } from 'drizzle-orm/pg-core'\nimport type { SQLiteColumn } from 'drizzle-orm/sqlite-core'\nimport type { DrizzleRecordBundle } from './DrizzleRecord'\n\n// For running - start\nimport { join } from 'node:path'\nimport { fileURLToPath } from 'node:url'\nconst __filename = fileURLToPath(import.meta.url)\nconst dirname = join(__filename, '..')\n\nexport const rootDirectory = `${dirname}/..`\nconst addSchemaExtension = (path: string) => (dirname.endsWith('/src') ? `${path}.ts` : `${path}.mjs`)\n// For running - end\n\n// For migrations - start\n// export const dirname = import.meta.dirname\n// export const rootDirectory = `${dirname}/..`\n\n// const addSchemaExtension = (schemaPath: string) => (dirname.endsWith('/src') ? `${schemaPath}.ts` : `${schemaPath}.mjs`)\n// For migrations - end\n\nexport const bundleMigrationDefinition = (bundle: string): DrizzleRecordBundle['migrations'] => ({\n  postgres: {\n    schemaPath: addSchemaExtension(`${dirname}/${bundle}/postgres`),\n    migrationsPath: `${rootDirectory}/migrations/${bundle}/postgres`,\n  },\n  sqlite: {\n    schemaPath: addSchemaExtension(`${dirname}/${bundle}/sqlite`),\n    migrationsPath: `${rootDirectory}/migrations/${bundle}/sqlite`,\n  },\n})\n\n// NOTE: due to us using legacy decorators it's not really possible\n// to import the credo modules, since it causes parser errors\n// the exhaustive array method does type-checking (not runtime checking)\n// that all the enum values are present\nexport function exhaustiveArray<U extends string, T extends readonly string[]>(\n  _type: U,\n  arr: T &\n    (T[number] extends `${U}`\n      ? `${U}` extends T[number]\n        ? T\n        : `Expected array to contain '${U}'`\n      : `Expect array to contain '${U}'`)\n): T {\n  return arr\n}\n\nexport function cursorAfterCondition<\n  Table extends // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    | { id: SQLiteColumn<any>; createdAt: SQLiteColumn<any> }\n    // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    | { id: ExtraConfigColumn<any>; createdAt: ExtraConfigColumn<any> },\n>(table: Table, cursor: { createdAt: Date; id: string }) {\n  return or(\n    // This condition is purposefully less than because we have sorted the records in order of latest records first\n    lt(table.createdAt, cursor.createdAt),\n    and(eq(table.createdAt, cursor.createdAt), gt(table.id, cursor.id))\n  )\n}\n\nexport function cursorBeforeCondition<\n  Table extends // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    | { id: SQLiteColumn<any>; createdAt: SQLiteColumn<any> }\n    // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    | { id: ExtraConfigColumn<any>; createdAt: ExtraConfigColumn<any> },\n>(table: Table, cursor: { createdAt: Date; id: string }) {\n  return or(\n    // This condition is purposefully great than because we have sorted the records in order of latest records first\n    gt(table.createdAt, cursor.createdAt),\n    and(eq(table.createdAt, cursor.createdAt), lt(table.id, cursor.id))\n  )\n}\n"],"mappings":";;;;;AAWA,MAAM,UAAU,KADG,cAAc,OAAO,KAAK,IAAI,EAChB,KAAK;AAEtC,MAAa,gBAAgB,GAAG,QAAQ;AACxC,MAAM,sBAAsB,SAAkB,QAAQ,SAAS,OAAO,GAAG,GAAG,KAAK,OAAO,GAAG,KAAK;AAUhG,MAAa,6BAA6B,YAAuD;CAC/F,UAAU;EACR,YAAY,mBAAmB,GAAG,QAAQ,GAAG,OAAO,WAAW;EAC/D,gBAAgB,GAAG,cAAc,cAAc,OAAO;EACvD;CACD,QAAQ;EACN,YAAY,mBAAmB,GAAG,QAAQ,GAAG,OAAO,SAAS;EAC7D,gBAAgB,GAAG,cAAc,cAAc,OAAO;EACvD;CACF;AAMD,SAAgB,gBACd,OACA,KAMG;AACH,QAAO;;AAGT,SAAgB,qBAKd,OAAc,QAAyC;AACvD,QAAO,GAEL,GAAG,MAAM,WAAW,OAAO,UAAU,EACrC,IAAI,GAAG,MAAM,WAAW,OAAO,UAAU,EAAE,GAAG,MAAM,IAAI,OAAO,GAAG,CAAC,CACpE;;AAGH,SAAgB,sBAKd,OAAc,QAAyC;AACvD,QAAO,GAEL,GAAG,MAAM,WAAW,OAAO,UAAU,EACrC,IAAI,GAAG,MAAM,WAAW,OAAO,UAAU,EAAE,GAAG,MAAM,IAAI,OAAO,GAAG,CAAC,CACpE"}
++{"version":3,"file":"util.mjs","names":[],"sources":["../src/util.ts"],"sourcesContent":["// TODO: Maybe fix this for environment apart from node\n\nimport { and, eq, gt, lt, or } from 'drizzle-orm'\nimport type { ExtraConfigColumn } from 'drizzle-orm/pg-core'\nimport type { SQLiteColumn } from 'drizzle-orm/sqlite-core'\nimport type { DrizzleRecordBundle } from './DrizzleRecord'\n\n// For running - start\n// import { join } from 'node:path'\n// import { fileURLToPath } from 'node:url'\n// const __filename = fileURLToPath(import.meta.url)\n// const dirname = join(__filename, '..')\n\n// export const rootDirectory = `${dirname}/..`\n// const addSchemaExtension = (path: string) => (dirname.endsWith('/src') ? `${path}.ts` : `${path}.mjs`)\n// For running - end\n\n// For migrations - start\nexport const dirname = import.meta.dirname\nexport const rootDirectory = `${dirname}/..`\n\nconst addSchemaExtension = (schemaPath: string) => (dirname.endsWith('/src') ? `${schemaPath}.ts` : `${schemaPath}.mjs`)\n// For migrations - end\n\nexport const bundleMigrationDefinition = (bundle: string): DrizzleRecordBundle['migrations'] => ({\n  postgres: {\n    schemaPath: addSchemaExtension(`${dirname}/${bundle}/postgres`),\n    migrationsPath: `${rootDirectory}/migrations/${bundle}/postgres`,\n  },\n  sqlite: {\n    schemaPath: addSchemaExtension(`${dirname}/${bundle}/sqlite`),\n    migrationsPath: `${rootDirectory}/migrations/${bundle}/sqlite`,\n  },\n})\n\n// NOTE: due to us using legacy decorators it's not really possible\n// to import the credo modules, since it causes parser errors\n// the exhaustive array method does type-checking (not runtime checking)\n// that all the enum values are present\nexport function exhaustiveArray<U extends string, T extends readonly string[]>(\n  _type: U,\n  arr: T &\n    (T[number] extends `${U}`\n      ? `${U}` extends T[number]\n        ? T\n        : `Expected array to contain '${U}'`\n      : `Expect array to contain '${U}'`)\n): T {\n  return arr\n}\n\nexport function cursorAfterCondition<\n  Table extends // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    | { id: SQLiteColumn<any>; createdAt: SQLiteColumn<any> }\n    // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    | { id: ExtraConfigColumn<any>; createdAt: ExtraConfigColumn<any> },\n>(table: Table, cursor: { createdAt: Date; id: string }) {\n  return or(\n    // This condition is purposefully less than because we have sorted the records in order of latest records first\n    lt(table.createdAt, cursor.createdAt),\n    and(eq(table.createdAt, cursor.createdAt), gt(table.id, cursor.id))\n  )\n}\n\nexport function cursorBeforeCondition<\n  Table extends // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    | { id: SQLiteColumn<any>; createdAt: SQLiteColumn<any> }\n    // biome-ignore lint/suspicious/noExplicitAny: no explanation\n    | { id: ExtraConfigColumn<any>; createdAt: ExtraConfigColumn<any> },\n>(table: Table, cursor: { createdAt: Date; id: string }) {\n  return or(\n    // This condition is purposefully great than because we have sorted the records in order of latest records first\n    gt(table.createdAt, cursor.createdAt),\n    and(eq(table.createdAt, cursor.createdAt), lt(table.id, cursor.id))\n  )\n}\n"],"mappings":";;;AAkBA,MAAa,UAAU,OAAO,KAAK;AACnC,MAAa,gBAAgB,GAAG,QAAQ;AAExC,MAAM,sBAAsB,eAAwB,QAAQ,SAAS,OAAO,GAAG,GAAG,WAAW,OAAO,GAAG,WAAW;AAGlH,MAAa,6BAA6B,YAAuD;CAC/F,UAAU;EACR,YAAY,mBAAmB,GAAG,QAAQ,GAAG,OAAO,WAAW;EAC/D,gBAAgB,GAAG,cAAc,cAAc,OAAO;EACvD;CACD,QAAQ;EACN,YAAY,mBAAmB,GAAG,QAAQ,GAAG,OAAO,SAAS;EAC7D,gBAAgB,GAAG,cAAc,cAAc,OAAO;EACvD;CACF;AAMD,SAAgB,gBACd,OACA,KAMG;AACH,QAAO;;AAGT,SAAgB,qBAKd,OAAc,QAAyC;AACvD,QAAO,GAEL,GAAG,MAAM,WAAW,OAAO,UAAU,EACrC,IAAI,GAAG,MAAM,WAAW,OAAO,UAAU,EAAE,GAAG,MAAM,IAAI,OAAO,GAAG,CAAC,CACpE;;AAGH,SAAgB,sBAKd,OAAc,QAAyC;AACvD,QAAO,GAEL,GAAG,MAAM,WAAW,OAAO,UAAU,EACrC,IAAI,GAAG,MAAM,WAAW,OAAO,UAAU,EAAE,GAAG,MAAM,IAAI,OAAO,GAAG,CAAC,CACpE"}
 \ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/0002_ambitious_ulik.sql b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/0002_ambitious_ulik.sql
+new file mode 100644
+index 0000000..b875745
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/0002_ambitious_ulik.sql
+@@ -0,0 +1 @@
++ALTER TABLE "DidcommProofExchange" ALTER COLUMN "state" SET DATA TYPE "public"."DidcommProofExchangeState" USING "state"::text::"public"."DidcommProofExchangeState";
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/0002_snapshot.json b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/0002_snapshot.json
+new file mode 100644
+index 0000000..b644a6f
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/0002_snapshot.json
+@@ -0,0 +1,1283 @@
++{
++  "id": "dd384b7f-b3e8-4111-932e-2909e42b9998",
++  "prevId": "578767a4-33a4-471f-9f81-6976f44b3070",
++  "version": "7",
++  "dialect": "postgresql",
++  "tables": {
++    "public.DidcommBasicMessage": {
++      "name": "DidcommBasicMessage",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "content": {
++          "name": "content",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "sent_time": {
++          "name": "sent_time",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "role": {
++          "name": "role",
++          "type": "DidcommBasicMessageRole",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "connection_id": {
++          "name": "connection_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "parent_thread_id": {
++          "name": "parent_thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommBasicMessage_fk_context": {
++          "name": "didcommBasicMessage_fk_context",
++          "tableFrom": "DidcommBasicMessage",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        },
++        "DidcommBasicMessage_connection_id_context_correlation_id_DidcommConnection_id_context_correlation_id_fk": {
++          "name": "DidcommBasicMessage_connection_id_context_correlation_id_DidcommConnection_id_context_correlation_id_fk",
++          "tableFrom": "DidcommBasicMessage",
++          "tableTo": "DidcommConnection",
++          "columnsFrom": [
++            "connection_id",
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "id",
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommBasicMessage_pk": {
++          "name": "didcommBasicMessage_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {},
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    },
++    "public.DidcommConnection": {
++      "name": "DidcommConnection",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "state": {
++          "name": "state",
++          "type": "DidcommConnectionState",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "role": {
++          "name": "role",
++          "type": "DidcommConnectionRole",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "did": {
++          "name": "did",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "their_did": {
++          "name": "their_did",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "their_label": {
++          "name": "their_label",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "alias": {
++          "name": "alias",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "auto_accept_connection": {
++          "name": "auto_accept_connection",
++          "type": "boolean",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "image_url": {
++          "name": "image_url",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "invitation_did": {
++          "name": "invitation_did",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "mediator_id": {
++          "name": "mediator_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "out_of_band_id": {
++          "name": "out_of_band_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "error_message": {
++          "name": "error_message",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "protocol": {
++          "name": "protocol",
++          "type": "DidcommConnectionHandshakeProtocol",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "connection_types": {
++          "name": "connection_types",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "previous_dids": {
++          "name": "previous_dids",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "previous_their_dids": {
++          "name": "previous_their_dids",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": false
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommConnection_fk_context": {
++          "name": "didcommConnection_fk_context",
++          "tableFrom": "DidcommConnection",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommConnection_pk": {
++          "name": "didcommConnection_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {
++        "DidcommConnection_context_correlation_id_thread_id_unique": {
++          "name": "DidcommConnection_context_correlation_id_thread_id_unique",
++          "nullsNotDistinct": false,
++          "columns": [
++            "context_correlation_id",
++            "thread_id"
++          ]
++        }
++      },
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    },
++    "public.DidcommCredentialExchange": {
++      "name": "DidcommCredentialExchange",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "connection_id": {
++          "name": "connection_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "parent_thread_id": {
++          "name": "parent_thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "state": {
++          "name": "state",
++          "type": "DidcommCredentialExchangeState",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "role": {
++          "name": "role",
++          "type": "DidcommCredentialExchangeRole",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "auto_accept_credential": {
++          "name": "auto_accept_credential",
++          "type": "DidcommCredentialExchangeAutoAccept",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "revocation_notification": {
++          "name": "revocation_notification",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "error_message": {
++          "name": "error_message",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "protocol_version": {
++          "name": "protocol_version",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "credentials": {
++          "name": "credentials",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "credential_ids": {
++          "name": "credential_ids",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "credential_attributes": {
++          "name": "credential_attributes",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommCredentialExchange_fk_context": {
++          "name": "didcommCredentialExchange_fk_context",
++          "tableFrom": "DidcommCredentialExchange",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommCredentialExchange_pk": {
++          "name": "didcommCredentialExchange_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {},
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    },
++    "public.DidcommMessage": {
++      "name": "DidcommMessage",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "message": {
++          "name": "message",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "role": {
++          "name": "role",
++          "type": "DidcommMessageRole",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "associated_record_id": {
++          "name": "associated_record_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "protocol_name": {
++          "name": "protocol_name",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "message_name": {
++          "name": "message_name",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "protocol_major_version": {
++          "name": "protocol_major_version",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "protocol_minor_version": {
++          "name": "protocol_minor_version",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommMessage_fk_context": {
++          "name": "didcommMessage_fk_context",
++          "tableFrom": "DidcommMessage",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommMessage_pk": {
++          "name": "didcommMessage_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {},
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    },
++    "public.DidcommMediation": {
++      "name": "DidcommMediation",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "state": {
++          "name": "state",
++          "type": "DidcommMediationState",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "role": {
++          "name": "role",
++          "type": "DidcommMediationRole",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "connection_id": {
++          "name": "connection_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "endpoint": {
++          "name": "endpoint",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "recipient_keys": {
++          "name": "recipient_keys",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "routing_keys": {
++          "name": "routing_keys",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "pickup_strategy": {
++          "name": "pickup_strategy",
++          "type": "DidcommMediationPickupStrategry",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "default": {
++          "name": "default",
++          "type": "boolean",
++          "primaryKey": false,
++          "notNull": false
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommMediation_fk_context": {
++          "name": "didcommMediation_fk_context",
++          "tableFrom": "DidcommMediation",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        },
++        "DidcommMediation_connection_id_context_correlation_id_DidcommConnection_id_context_correlation_id_fk": {
++          "name": "DidcommMediation_connection_id_context_correlation_id_DidcommConnection_id_context_correlation_id_fk",
++          "tableFrom": "DidcommMediation",
++          "tableTo": "DidcommConnection",
++          "columnsFrom": [
++            "connection_id",
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "id",
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommMediation_pk": {
++          "name": "didcommMediation_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {},
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    },
++    "public.DidcommMediatorRouting": {
++      "name": "DidcommMediatorRouting",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "routing_keys": {
++          "name": "routing_keys",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "routing_key_fingerprints": {
++          "name": "routing_key_fingerprints",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": true
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommMediatorRouting_fk_context": {
++          "name": "didcommMediatorRouting_fk_context",
++          "tableFrom": "DidcommMediatorRouting",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommMediatorRouting_pk": {
++          "name": "didcommMediatorRouting_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {},
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    },
++    "public.DidcommOutOfBand": {
++      "name": "DidcommOutOfBand",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "out_of_band_invitation": {
++          "name": "out_of_band_invitation",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "role": {
++          "name": "role",
++          "type": "DidcommOutOfBandRole",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "state": {
++          "name": "state",
++          "type": "DidcommOutOfBandState",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "alias": {
++          "name": "alias",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "reusable": {
++          "name": "reusable",
++          "type": "boolean",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "auto_accept_connection": {
++          "name": "auto_accept_connection",
++          "type": "boolean",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "mediator_id": {
++          "name": "mediator_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "reuse_connection_id": {
++          "name": "reuse_connection_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "invitation_inline_service_keys": {
++          "name": "invitation_inline_service_keys",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "invitation_requests_thread_ids": {
++          "name": "invitation_requests_thread_ids",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "recipient_key_fingerprints": {
++          "name": "recipient_key_fingerprints",
++          "type": "text[]",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "recipient_routing_key_fingerprint": {
++          "name": "recipient_routing_key_fingerprint",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommOutOfBand_fk_context": {
++          "name": "didcommOutOfBand_fk_context",
++          "tableFrom": "DidcommOutOfBand",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommOutOfBand_pk": {
++          "name": "didcommOutOfBand_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {},
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    },
++    "public.DidcommProofExchange": {
++      "name": "DidcommProofExchange",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "connection_id": {
++          "name": "connection_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "protocol_version": {
++          "name": "protocol_version",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "parent_thread_id": {
++          "name": "parent_thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "is_verified": {
++          "name": "is_verified",
++          "type": "boolean",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "state": {
++          "name": "state",
++          "type": "DidcommProofExchangeState",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "role": {
++          "name": "role",
++          "type": "DidcommProofExchangeRole",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "auto_accept_proof": {
++          "name": "auto_accept_proof",
++          "type": "DidcommProofExchangeAutoAccept",
++          "typeSchema": "public",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "error_message": {
++          "name": "error_message",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommProofExchange_fk_context": {
++          "name": "didcommProofExchange_fk_context",
++          "tableFrom": "DidcommProofExchange",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        },
++        "DidcommProofExchange_connection_id_context_correlation_id_DidcommConnection_id_context_correlation_id_fk": {
++          "name": "DidcommProofExchange_connection_id_context_correlation_id_DidcommConnection_id_context_correlation_id_fk",
++          "tableFrom": "DidcommProofExchange",
++          "tableTo": "DidcommConnection",
++          "columnsFrom": [
++            "connection_id",
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "id",
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommProofExchange_pk": {
++          "name": "didcommProofExchange_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {
++        "DidcommProofExchange_context_correlation_id_thread_id_role_unique": {
++          "name": "DidcommProofExchange_context_correlation_id_thread_id_role_unique",
++          "nullsNotDistinct": false,
++          "columns": [
++            "context_correlation_id",
++            "thread_id",
++            "role"
++          ]
++        }
++      },
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    }
++  },
++  "enums": {
++    "public.DidcommBasicMessageRole": {
++      "name": "DidcommBasicMessageRole",
++      "schema": "public",
++      "values": [
++        "sender",
++        "receiver"
++      ]
++    },
++    "public.DidcommConnectionHandshakeProtocol": {
++      "name": "DidcommConnectionHandshakeProtocol",
++      "schema": "public",
++      "values": [
++        "https://didcomm.org/didexchange/1.x",
++        "https://didcomm.org/connections/1.x"
++      ]
++    },
++    "public.DidcommConnectionRole": {
++      "name": "DidcommConnectionRole",
++      "schema": "public",
++      "values": [
++        "requester",
++        "responder"
++      ]
++    },
++    "public.DidcommConnectionState": {
++      "name": "DidcommConnectionState",
++      "schema": "public",
++      "values": [
++        "start",
++        "invitation-sent",
++        "invitation-received",
++        "request-sent",
++        "request-received",
++        "response-sent",
++        "response-received",
++        "abandoned",
++        "completed"
++      ]
++    },
++    "public.DidcommCredentialExchangeAutoAccept": {
++      "name": "DidcommCredentialExchangeAutoAccept",
++      "schema": "public",
++      "values": [
++        "always",
++        "contentApproved",
++        "never"
++      ]
++    },
++    "public.DidcommCredentialExchangeRole": {
++      "name": "DidcommCredentialExchangeRole",
++      "schema": "public",
++      "values": [
++        "issuer",
++        "holder"
++      ]
++    },
++    "public.DidcommCredentialExchangeState": {
++      "name": "DidcommCredentialExchangeState",
++      "schema": "public",
++      "values": [
++        "proposal-sent",
++        "proposal-received",
++        "offer-sent",
++        "offer-received",
++        "declined",
++        "request-sent",
++        "request-received",
++        "credential-issued",
++        "credential-received",
++        "done",
++        "abandoned"
++      ]
++    },
++    "public.DidcommMessageRole": {
++      "name": "DidcommMessageRole",
++      "schema": "public",
++      "values": [
++        "sender",
++        "receiver"
++      ]
++    },
++    "public.DidcommMediationPickupStrategry": {
++      "name": "DidcommMediationPickupStrategry",
++      "schema": "public",
++      "values": [
++        "PickUpV1",
++        "PickUpV2",
++        "PickUpV2LiveMode",
++        "Implicit",
++        "None"
++      ]
++    },
++    "public.DidcommMediationRole": {
++      "name": "DidcommMediationRole",
++      "schema": "public",
++      "values": [
++        "MEDIATOR",
++        "RECIPIENT"
++      ]
++    },
++    "public.DidcommMediationState": {
++      "name": "DidcommMediationState",
++      "schema": "public",
++      "values": [
++        "requested",
++        "granted",
++        "denied"
++      ]
++    },
++    "public.DidcommOutOfBandRole": {
++      "name": "DidcommOutOfBandRole",
++      "schema": "public",
++      "values": [
++        "sender",
++        "receiver"
++      ]
++    },
++    "public.DidcommOutOfBandState": {
++      "name": "DidcommOutOfBandState",
++      "schema": "public",
++      "values": [
++        "initial",
++        "await-response",
++        "prepare-response",
++        "done"
++      ]
++    },
++    "public.DidcommProofExchangeAutoAccept": {
++      "name": "DidcommProofExchangeAutoAccept",
++      "schema": "public",
++      "values": [
++        "always",
++        "contentApproved",
++        "never"
++      ]
++    },
++    "public.DidcommProofExchangeRole": {
++      "name": "DidcommProofExchangeRole",
++      "schema": "public",
++      "values": [
++        "verifier",
++        "prover"
++      ]
++    },
++    "public.DidcommProofExchangeState": {
++      "name": "DidcommProofExchangeState",
++      "schema": "public",
++      "values": [
++        "proposal-sent",
++        "proposal-received",
++        "request-sent",
++        "request-received",
++        "presentation-sent",
++        "presentation-received",
++        "declined",
++        "abandoned",
++        "done"
++      ]
++    }
++  },
++  "schemas": {},
++  "sequences": {},
++  "roles": {},
++  "policies": {},
++  "views": {},
++  "_meta": {
++    "columns": {},
++    "schemas": {},
++    "tables": {}
++  }
++}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/_journal.json b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/_journal.json
+index 9951ba2..1c32b8e 100644
+--- a/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/_journal.json
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/_journal.json
+@@ -15,6 +15,13 @@
+       "when": 1763065535482,
+       "tag": "0001_remove_linked_attachments",
+       "breakpoints": true
++    },
++    {
++      "idx": 2,
++      "version": "7",
++      "when": 1770028426836,
++      "tag": "0002_ambitious_ulik",
++      "breakpoints": true
+     }
+   ]
+ }
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/media-sharing/postgres/0000_robust_madame_web.sql b/node_modules/@credo-ts/drizzle-storage/migrations/media-sharing/postgres/0000_robust_madame_web.sql
 new file mode 100644
 index 0000000..f47af82
@@ -12195,6 +14491,407 @@ index 0000000..bba192e
 +  }
 +  
 \ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/0000_tricky_toad.sql b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/0000_tricky_toad.sql
+new file mode 100644
+index 0000000..229f4fc
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/0000_tricky_toad.sql
+@@ -0,0 +1,18 @@
++CREATE TABLE "DidcommPrivateMediaSharing" (
++	"context_correlation_id" text NOT NULL,
++	"id" text NOT NULL,
++	"created_at" timestamp (3) with time zone NOT NULL,
++	"updated_at" timestamp (3) with time zone NOT NULL,
++	"metadata" jsonb,
++	"custom_tags" jsonb,
++	"user_id" text NOT NULL,
++	"description" text,
++	"thread_id" text,
++	"parent_thread_id" text,
++	"items" jsonb,
++	"version" text,
++	CONSTRAINT "didcommPrivateMediaSharing_pk" PRIMARY KEY("context_correlation_id","id"),
++	CONSTRAINT "DidcommPrivateMediaSharing_context_correlation_id_thread_id_unique" UNIQUE("context_correlation_id","thread_id")
++);
++--> statement-breakpoint
++ALTER TABLE "DidcommPrivateMediaSharing" ADD CONSTRAINT "didcommPrivateMediaSharing_fk_context" FOREIGN KEY ("context_correlation_id") REFERENCES "public"."Context"("context_correlation_id") ON DELETE cascade ON UPDATE no action;
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/meta/0000_snapshot.json b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/meta/0000_snapshot.json
+new file mode 100644
+index 0000000..e1350d3
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/meta/0000_snapshot.json
+@@ -0,0 +1,135 @@
++{
++  "id": "1f381555-e2c2-4482-bfad-76d598f48312",
++  "prevId": "00000000-0000-0000-0000-000000000000",
++  "version": "7",
++  "dialect": "postgresql",
++  "tables": {
++    "public.DidcommPrivateMediaSharing": {
++      "name": "DidcommPrivateMediaSharing",
++      "schema": "",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "timestamp (3) with time zone",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "user_id": {
++          "name": "user_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true
++        },
++        "description": {
++          "name": "description",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "parent_thread_id": {
++          "name": "parent_thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "items": {
++          "name": "items",
++          "type": "jsonb",
++          "primaryKey": false,
++          "notNull": false
++        },
++        "version": {
++          "name": "version",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false
++        }
++      },
++      "indexes": {},
++      "foreignKeys": {
++        "didcommPrivateMediaSharing_fk_context": {
++          "name": "didcommPrivateMediaSharing_fk_context",
++          "tableFrom": "DidcommPrivateMediaSharing",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommPrivateMediaSharing_pk": {
++          "name": "didcommPrivateMediaSharing_pk",
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ]
++        }
++      },
++      "uniqueConstraints": {
++        "DidcommPrivateMediaSharing_context_correlation_id_thread_id_unique": {
++          "name": "DidcommPrivateMediaSharing_context_correlation_id_thread_id_unique",
++          "nullsNotDistinct": false,
++          "columns": [
++            "context_correlation_id",
++            "thread_id"
++          ]
++        }
++      },
++      "policies": {},
++      "checkConstraints": {},
++      "isRLSEnabled": false
++    }
++  },
++  "enums": {},
++  "schemas": {},
++  "sequences": {},
++  "roles": {},
++  "policies": {},
++  "views": {},
++  "_meta": {
++    "columns": {},
++    "schemas": {},
++    "tables": {}
++  }
++}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/meta/_journal.json b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/meta/_journal.json
+new file mode 100644
+index 0000000..300b021
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/postgres/meta/_journal.json
+@@ -0,0 +1,13 @@
++{
++  "version": "7",
++  "dialect": "postgresql",
++  "entries": [
++    {
++      "idx": 0,
++      "version": "7",
++      "when": 1770300355684,
++      "tag": "0000_tricky_toad",
++      "breakpoints": true
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/0000_colossal_loa.sql b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/0000_colossal_loa.sql
+new file mode 100644
+index 0000000..5f25491
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/0000_colossal_loa.sql
+@@ -0,0 +1,18 @@
++CREATE TABLE `DidcommPrivateMediaSharing` (
++	`context_correlation_id` text NOT NULL,
++	`id` text NOT NULL,
++	`created_at` integer NOT NULL,
++	`updated_at` integer NOT NULL,
++	`metadata` text,
++	`custom_tags` text,
++	`user_id` text NOT NULL,
++	`description` text,
++	`thread_id` text,
++	`parent_thread_id` text,
++	`items` text,
++	`version` text,
++	PRIMARY KEY(`context_correlation_id`, `id`),
++	FOREIGN KEY (`context_correlation_id`) REFERENCES `Context`(`context_correlation_id`) ON UPDATE no action ON DELETE cascade
++);
++--> statement-breakpoint
++CREATE UNIQUE INDEX `DidcommPrivateMediaSharing_context_correlation_id_thread_id_unique` ON `DidcommPrivateMediaSharing` (`context_correlation_id`,`thread_id`);
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/meta/0000_snapshot.json b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/meta/0000_snapshot.json
+new file mode 100644
+index 0000000..7c44b45
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/meta/0000_snapshot.json
+@@ -0,0 +1,143 @@
++{
++  "version": "6",
++  "dialect": "sqlite",
++  "id": "8c548a09-bbeb-4508-b766-6bdeca4cff51",
++  "prevId": "00000000-0000-0000-0000-000000000000",
++  "tables": {
++    "DidcommPrivateMediaSharing": {
++      "name": "DidcommPrivateMediaSharing",
++      "columns": {
++        "context_correlation_id": {
++          "name": "context_correlation_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true,
++          "autoincrement": false
++        },
++        "id": {
++          "name": "id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true,
++          "autoincrement": false
++        },
++        "created_at": {
++          "name": "created_at",
++          "type": "integer",
++          "primaryKey": false,
++          "notNull": true,
++          "autoincrement": false
++        },
++        "updated_at": {
++          "name": "updated_at",
++          "type": "integer",
++          "primaryKey": false,
++          "notNull": true,
++          "autoincrement": false
++        },
++        "metadata": {
++          "name": "metadata",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false,
++          "autoincrement": false
++        },
++        "custom_tags": {
++          "name": "custom_tags",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false,
++          "autoincrement": false
++        },
++        "user_id": {
++          "name": "user_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": true,
++          "autoincrement": false
++        },
++        "description": {
++          "name": "description",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false,
++          "autoincrement": false
++        },
++        "thread_id": {
++          "name": "thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false,
++          "autoincrement": false
++        },
++        "parent_thread_id": {
++          "name": "parent_thread_id",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false,
++          "autoincrement": false
++        },
++        "items": {
++          "name": "items",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false,
++          "autoincrement": false
++        },
++        "version": {
++          "name": "version",
++          "type": "text",
++          "primaryKey": false,
++          "notNull": false,
++          "autoincrement": false
++        }
++      },
++      "indexes": {
++        "DidcommPrivateMediaSharing_context_correlation_id_thread_id_unique": {
++          "name": "DidcommPrivateMediaSharing_context_correlation_id_thread_id_unique",
++          "columns": [
++            "context_correlation_id",
++            "thread_id"
++          ],
++          "isUnique": true
++        }
++      },
++      "foreignKeys": {
++        "didcommPrivateMediaSharing_fk_context": {
++          "name": "didcommPrivateMediaSharing_fk_context",
++          "tableFrom": "DidcommPrivateMediaSharing",
++          "tableTo": "Context",
++          "columnsFrom": [
++            "context_correlation_id"
++          ],
++          "columnsTo": [
++            "context_correlation_id"
++          ],
++          "onDelete": "cascade",
++          "onUpdate": "no action"
++        }
++      },
++      "compositePrimaryKeys": {
++        "didcommPrivateMediaSharing_pk": {
++          "columns": [
++            "context_correlation_id",
++            "id"
++          ],
++          "name": "didcommPrivateMediaSharing_pk"
++        }
++      },
++      "uniqueConstraints": {},
++      "checkConstraints": {}
++    }
++  },
++  "views": {},
++  "enums": {},
++  "_meta": {
++    "schemas": {},
++    "tables": {},
++    "columns": {}
++  },
++  "internal": {
++    "indexes": {}
++  }
++}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/meta/_journal.json b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/meta/_journal.json
+new file mode 100644
+index 0000000..407330c
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/meta/_journal.json
+@@ -0,0 +1,13 @@
++{
++  "version": "7",
++  "dialect": "sqlite",
++  "entries": [
++    {
++      "idx": 0,
++      "version": "6",
++      "when": 1770300356286,
++      "tag": "0000_colossal_loa",
++      "breakpoints": true
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/migrations.js b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/migrations.js
+new file mode 100644
+index 0000000..7e3758c
+--- /dev/null
++++ b/node_modules/@credo-ts/drizzle-storage/migrations/private-media-sharing/sqlite/migrations.js
+@@ -0,0 +1,12 @@
++// This file is required for Expo/React Native SQLite migrations - https://orm.drizzle.team/quick-sqlite/expo
++
++import journal from './meta/_journal.json';
++import m0000 from './0000_colossal_loa.sql';
++
++  export default {
++    journal,
++    migrations: {
++      m0000
++    }
++  }
++  
+\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/user-profile/postgres/0000_silent_mother_askani.sql b/node_modules/@credo-ts/drizzle-storage/migrations/user-profile/postgres/0000_silent_mother_askani.sql
 new file mode 100644
 index 0000000..9feea65
@@ -12560,23 +15257,26 @@ index 0000000..769daff
 +  
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/package.json b/node_modules/@credo-ts/drizzle-storage/package.json
-index 58162b8..bfa5149 100644
+index 58162b8..8a19a0e 100644
 --- a/node_modules/@credo-ts/drizzle-storage/package.json
 +++ b/node_modules/@credo-ts/drizzle-storage/package.json
-@@ -21,6 +21,12 @@
+@@ -21,6 +21,15 @@
      "./didcomm": "./build/didcomm/bundle.mjs",
      "./didcomm/sqlite": "./build/didcomm/sqlite.mjs",
      "./didcomm/postgres": "./build/didcomm/postgres.mjs",
 +    "./media-sharing": "./build/media-sharing/bundle.mjs",
 +    "./media-sharing/postgres": "./build/media-sharing/postgres.mjs",
 +    "./media-sharing/sqlite": "./build/media-sharing/sqlite.mjs",
++    "./private-media-sharing": "./build/private-media-sharing/bundle.mjs",
++    "./private-media-sharing/postgres": "./build/private-media-sharing/postgres.mjs",
++    "./private-media-sharing/sqlite": "./build/private-media-sharing/sqlite.mjs",
 +    "./user-profile": "./build/user-profile/bundle.mjs",
 +    "./user-profile/postgres": "./build/user-profile/postgres.mjs",
 +    "./user-profile/sqlite": "./build/user-profile/sqlite.mjs",
      "./action-menu": "./build/action-menu/bundle.mjs",
      "./action-menu/sqlite": "./build/action-menu/sqlite.mjs",
      "./action-menu/postgres": "./build/action-menu/postgres.mjs",
-@@ -60,6 +66,8 @@
+@@ -60,6 +69,8 @@
      "shell": "^0.12.0",
      "tsyringe": "^4.10.0",
      "zod": "^4.1.12",
@@ -12585,14 +15285,14 @@ index 58162b8..bfa5149 100644
      "@credo-ts/action-menu": "0.6.1",
      "@credo-ts/anoncreds": "0.6.1",
      "@credo-ts/core": "0.6.1",
-@@ -82,8 +90,8 @@
+@@ -82,8 +93,8 @@
    },
    "scripts": {
      "build": "tsdown --config-loader unconfig",
 -    "cli:local:compiled": "node --conditions cli bin.mjs --bundle core --bundle didcomm --bundle anoncreds --bundle action-menu --bundle question-answer --bundle drpc --bundle tenants --bundle openid4vc",
 -    "cli:local": "vite-node cli/bin.ts --bundle core --bundle didcomm --bundle anoncreds --bundle action-menu --bundle question-answer --bundle drpc --bundle tenants --bundle openid4vc",
-+    "cli:local:compiled": "node --conditions cli bin.mjs --bundle core --bundle didcomm --bundle anoncreds --bundle action-menu --bundle question-answer --bundle drpc --bundle tenants --bundle openid4vc --bundle user-profile --bundle media-sharing",
-+    "cli:local": "vite-node cli/bin.ts --bundle core --bundle didcomm --bundle anoncreds --bundle action-menu --bundle question-answer --bundle drpc --bundle tenants --bundle openid4vc --bundle user-profile --bundle media-sharing",
++    "cli:local:compiled": "node --conditions cli bin.mjs --bundle core --bundle didcomm --bundle anoncreds --bundle action-menu --bundle question-answer --bundle drpc --bundle tenants --bundle openid4vc --bundle user-profile --bundle media-sharing --bundle private-media-sharing",
++    "cli:local": "vite-node cli/bin.ts --bundle core --bundle didcomm --bundle anoncreds --bundle action-menu --bundle question-answer --bundle drpc --bundle tenants --bundle openid4vc --bundle user-profile --bundle media-sharing --bundle private-media-sharing",
      "cli:local:generate": "pnpm cli:local generate",
      "cli:local:compiled:generate": "pnpm cli:local:compiled generate",
      "cli:local:migrate:postgres": "pnpm cli:local migrate --dialect postgres --database-url \"postgresql://postgres:postgres@localhost:5432/postgres\"",

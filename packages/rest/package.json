@@ -38,6 +38,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@2060.io/credo-ts-didcomm-media-sharing": "^0.0.6",
+    "@2060.io/credo-ts-didcomm-user-profile": "^0.0.8",
     "@credo-ts/anoncreds": "^0.6.1",
     "@credo-ts/askar": "^0.6.1",
     "@credo-ts/cheqd": "^0.6.1",

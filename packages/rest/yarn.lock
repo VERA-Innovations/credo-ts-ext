@@ -2,6 +2,31 @@
 # yarn lockfile v1
 
 
+"@2060.io/credo-ts-didcomm-media-sharing@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@2060.io/credo-ts-didcomm-media-sharing/-/credo-ts-didcomm-media-sharing-0.0.6.tgz#52da3dc20003b2b163d80922026cc79501aa6388"
+  integrity sha512-Wa/bXVLGbC5WUXCSOcjVkikI81RxWXGJHQsMmEtBzDlzjmeBg0OjIMbrGJN3GnzC+OlsF0ETRqlJTsbvuVs3mA==
+  dependencies:
+    "@credo-ts/core" "^0.6.1"
+    "@credo-ts/didcomm" "^0.6.1"
+    class-transformer "^0.5.1"
+    class-validator "^0.14.1"
+    reflect-metadata "^0.1.13"
+    rxjs "^7.2.0"
+    tsyringe "^4.8.0"
+    uuid "^9.0.0"
+
+"@2060.io/credo-ts-didcomm-user-profile@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@2060.io/credo-ts-didcomm-user-profile/-/credo-ts-didcomm-user-profile-0.0.8.tgz#0f27e52ab54f4200637a84c226154e6640ff4bf5"
+  integrity sha512-67Zfd5MD4buh6FxRBBcYYYMKb+jbel3bqFreAJby/GiP1I0ZlV/Owo0FCWRO/k7D5uDNS1VSmleuPXZ8nfcxaA==
+  dependencies:
+    class-transformer "0.5.1"
+    class-validator "0.14.1"
+    reflect-metadata "^0.1.13"
+    rxjs "^7.2.0"
+    tsyringe "^4.8.0"
+
 "@2060.io/ffi-napi@^4.0.9":
   version "4.0.9"
   resolved "https://registry.yarnpkg.com/@2060.io/ffi-napi/-/ffi-napi-4.0.9.tgz#194fca2132932ba02e62d716c786d20169b20b8d"
@@ -2148,7 +2173,7 @@
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
   integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
 
-"@types/validator@^13.15.3":
+"@types/validator@^13.11.8", "@types/validator@^13.15.3":
   version "13.15.10"
   resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.15.10.tgz#742b77ec34d58554b94a76a14cef30d59e3c16b9"
   integrity sha512-T8L6i7wCuyoK8A/ZeLYt1+q0ty3Zb9+qbSSvrIVitzT3YjZqkTZ40IbRsPanlB4h1QB3JVL1SYCdR6ngtFYcuA==
@@ -2475,10 +2500,19 @@ ci-info@^3.7.0:
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.9.0.tgz#4279a62028a7b1f262f3473fc9605f5e218c59b4"
   integrity sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==
 
-class-transformer@0.5.1:
+class-transformer@0.5.1, class-transformer@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.5.1.tgz#24147d5dffd2a6cea930a3250a677addf96ab336"
   integrity sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==
+
+class-validator@0.14.1:
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.14.1.tgz#ff2411ed8134e9d76acfeb14872884448be98110"
+  integrity sha512-2VEG9JICxIqTpoK1eMzZqaV+u/EiwEJkMGzTrZf6sU/fwsnOITVgYJ8yojSy6CaXtO9V0Cc6ZQZ8h8m4UBuLwQ==
+  dependencies:
+    "@types/validator" "^13.11.8"
+    libphonenumber-js "^1.10.53"
+    validator "^13.9.0"
 
 class-validator@^0.14.1:
   version "0.14.3"
@@ -3671,7 +3705,7 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libphonenumber-js@^1.11.1:
+libphonenumber-js@^1.10.53, libphonenumber-js@^1.11.1:
   version "1.12.36"
   resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.12.36.tgz#3698ba31e77fc4e5d4e3257dedc76f28cb594c35"
   integrity sha512-woWhKMAVx1fzzUnMCyOzglgSgf6/AFHLASdOBcchYCyvWSGWt12imw3iu2hdI5d4dGZRsNWAmWiz37sDKUPaRQ==
@@ -4379,7 +4413,7 @@ router@^2.2.0:
     parseurl "^1.3.3"
     path-to-regexp "^8.0.0"
 
-rxjs@^7.8.1, rxjs@^7.8.2:
+rxjs@^7.2.0, rxjs@^7.8.1, rxjs@^7.8.2:
   version "7.8.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.2.tgz#955bc473ed8af11a002a2be52071bf475638607b"
   integrity sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==
@@ -4856,7 +4890,7 @@ tsx@^4.21.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
-tsyringe@^4.10.0, tsyringe@^4.7.0:
+tsyringe@^4.10.0, tsyringe@^4.7.0, tsyringe@^4.8.0:
   version "4.10.0"
   resolved "https://registry.yarnpkg.com/tsyringe/-/tsyringe-4.10.0.tgz#d0c95815d584464214060285eaaadd94aa03299c"
   integrity sha512-axr3IdNuVIxnaK5XGEUFTu3YmAQ6lllgrvqfEoR16g/HGnYY/6We4oWENtAnzK6/LpJ2ur9PAb80RBt7/U4ugw==
@@ -4981,7 +5015,7 @@ valibot@1.2.0:
   resolved "https://registry.yarnpkg.com/valibot/-/valibot-1.2.0.tgz#8fc720d9e4082ba16e30a914064a39619b2f1d6f"
   integrity sha512-mm1rxUsmOxzrwnX5arGS+U4T25RdvpPjPN4yR0u9pUBov9+zGVtO84tif1eY4r6zWxVxu3KzIyknJy3rxfRZZg==
 
-validator@^13.12.0, validator@^13.15.20:
+validator@^13.12.0, validator@^13.15.20, validator@^13.9.0:
   version "13.15.26"
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.15.26.tgz#36c3deeab30e97806a658728a155c66fcaa5b944"
   integrity sha512-spH26xU080ydGggxRyR1Yhcbgx+j3y5jbNXk/8L+iRvdIEQ4uTRH2Sgf2dokud6Q4oAtsbNvJ1Ft+9xmm6IZcA==
