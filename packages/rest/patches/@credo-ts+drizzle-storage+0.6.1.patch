@@ -10371,10 +10371,10 @@ index 0000000..a216199
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts
 new file mode 100644
-index 0000000..4eae633
+index 0000000..802a5ac
 --- /dev/null
 +++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts
-@@ -0,0 +1,29 @@
+@@ -0,0 +1,31 @@
 +import { DrizzleDatabase } from "../../DrizzleDatabase.mjs";
 +import { BaseDrizzleRecordAdapter, DrizzleAdapterRecordValues } from "../../adapter/BaseDrizzleRecordAdapter.mjs";
 +import "../../adapter/index.mjs";
@@ -10389,13 +10389,15 @@ index 0000000..4eae633
 +  getValues(record: PrivateMediaRecord): {
 +    /** BaseRecord fields handled by BaseDrizzleRecordAdapter */
 +    userId: string;
++    mediaType: "image" | "video" | "document" | "audio" | undefined;
++    isPublic: string | undefined;
++    sharedWith: string[] | undefined;
 +    threadId: string;
 +    parentThreadId: string | null;
 +    description: string | null;
 +    items: PrivateMediaItem[] | null;
 +    version: string;
 +    customTags: {
-+      sharedWith?: string[];
 +      customTags?: string[];
 +    };
 +  };
@@ -10407,18 +10409,18 @@ index 0000000..4eae633
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts.map
 new file mode 100644
-index 0000000..2c1bc54
+index 0000000..e3d97b3
 --- /dev/null
 +++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts.map
 @@ -0,0 +1 @@
-+{"version":3,"file":"DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts","names":[],"sources":["../../../src/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.ts"],"sourcesContent":[],"mappings":";;;;;;;;KAQK,8CAAA,GACH,mCAAmC;cAExB,8CAAA,SAAuD,yBAClE,2BACO,mCACA,2BACA,qCACA;EARJ,WAAA,CAAA,QAAA,EAU0B,eAV1B,CAAA,OAUiD,kBAVH,EAAA,OAUoB,gBATlC,CAAA;EAExB,SAAA,CAAA,MAAA,EAec,kBAfd,CAAA,EAAA;IACX;IACO,MAAA,EAAA,MAAA;IACA,QAAA,EAAA,MAAA;IACA,cAAA,EAAA,MAAA,GAAA,IAAA;IACA,WAAA,EAAA,MAAA,GAAA,IAAA;IAE6C,KAAA,kBAAA,EAAA,GAAA,IAAA;IAAiB,OAAA,EAAA,MAAA;IAAxC,UAAA,EAAA;MAQJ,UAAA,CAAA,EAAA,MAAA,EAAA;;IA2BD,CAAA;EAAiD,CAAA;EA1CP,QAAA,CAAA,MAAA,EA0C1C,8CA1C0C,CAAA,EA0CO,kBA1CP"}
++{"version":3,"file":"DrizzleDidcommPrivateMediaSharingRecordAdapter.d.mts","names":[],"sources":["../../../src/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.ts"],"sourcesContent":[],"mappings":";;;;;;;;KAQK,8CAAA,GACH,mCAAmC;cAExB,8CAAA,SAAuD,yBAClE,2BACO,mCACA,2BACA,qCACA;EARJ,WAAA,CAAA,QAAA,EAU0B,eAV1B,CAAA,OAUiD,kBAVH,EAAA,OAUoB,gBATlC,CAAA;EAExB,SAAA,CAAA,MAAA,EAec,kBAfd,CAAA,EAAA;IACX;IACO,MAAA,EAAA,MAAA;IACA,SAAA,EAAA,OAAA,GAAA,OAAA,GAAA,UAAA,GAAA,OAAA,GAAA,SAAA;IACA,QAAA,EAAA,MAAA,GAAA,SAAA;IACA,UAAA,EAAA,MAAA,EAAA,GAAA,SAAA;IAE6C,QAAA,EAAA,MAAA;IAAiB,cAAA,EAAA,MAAA,GAAA,IAAA;IAAxC,WAAA,EAAA,MAAA,GAAA,IAAA;IAQJ,KAAA,kBAAA,EAAA,GAAA,IAAA;;IA0BD,UAAA,EAAA;MAAiD,UAAA,CAAA,EAAA,MAAA,EAAA;IAzCP,CAAA;EAAwB,CAAA;mBAyClE,iDAAiD"}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs
 new file mode 100644
-index 0000000..cc454ee
+index 0000000..09d5eb0
 --- /dev/null
 +++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,41 @@
 +import { BaseDrizzleRecordAdapter } from "../../adapter/BaseDrizzleRecordAdapter.mjs";
 +import "../../adapter/index.mjs";
 +import { didcommPrivateMediaSharing } from "./postgres.mjs";
@@ -10435,9 +10437,12 @@ index 0000000..cc454ee
 +		}, PrivateMediaRecord);
 +	}
 +	getValues(record) {
-+		const { userId, mediaType, isPublic, ...customTags } = record.getTags();
++		const { userId, mediaType, isPublic, sharedWith, ...customTags } = record.getTags();
 +		return {
 +			userId,
++			mediaType,
++			isPublic,
++			sharedWith,
 +			threadId: record.threadId ?? utils.uuid(),
 +			parentThreadId: record.parentThreadId ?? null,
 +			description: record.description ?? null,
@@ -10460,11 +10465,11 @@ index 0000000..cc454ee
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs.map
 new file mode 100644
-index 0000000..fb0f50b
+index 0000000..a0d5413
 --- /dev/null
 +++ b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs.map
 @@ -0,0 +1 @@
-+{"version":3,"file":"DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs","names":["postgres.didcommPrivateMediaSharing","sqlite.didcommPrivateMediaSharing"],"sources":["../../../src/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.ts"],"sourcesContent":["import { JsonTransformer, utils, type TagsBase } from '@credo-ts/core'\nimport { BaseDrizzleRecordAdapter, type DrizzleAdapterRecordValues } from '../../adapter'\nimport type { DrizzleDatabase } from '../../DrizzleDatabase'\nimport * as postgres from './postgres'\nimport * as sqlite from './sqlite'\nimport type { PrivateMediaItem } from '../PrivateMediaTypes'\nimport { PrivateMediaRecord } from '../PrivateMediaTypes'\n\ntype DrizzleDidcommPrivateMediaSharingAdapterValues =\n  DrizzleAdapterRecordValues<(typeof sqlite)['didcommPrivateMediaSharing']>\n\nexport class DrizzleDidcommPrivateMediaSharingRecordAdapter extends BaseDrizzleRecordAdapter<\n  PrivateMediaRecord,\n  typeof postgres.didcommPrivateMediaSharing,\n  typeof postgres,\n  typeof sqlite.didcommPrivateMediaSharing,\n  typeof sqlite\n> {\n  public constructor(database: DrizzleDatabase<typeof postgres, typeof sqlite>) {\n    super(\n      database,\n      { postgres: postgres.didcommPrivateMediaSharing, sqlite: sqlite.didcommPrivateMediaSharing },\n      PrivateMediaRecord\n    )\n  }\n\n  public getValues(record: PrivateMediaRecord) {\n    const {\n      userId,\n      mediaType,\n      isPublic,\n      ...customTags\n    } = record.getTags()\n\n    return {\n      /** BaseRecord fields handled by BaseDrizzleRecordAdapter */\n\n      userId,\n\n      threadId: record.threadId ?? utils.uuid(),\n      parentThreadId: record.parentThreadId ?? null,\n      description: record.description ?? null,\n\n      items: record.items\n        ? (JsonTransformer.toJSON(record.items) as PrivateMediaItem[])\n        : null,\n\n      version: String(record.version ?? 1),\n\n      customTags,\n    }\n  }\n\n  public toRecord(values: DrizzleDidcommPrivateMediaSharingAdapterValues): PrivateMediaRecord {\n    const { customTags, ...recordValues } = values\n\n    const record = JsonTransformer.fromJSON(recordValues, PrivateMediaRecord)\n\n    if (customTags) {\n      record.setTags(customTags as TagsBase)\n    }\n\n    return record\n  }\n}\n"],"mappings":";;;;;;;;AAWA,IAAa,iDAAb,cAAoE,yBAMlE;CACA,AAAO,YAAY,UAA2D;AAC5E,QACE,UACA;GAAE,UAAUA;GAAqC,QAAQC;GAAmC,EAC5F,mBACD;;CAGH,AAAO,UAAU,QAA4B;EAC3C,MAAM,EACJ,QACA,WACA,UACA,GAAG,eACD,OAAO,SAAS;AAEpB,SAAO;GAGL;GAEA,UAAU,OAAO,YAAY,MAAM,MAAM;GACzC,gBAAgB,OAAO,kBAAkB;GACzC,aAAa,OAAO,eAAe;GAEnC,OAAO,OAAO,QACT,gBAAgB,OAAO,OAAO,MAAM,GACrC;GAEJ,SAAS,OAAO,OAAO,WAAW,EAAE;GAEpC;GACD;;CAGH,AAAO,SAAS,QAA4E;EAC1F,MAAM,EAAE,YAAY,GAAG,iBAAiB;EAExC,MAAM,SAAS,gBAAgB,SAAS,cAAc,mBAAmB;AAEzE,MAAI,WACF,QAAO,QAAQ,WAAuB;AAGxC,SAAO"}
++{"version":3,"file":"DrizzleDidcommPrivateMediaSharingRecordAdapter.mjs","names":["postgres.didcommPrivateMediaSharing","sqlite.didcommPrivateMediaSharing"],"sources":["../../../src/private-media-sharing/private-media-sharing-record/DrizzleDidcommPrivateMediaSharingRecordAdapter.ts"],"sourcesContent":["import { JsonTransformer, utils, type TagsBase } from '@credo-ts/core'\nimport { BaseDrizzleRecordAdapter, type DrizzleAdapterRecordValues } from '../../adapter'\nimport type { DrizzleDatabase } from '../../DrizzleDatabase'\nimport * as postgres from './postgres'\nimport * as sqlite from './sqlite'\nimport type { PrivateMediaItem } from '../PrivateMediaTypes'\nimport { PrivateMediaRecord } from '../PrivateMediaTypes'\n\ntype DrizzleDidcommPrivateMediaSharingAdapterValues =\n  DrizzleAdapterRecordValues<(typeof sqlite)['didcommPrivateMediaSharing']>\n\nexport class DrizzleDidcommPrivateMediaSharingRecordAdapter extends BaseDrizzleRecordAdapter<\n  PrivateMediaRecord,\n  typeof postgres.didcommPrivateMediaSharing,\n  typeof postgres,\n  typeof sqlite.didcommPrivateMediaSharing,\n  typeof sqlite\n> {\n  public constructor(database: DrizzleDatabase<typeof postgres, typeof sqlite>) {\n    super(\n      database,\n      { postgres: postgres.didcommPrivateMediaSharing, sqlite: sqlite.didcommPrivateMediaSharing },\n      PrivateMediaRecord\n    )\n  }\n\n  public getValues(record: PrivateMediaRecord) {\n    const {\n      userId,\n      mediaType,\n      isPublic,\n      sharedWith,\n      ...customTags\n    } = record.getTags()\n\n    return {\n      /** BaseRecord fields handled by BaseDrizzleRecordAdapter */\n      userId,\n      mediaType,\n      isPublic,\n      sharedWith,\n      threadId: record.threadId ?? utils.uuid(),\n      parentThreadId: record.parentThreadId ?? null,\n      description: record.description ?? null,\n      items: record.items\n        ? (JsonTransformer.toJSON(record.items) as PrivateMediaItem[])\n        : null,\n      version: String(record.version ?? 1),\n      customTags,\n    }\n  }\n\n  public toRecord(values: DrizzleDidcommPrivateMediaSharingAdapterValues): PrivateMediaRecord {\n    const { customTags, ...recordValues } = values\n\n    const record = JsonTransformer.fromJSON(recordValues, PrivateMediaRecord)\n\n    if (customTags) {\n      record.setTags(customTags as TagsBase)\n    }\n\n    return record\n  }\n}\n"],"mappings":";;;;;;;;AAWA,IAAa,iDAAb,cAAoE,yBAMlE;CACA,AAAO,YAAY,UAA2D;AAC5E,QACE,UACA;GAAE,UAAUA;GAAqC,QAAQC;GAAmC,EAC5F,mBACD;;CAGH,AAAO,UAAU,QAA4B;EAC3C,MAAM,EACJ,QACA,WACA,UACA,YACA,GAAG,eACD,OAAO,SAAS;AAEpB,SAAO;GAEL;GACA;GACA;GACA;GACA,UAAU,OAAO,YAAY,MAAM,MAAM;GACzC,gBAAgB,OAAO,kBAAkB;GACzC,aAAa,OAAO,eAAe;GACnC,OAAO,OAAO,QACT,gBAAgB,OAAO,OAAO,MAAM,GACrC;GACJ,SAAS,OAAO,OAAO,WAAW,EAAE;GACpC;GACD;;CAGH,AAAO,SAAS,QAA4E;EAC1F,MAAM,EAAE,YAAY,GAAG,iBAAiB;EAExC,MAAM,SAAS,gBAAgB,SAAS,cAAc,mBAAmB;AAEzE,MAAI,WACF,QAAO,QAAQ,WAAuB;AAGxC,SAAO"}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/index.mjs b/node_modules/@credo-ts/drizzle-storage/build/private-media-sharing/private-media-sharing-record/index.mjs
 new file mode 100644
