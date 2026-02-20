@@ -104,7 +104,7 @@ export function getAgentModules(options: {
         key: options.credoConfig.walletConfig.key,
         // TODO: Do we need to handle scenario where 'sqlite-path' and 'sqlite-in-memory' for 'db-type'
         database: getAskarDatabaseConfig({
-          'db-type': options.credoConfig.walletConfig.database?.type,
+          'askar-storage-type': options.credoConfig.walletConfig.database?.type,
           'postgres-host': (options.credoConfig.walletConfig.database?.config as AskarPostgresConfig)?.host,
           'postgres-username': (
             (options.credoConfig.walletConfig.database as AskarPostgresStorageConfig)
