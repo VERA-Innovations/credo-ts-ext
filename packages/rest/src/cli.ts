@@ -261,6 +261,7 @@ export async function runCliServer() {
       drizzleStorageConfigOptions: {
         drizzleDatabaseUrl: parsedArgs['drizzle-storage-db-url'],
         drizzleDatabaseType: parsedArgs['drizzle-storage-type'] || 'sqlite',
+        // TODO: Currently 'additionalDrizzleBundles' is not supported.
       },
       drizzleStorageEnable: parsedArgs['drizzle-storage-enable'] || false,
     },
