@@ -9,7 +9,7 @@ import type { Express } from 'express'
 import { DidCommHttpOutboundTransport, DidCommWsOutboundTransport } from '@credo-ts/didcomm'
 import { DidCommHttpInboundTransport, DidCommWsInboundTransport } from '@credo-ts/node'
 import { DrizzleRecordBundle } from '@credo-ts/drizzle-storage'
-
+export type EncryptedColumnsConfig = Record<string, string[]>
 export type Transports = 'ws' | 'http'
 export type InboundTransport = {
   transport: Transports
@@ -101,6 +101,9 @@ export interface CredoDrizzleStorageConfigOptions {
   drizzleDatabaseUrl: string,
   drizzleDatabaseType: 'postgres' | 'sqlite'
   additionalDrizzleBundles?: DrizzleRecordBundle[]
+  enableEncryption?: boolean
+  encryptionKey?: string
+  encryptedColumns?: EncryptedColumnsConfig
 }
 
 export interface CredoRestSetupAppConfig {

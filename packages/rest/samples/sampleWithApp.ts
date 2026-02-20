@@ -57,13 +57,32 @@ const run = async () => {
       //   }
       // }
     },
-    drizzleStorageEnable: false,
+    drizzleStorageEnable: true,
     drizzleStorageConfigOptions: {
       // Please create a database named 'vera-credo-ext-drizzle' in your PostgreSQL instance & migrations
       // Read: https://github.com/openwallet-foundation/credo-ts/tree/main/packages/drizzle-storage#migrations
       drizzleDatabaseUrl: 'postgres://postgres:postgres@localhost:5432/vera-credo-ext-drizzle',
       drizzleDatabaseType: 'postgres',
-      additionalDrizzleBundles: [mediaSharingBundle, userProfileBundle, privateMediaSharingBundle]
+      // additionalDrizzleBundles: [mediaSharingBundle, userProfileBundle, privateMediaSharingBundle],
+      enableEncryption: true,
+      encryptionKey: 'test-encryption-key-for-drizzle-storage-connection-tests',
+      encryptedColumns: {
+        // Map the Record Class name to the columns we want encrypted
+        'AnonCredsCredentialRecord': ['credential'],
+        'ActionMenuRecord': ['performedAction', 'menu'],
+        'DidCommConnectionRecord': ['alias', 'imageUrl', 'theirLabel'],
+        'DidCommCredentialExchangeRecord': ['credentialAttributes'],
+        'DidCommMediaSharingRecord': ['items'],
+        'DidCommMessageRecord': ['message'],
+        'PrivateMediaRecord': ['items'],
+        'QuestionAnswerRecord': ['questionText', 'questionDetail', 'validResponses', 'response'],
+        'GenericRecord': ['content'],
+        'TenantRecord': ['config', 'label'],
+        'UserProfileRecord': ['displayName', 'description', 'preferredLanguage', 'displayPicture', 'displayIcon'],
+        'W3cCredentialRecord': ['credentialInstances'],
+        'W3cV2CredentialRecord': ['credentialInstances'],
+        'DidCommBasicMessageRecord': ['content']
+      }
     },
   })
 

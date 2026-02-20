@@ -215,16 +215,15 @@ export function getAgentModules(options: {
 
   if (options.drizzleStorageEnable) {
     if (options.drizzleStorageConfigOptions) {
+      // TODO: Remove log later
+      console.log("Drizzle storage enabled with config options:", JSON.stringify(options.drizzleStorageConfigOptions, null, 2))
       modules.drizzleStorage = new DrizzleStorageModule({
         bundles: [coreBundle, didcommBundle, actionMenuBundle, anoncredsBundle, tenantsBundle, questionAnswerBundle, mediaSharingBundle, userProfileBundle, privateMediaSharingBundle],
         database: getDrizzleDatabaseConfig(options.drizzleStorageConfigOptions).database,
         // TODO: Make this dynamic
-        enableEncryption: true,
-        encryptionKey: 'test-encryption-key-for-drizzle-storage-connection-tests',
-        encryptedColumns: {
-          // Map the Record Class name to the columns we want encrypted
-          'DidCommConnectionRecord': ['alias', 'imageUrl', 'theirLabel'],
-        }
+        enableEncryption: options.drizzleStorageConfigOptions.enableEncryption || false,
+        encryptionKey: options.drizzleStorageConfigOptions.encryptionKey,
+        encryptedColumns: options.drizzleStorageConfigOptions.encryptedColumns || {},
       })
     } else {
       throw new Error("Drizzle storage configuration is required when drizzleStorageEnable is true.")

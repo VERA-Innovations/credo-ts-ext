@@ -3,7 +3,7 @@
  * @see https://github.com/openwallet-foundation/credo-ts/issues/2597
  */
 import '@openwallet-foundation/askar-nodejs'
-import type { InboundTransport, Transports } from './setup/CredoRestConfig'
+import type { EncryptedColumnsConfig, InboundTransport, Transports } from './setup/CredoRestConfig'
 import type { AskarPostgresStorageConfig } from '@credo-ts/askar'
 import type { CheqdModuleConfigOptions } from '@credo-ts/cheqd'
 import type { IndyVdrPoolConfig } from '@credo-ts/indy-vdr'
@@ -16,6 +16,7 @@ import { hideBin } from 'yargs/helpers'
 
 // eslint-disable-next-line import/no-cycle
 import { setupApp } from './setup/setupApp'
+import { DrizzleRecordBundle } from '@credo-ts/drizzle-storage'
 
 export interface CliArgs {
   label: string
@@ -49,6 +50,10 @@ export interface CliArgs {
   'postgres-password'?: string
   'postgres-admin-account'?: string
   'postgres-admin-password'?: string
+  'drizzle-storage-encrypted-columns'?: EncryptedColumnsConfig
+  'drizzle-storage-enable-encryption'?: boolean
+  'drizzle-storage-encryption-key'?: string
+  'drizzle-storage-additional-bundles'?: string[]
 }
 
 const parsed = yargs(hideBin(process.argv))
@@ -185,6 +190,21 @@ const parsed = yargs(hideBin(process.argv))
     choices: ['sqlite', 'postgres'] as const,
     default: 'sqlite',
   })
+  .option('drizzle-storage-enable-encryption', {
+    type: 'boolean',
+    default: false,
+  })
+  .option('drizzle-storage-encryption-key', {
+    type: 'string',
+  })
+  .option('drizzle-storage-encrypted-columns', {
+    coerce: (input: string) => JSON.parse(input),
+    default: {}
+  })
+  .option('drizzle-storage-additional-bundles', {
+    array: true,
+    default: [],
+  })
   .option('postgres-host', {
     type: 'string',
   })
@@ -206,6 +226,12 @@ const parsed = yargs(hideBin(process.argv))
       argv['drizzle-storage-enable'] && !argv['drizzle-storage-db-url']
     ) {
       throw new Error("DB url are required for 'drizzle' storage.")
+    }
+
+    if (
+      argv['drizzle-storage-enable-encryption'] && !argv['drizzle-storage-encryption-key']
+    ) {
+      throw new Error("Encryption key is required for 'drizzle' storage encryption.")
     }
 
     return true
@@ -261,7 +287,12 @@ export async function runCliServer() {
       drizzleStorageConfigOptions: {
         drizzleDatabaseUrl: parsedArgs['drizzle-storage-db-url'],
         drizzleDatabaseType: parsedArgs['drizzle-storage-type'] || 'sqlite',
-        // TODO: Currently 'additionalDrizzleBundles' is not supported.
+        // Not sure, how this would work here.
+        // We would need to send the object of bundles and not the string
+        additionalDrizzleBundles: parsedArgs['drizzle-storage-additional-bundles'] as unknown as DrizzleRecordBundle[],
+        enableEncryption: parsedArgs['drizzle-storage-enable-encryption'],
+        encryptionKey: parsedArgs['drizzle-storage-encryption-key'],
+        encryptedColumns: parsedArgs['drizzle-storage-encrypted-columns'],
       },
       drizzleStorageEnable: parsedArgs['drizzle-storage-enable'] || false,
     },
