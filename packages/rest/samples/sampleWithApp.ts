@@ -81,7 +81,8 @@ const run = async () => {
         'UserProfileRecord': ['displayName', 'description', 'preferredLanguage', 'displayPicture', 'displayIcon'],
         'W3cCredentialRecord': ['credentialInstances'],
         'W3cV2CredentialRecord': ['credentialInstances'],
-        'DidCommBasicMessageRecord': ['content']
+        'DidCommBasicMessageRecord': ['content'],
+        'DidCommOutOfBandRecord': ['alias']
       }
     },
   })
