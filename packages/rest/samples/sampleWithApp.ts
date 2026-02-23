@@ -70,7 +70,7 @@ const run = async () => {
         // Map the Record Class name to the columns we want encrypted
         'AnonCredsCredentialRecord': ['credential'],
         'ActionMenuRecord': ['performedAction', 'menu'],
-        'DidCommConnectionRecord': ['alias', 'imageUrl', 'theirLabel'],
+        'DidCommConnectionRecord': ['alias', 'imageUrl', 'theirLabel', 'metadata'],
         'DidCommCredentialExchangeRecord': ['credentialAttributes'],
         'DidCommMediaSharingRecord': ['items'],
         'DidCommMessageRecord': ['message'],

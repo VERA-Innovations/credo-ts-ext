@@ -7367,14 +7367,14 @@ index fe7c613..720ce4a 100644
 +{"version":3,"file":"DrizzleDidcommConnectionRecordAdapter.mjs","names":["config: DrizzleStorageModuleConfig","postgres.didcommConnection","sqlite.didcommConnection"],"sources":["../../../src/didcomm/connection-record/DrizzleDidcommConnectionRecordAdapter.ts"],"sourcesContent":["import { JsonTransformer, type TagsBase, type AgentContext } from '@credo-ts/core'\nimport { DidCommConnectionRecord } from '@credo-ts/didcomm'\nimport { BaseDrizzleRecordAdapter } from '../../adapter/BaseDrizzleRecordAdapter'\nimport type { DrizzleDatabase } from '../../DrizzleDatabase'\nimport * as postgres from './postgres'\nimport * as sqlite from './sqlite'\nimport type { DrizzleAdapterRecordValues } from '../../adapter/type'\nimport type { DrizzleStorageModuleConfig } from '../../DrizzleStorageModuleConfig'\n\ntype DrizzleDidcommConnectionAdapterValues = DrizzleAdapterRecordValues<(typeof sqlite)['didcommConnection']>\n\nexport class DrizzleDidcommConnectionRecordAdapter extends BaseDrizzleRecordAdapter<\n  DidCommConnectionRecord,\n  typeof postgres.didcommConnection,\n  typeof postgres,\n  typeof sqlite.didcommConnection,\n  typeof sqlite\n> {\n  public constructor(database: DrizzleDatabase<typeof postgres, typeof sqlite>, public config: DrizzleStorageModuleConfig) {\n    super(database, { postgres: postgres.didcommConnection, sqlite: sqlite.didcommConnection }, DidCommConnectionRecord, [], config)\n  }\n\n  public async getValues(record: DidCommConnectionRecord, agentContext?: AgentContext) {\n    const {\n      state,\n      role,\n      threadId,\n      mediatorId,\n      did,\n      theirDid,\n      outOfBandId,\n      invitationDid,\n      connectionTypes,\n      previousDids,\n      previousTheirDids,\n      ...customTags\n    } = record.getTags()\n\n    // Map the record properties to a plain object\n    const rawValues = {\n      state,\n      role,\n      threadId,\n      mediatorId,\n      did,\n      theirDid,\n      outOfBandId,\n      invitationDid,\n      connectionTypes,\n      previousDids,\n      previousTheirDids,\n      alias: record.alias,\n      autoAcceptConnection: record.autoAcceptConnection,\n      errorMessage: record.errorMessage,\n      imageUrl: record.imageUrl,\n      theirLabel: record.theirLabel,\n      protocol: record.protocol,\n    }\n\n    // Await the asynchronous encryption and stringification\n    const processedValues = await this.prepareValuesForDb(rawValues, agentContext)\n\n    return {\n      ...processedValues,\n      customTags: customTags as any,\n    } as any\n  }\n\n  public async toRecord(\n    values: DrizzleDidcommConnectionAdapterValues,\n    agentContext?: AgentContext\n  ): Promise<DidCommConnectionRecord> {\n    const { customTags, ...remainingValues } = values\n\n    // Await the asynchronous decryption and parsing\n    const decryptedValues = await this.prepareRecordFromDb(remainingValues, agentContext)\n\n    // Instantiate the record with processed values\n    const record = JsonTransformer.fromJSON(decryptedValues, DidCommConnectionRecord)\n    record.setTags(customTags as TagsBase)\n\n    return record\n  }\n}\n"],"mappings":";;;;;;;AAWA,IAAa,wCAAb,cAA2D,yBAMzD;CACA,AAAO,YAAY,UAA2D,AAAOA,QAAoC;AACvH,QAAM,UAAU;GAAE,UAAUC;GAA4B,QAAQC;GAA0B,EAAE,yBAAyB,EAAE,EAAE,OAAO;EAD7C;;CAIrF,MAAa,UAAU,QAAiC,cAA6B;EACnF,MAAM,EACJ,OACA,MACA,UACA,YACA,KACA,UACA,aACA,eACA,iBACA,cACA,mBACA,GAAG,eACD,OAAO,SAAS;EAGpB,MAAM,YAAY;GAChB;GACA;GACA;GACA;GACA;GACA;GACA;GACA;GACA;GACA;GACA;GACA,OAAO,OAAO;GACd,sBAAsB,OAAO;GAC7B,cAAc,OAAO;GACrB,UAAU,OAAO;GACjB,YAAY,OAAO;GACnB,UAAU,OAAO;GAClB;AAKD,SAAO;GACL,GAHsB,MAAM,KAAK,mBAAmB,WAAW,aAAa;GAIhE;GACb;;CAGH,MAAa,SACX,QACA,cACkC;EAClC,MAAM,EAAE,YAAY,GAAG,oBAAoB;EAG3C,MAAM,kBAAkB,MAAM,KAAK,oBAAoB,iBAAiB,aAAa;EAGrF,MAAM,SAAS,gBAAgB,SAAS,iBAAiB,wBAAwB;AACjF,SAAO,QAAQ,WAAuB;AAEtC,SAAO"}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.d.mts b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.d.mts
-index dabd556..b29264f 100644
+index dabd556..5b4e4d6 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.d.mts
 +++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.d.mts
-@@ -1,21 +1,21 @@
+@@ -1,21 +1,40 @@
 -import * as drizzle_orm29 from "drizzle-orm";
 -import * as drizzle_orm_pg_core372 from "drizzle-orm/pg-core";
-+import * as drizzle_orm37 from "drizzle-orm";
-+import * as drizzle_orm_pg_core502 from "drizzle-orm/pg-core";
++import * as drizzle_orm35 from "drizzle-orm";
++import * as drizzle_orm_pg_core464 from "drizzle-orm/pg-core";
  
  //#region src/didcomm/connection-record/postgres.d.ts
  declare namespace postgres_d_exports {
@@ -7382,164 +7382,183 @@ index dabd556..b29264f 100644
  }
  declare const didcommConnectionStates: readonly ["start", "invitation-sent", "invitation-received", "request-sent", "request-received", "response-sent", "response-received", "abandoned", "completed"];
 -declare const didcommConnectionStateEnum: drizzle_orm_pg_core372.PgEnum<["start", "invitation-sent", "invitation-received", "request-sent", "request-received", "response-sent", "response-received", "abandoned", "completed"]>;
-+declare const didcommConnectionStateEnum: drizzle_orm_pg_core502.PgEnum<["start", "invitation-sent", "invitation-received", "request-sent", "request-received", "response-sent", "response-received", "abandoned", "completed"]>;
++declare const didcommConnectionStateEnum: drizzle_orm_pg_core464.PgEnum<["start", "invitation-sent", "invitation-received", "request-sent", "request-received", "response-sent", "response-received", "abandoned", "completed"]>;
  declare const didcommConnectionRoles: readonly ["requester", "responder"];
 -declare const didcommConnectionRoleEnum: drizzle_orm_pg_core372.PgEnum<["requester", "responder"]>;
-+declare const didcommConnectionRoleEnum: drizzle_orm_pg_core502.PgEnum<["requester", "responder"]>;
++declare const didcommConnectionRoleEnum: drizzle_orm_pg_core464.PgEnum<["requester", "responder"]>;
  declare const didcommConnectionHandshakeProtocols: readonly ["https://didcomm.org/didexchange/1.x", "https://didcomm.org/connections/1.x"];
 -declare const didcommConnectionHandshakeProtocolEnum: drizzle_orm_pg_core372.PgEnum<["https://didcomm.org/didexchange/1.x", "https://didcomm.org/connections/1.x"]>;
 -declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
-+declare const didcommConnectionHandshakeProtocolEnum: drizzle_orm_pg_core502.PgEnum<["https://didcomm.org/didexchange/1.x", "https://didcomm.org/connections/1.x"]>;
-+declare const didcommConnection: drizzle_orm_pg_core502.PgTableWithColumns<{
++declare const didcommConnectionHandshakeProtocolEnum: drizzle_orm_pg_core464.PgEnum<["https://didcomm.org/didexchange/1.x", "https://didcomm.org/connections/1.x"]>;
++declare const didcommConnection: drizzle_orm_pg_core464.PgTableWithColumns<{
    name: "DidcommConnection";
    schema: undefined;
    columns: {
 -    state: drizzle_orm_pg_core372.PgColumn<{
-+    state: drizzle_orm_pg_core502.PgColumn<{
++    metadata: drizzle_orm_pg_core464.PgColumn<{
++      name: "metadata";
++      tableName: "DidcommConnection";
++      dataType: "string";
++      columnType: "PgText";
++      data: Record<string, Record<string, unknown> | undefined>;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      $type: Record<string, Record<string, unknown> | undefined>;
++    }>;
++    state: drizzle_orm_pg_core464.PgColumn<{
        name: "state";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -32,7 +32,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -32,7 +51,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    role: drizzle_orm_pg_core372.PgColumn<{
-+    role: drizzle_orm_pg_core502.PgColumn<{
++    role: drizzle_orm_pg_core464.PgColumn<{
        name: "role";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -49,7 +49,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -49,7 +68,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    did: drizzle_orm_pg_core372.PgColumn<{
-+    did: drizzle_orm_pg_core502.PgColumn<{
++    did: drizzle_orm_pg_core464.PgColumn<{
        name: "did";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -66,7 +66,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -66,7 +85,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    theirDid: drizzle_orm_pg_core372.PgColumn<{
-+    theirDid: drizzle_orm_pg_core502.PgColumn<{
++    theirDid: drizzle_orm_pg_core464.PgColumn<{
        name: "their_did";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -83,7 +83,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -83,7 +102,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    theirLabel: drizzle_orm_pg_core372.PgColumn<{
-+    theirLabel: drizzle_orm_pg_core502.PgColumn<{
++    theirLabel: drizzle_orm_pg_core464.PgColumn<{
        name: "their_label";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -100,7 +100,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -100,7 +119,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    alias: drizzle_orm_pg_core372.PgColumn<{
-+    alias: drizzle_orm_pg_core502.PgColumn<{
++    alias: drizzle_orm_pg_core464.PgColumn<{
        name: "alias";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -117,7 +117,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -117,7 +136,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    autoAcceptConnection: drizzle_orm_pg_core372.PgColumn<{
-+    autoAcceptConnection: drizzle_orm_pg_core502.PgColumn<{
++    autoAcceptConnection: drizzle_orm_pg_core464.PgColumn<{
        name: "auto_accept_connection";
        tableName: "DidcommConnection";
        dataType: "boolean";
-@@ -134,7 +134,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -134,7 +153,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    imageUrl: drizzle_orm_pg_core372.PgColumn<{
-+    imageUrl: drizzle_orm_pg_core502.PgColumn<{
++    imageUrl: drizzle_orm_pg_core464.PgColumn<{
        name: "image_url";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -151,7 +151,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -151,7 +170,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    threadId: drizzle_orm_pg_core372.PgColumn<{
-+    threadId: drizzle_orm_pg_core502.PgColumn<{
++    threadId: drizzle_orm_pg_core464.PgColumn<{
        name: "thread_id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -168,7 +168,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -168,7 +187,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    invitationDid: drizzle_orm_pg_core372.PgColumn<{
-+    invitationDid: drizzle_orm_pg_core502.PgColumn<{
++    invitationDid: drizzle_orm_pg_core464.PgColumn<{
        name: "invitation_did";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -185,7 +185,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -185,7 +204,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    mediatorId: drizzle_orm_pg_core372.PgColumn<{
-+    mediatorId: drizzle_orm_pg_core502.PgColumn<{
++    mediatorId: drizzle_orm_pg_core464.PgColumn<{
        name: "mediator_id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -202,7 +202,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -202,7 +221,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    outOfBandId: drizzle_orm_pg_core372.PgColumn<{
-+    outOfBandId: drizzle_orm_pg_core502.PgColumn<{
++    outOfBandId: drizzle_orm_pg_core464.PgColumn<{
        name: "out_of_band_id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -219,7 +219,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -219,7 +238,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    errorMessage: drizzle_orm_pg_core372.PgColumn<{
-+    errorMessage: drizzle_orm_pg_core502.PgColumn<{
++    errorMessage: drizzle_orm_pg_core464.PgColumn<{
        name: "error_message";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -236,7 +236,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -236,7 +255,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    protocol: drizzle_orm_pg_core372.PgColumn<{
-+    protocol: drizzle_orm_pg_core502.PgColumn<{
++    protocol: drizzle_orm_pg_core464.PgColumn<{
        name: "protocol";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -253,7 +253,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -253,7 +272,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    connectionTypes: drizzle_orm_pg_core372.PgColumn<{
-+    connectionTypes: drizzle_orm_pg_core502.PgColumn<{
++    connectionTypes: drizzle_orm_pg_core464.PgColumn<{
        name: "connection_types";
        tableName: "DidcommConnection";
        dataType: "array";
-@@ -266,7 +266,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -266,7 +285,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        isAutoincrement: false;
        hasRuntimeDefault: false;
        enumValues: [string, ...string[]];
 -      baseColumn: drizzle_orm29.Column<{
-+      baseColumn: drizzle_orm37.Column<{
++      baseColumn: drizzle_orm35.Column<{
          name: "connection_types";
          tableName: "DidcommConnection";
          dataType: "string";
-@@ -286,17 +286,17 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -286,17 +305,17 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {
 -      baseBuilder: drizzle_orm_pg_core372.PgColumnBuilder<{
-+      baseBuilder: drizzle_orm_pg_core502.PgColumnBuilder<{
++      baseBuilder: drizzle_orm_pg_core464.PgColumnBuilder<{
          name: "connection_types";
          dataType: "string";
          columnType: "PgText";
@@ -7547,29 +7566,29 @@ index dabd556..b29264f 100644
          enumValues: [string, ...string[]];
          driverParam: string;
 -      }, {}, {}, drizzle_orm29.ColumnBuilderExtraConfig>;
-+      }, {}, {}, drizzle_orm37.ColumnBuilderExtraConfig>;
++      }, {}, {}, drizzle_orm35.ColumnBuilderExtraConfig>;
        size: undefined;
      }>;
 -    previousDids: drizzle_orm_pg_core372.PgColumn<{
-+    previousDids: drizzle_orm_pg_core502.PgColumn<{
++    previousDids: drizzle_orm_pg_core464.PgColumn<{
        name: "previous_dids";
        tableName: "DidcommConnection";
        dataType: "array";
-@@ -309,7 +309,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -309,7 +328,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        isAutoincrement: false;
        hasRuntimeDefault: false;
        enumValues: [string, ...string[]];
 -      baseColumn: drizzle_orm29.Column<{
-+      baseColumn: drizzle_orm37.Column<{
++      baseColumn: drizzle_orm35.Column<{
          name: "previous_dids";
          tableName: "DidcommConnection";
          dataType: "string";
-@@ -329,17 +329,17 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -329,17 +348,17 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {
 -      baseBuilder: drizzle_orm_pg_core372.PgColumnBuilder<{
-+      baseBuilder: drizzle_orm_pg_core502.PgColumnBuilder<{
++      baseBuilder: drizzle_orm_pg_core464.PgColumnBuilder<{
          name: "previous_dids";
          dataType: "string";
          columnType: "PgText";
@@ -7577,29 +7596,29 @@ index dabd556..b29264f 100644
          enumValues: [string, ...string[]];
          driverParam: string;
 -      }, {}, {}, drizzle_orm29.ColumnBuilderExtraConfig>;
-+      }, {}, {}, drizzle_orm37.ColumnBuilderExtraConfig>;
++      }, {}, {}, drizzle_orm35.ColumnBuilderExtraConfig>;
        size: undefined;
      }>;
 -    previousTheirDids: drizzle_orm_pg_core372.PgColumn<{
-+    previousTheirDids: drizzle_orm_pg_core502.PgColumn<{
++    previousTheirDids: drizzle_orm_pg_core464.PgColumn<{
        name: "previous_their_dids";
        tableName: "DidcommConnection";
        dataType: "array";
-@@ -352,7 +352,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -352,7 +371,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        isAutoincrement: false;
        hasRuntimeDefault: false;
        enumValues: [string, ...string[]];
 -      baseColumn: drizzle_orm29.Column<{
-+      baseColumn: drizzle_orm37.Column<{
++      baseColumn: drizzle_orm35.Column<{
          name: "previous_their_dids";
          tableName: "DidcommConnection";
          dataType: "string";
-@@ -372,17 +372,17 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -372,17 +391,17 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {
 -      baseBuilder: drizzle_orm_pg_core372.PgColumnBuilder<{
-+      baseBuilder: drizzle_orm_pg_core502.PgColumnBuilder<{
++      baseBuilder: drizzle_orm_pg_core464.PgColumnBuilder<{
          name: "previous_their_dids";
          dataType: "string";
          columnType: "PgText";
@@ -7607,66 +7626,106 @@ index dabd556..b29264f 100644
          enumValues: [string, ...string[]];
          driverParam: string;
 -      }, {}, {}, drizzle_orm29.ColumnBuilderExtraConfig>;
-+      }, {}, {}, drizzle_orm37.ColumnBuilderExtraConfig>;
++      }, {}, {}, drizzle_orm35.ColumnBuilderExtraConfig>;
        size: undefined;
      }>;
 -    contextCorrelationId: drizzle_orm_pg_core372.PgColumn<{
-+    contextCorrelationId: drizzle_orm_pg_core502.PgColumn<{
++    contextCorrelationId: drizzle_orm_pg_core464.PgColumn<{
        name: "context_correlation_id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -399,7 +399,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -399,7 +418,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    id: drizzle_orm_pg_core372.PgColumn<{
-+    id: drizzle_orm_pg_core502.PgColumn<{
++    id: drizzle_orm_pg_core464.PgColumn<{
        name: "id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -416,7 +416,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -416,7 +435,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    createdAt: drizzle_orm_pg_core372.PgColumn<{
-+    createdAt: drizzle_orm_pg_core502.PgColumn<{
++    createdAt: drizzle_orm_pg_core464.PgColumn<{
        name: "created_at";
        tableName: "DidcommConnection";
        dataType: "date";
-@@ -433,7 +433,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -433,7 +452,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    updatedAt: drizzle_orm_pg_core372.PgColumn<{
-+    updatedAt: drizzle_orm_pg_core502.PgColumn<{
++    updatedAt: drizzle_orm_pg_core464.PgColumn<{
        name: "updated_at";
        tableName: "DidcommConnection";
        dataType: "date";
-@@ -450,7 +450,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
+@@ -450,26 +469,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    metadata: drizzle_orm_pg_core372.PgColumn<{
-+    metadata: drizzle_orm_pg_core502.PgColumn<{
-       name: "metadata";
-       tableName: "DidcommConnection";
-       dataType: "json";
-@@ -469,7 +469,7 @@ declare const didcommConnection: drizzle_orm_pg_core372.PgTableWithColumns<{
-     }, {}, {
-       $type: Record<string, Record<string, unknown> | undefined>;
-     }>;
+-      name: "metadata";
+-      tableName: "DidcommConnection";
+-      dataType: "json";
+-      columnType: "PgJsonb";
+-      data: Record<string, Record<string, unknown> | undefined>;
+-      driverParam: unknown;
+-      notNull: false;
+-      hasDefault: false;
+-      isPrimaryKey: false;
+-      isAutoincrement: false;
+-      hasRuntimeDefault: false;
+-      enumValues: undefined;
+-      baseColumn: never;
+-      identity: undefined;
+-      generated: undefined;
+-    }, {}, {
+-      $type: Record<string, Record<string, unknown> | undefined>;
+-    }>;
 -    customTags: drizzle_orm_pg_core372.PgColumn<{
-+    customTags: drizzle_orm_pg_core502.PgColumn<{
++    customTags: drizzle_orm_pg_core464.PgColumn<{
        name: "custom_tags";
        tableName: "DidcommConnection";
        dataType: "json";
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.d.mts.map
+index 18dfd8d..a72df4f 100644
+--- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.d.mts.map
++++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.d.mts.map
+@@ -1 +1 @@
+-{"version":3,"file":"postgres.d.mts","names":[],"sources":["../../../src/didcomm/connection-record/postgres.ts"],"sourcesContent":[],"mappings":";;;;;;;cAKa;cAcA,4BAAsF,sBAAA,CAA5D;cAE1B;cACA,2BAAmF,sBAAA,CAA1D;cAEzB;cAIA,wCAGZ,sBAAA,CAHkD;cAKtC,0CAAiB;;;;WAgC7B,sBAAA,CAAA;;;;MA5DY,UAAA,EAAA,cAaZ;MACY,IAAA,EAAA,OAAA,GAAA,iBAAsF,GAAA,qBAA5D,GAAA,cAAA,GAAA,kBAAA,GAAA,eAAA,GAAA,mBAAA,GAAA,WAAA,GAAA,WAAA;MAE1B,WAAA,EAAA,MAA2G;MAC3G,OAAA,EAAA,IAAA;MAEA,UAAA,EAAA,KAAA;MAIA,YAAA,EAAA,KAAA;MAKA,eAgCZ,EAAA,KAAA;MAAA,iBAAA,EAAA,KAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6CAhC6B,CAAA;MAAA,IAAA,EAAA,WAAA"}
+\ No newline at end of file
++{"version":3,"file":"postgres.d.mts","names":[],"sources":["../../../src/didcomm/connection-record/postgres.ts"],"sourcesContent":[],"mappings":";;;;;;;cAKa;cAcA,4BAAsF,sBAAA,CAA5D;cAE1B;cACA,2BAAmF,sBAAA,CAA1D;cAEzB;cAIA,wCAGZ,sBAAA,CAHkD;cAKtC,0CAAiB;;;;;;;;MA5BjB,UAAA,EAAA,QAaZ;MACY,IAAA,QAAA,CAAA,MAAA,QAAsF,CAAA,MAAA,EAAA,OAAA,CAAA,GAAA,SAAA,CAA5D;MAE1B,WAAA,EAAA,MAA2G;MAC3G,OAAA,EAAA,KAAA;MAEA,UAAA,EAAA,KAAA;MAIA,YAAA,EAAA,KAAA;MAKA,eAiCZ,EAAA,KAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;0BAjC6B;IAAA,CAAA,EAAA,CAAA,CAAA,EAAA,CAAA,CAAA,CAAA"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.mjs b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.mjs
+index c942b25..49c5773 100644
+--- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.mjs
++++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.mjs
+@@ -31,6 +31,7 @@ const didcommConnectionHandshakeProtocols = exhaustiveArray({}, ["https://didcom
+ const didcommConnectionHandshakeProtocolEnum = pgEnum("DidcommConnectionHandshakeProtocol", didcommConnectionHandshakeProtocols);
+ const didcommConnection = pgTable("DidcommConnection", {
+ 	...getPostgresBaseRecordTable(),
++	metadata: text().$type(),
+ 	state: didcommConnectionStateEnum().notNull(),
+ 	role: didcommConnectionRoleEnum().notNull(),
+ 	did: text(),
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.mjs.map
+index 854e5ec..ea0f5d1 100644
+--- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.mjs.map
++++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/postgres.mjs.map
+@@ -1 +1 @@
+-{"version":3,"file":"postgres.mjs","names":[],"sources":["../../../src/didcomm/connection-record/postgres.ts"],"sourcesContent":["import type { DidCommDidExchangeRole, DidCommDidExchangeState, DidCommHandshakeProtocol } from '@credo-ts/didcomm'\nimport { boolean, pgEnum, pgTable, text, unique } from 'drizzle-orm/pg-core'\nimport { getPostgresBaseRecordTable, postgresBaseRecordIndexes } from '../../postgres/baseRecord'\nimport { exhaustiveArray } from '../../util'\n\nexport const didcommConnectionStates = exhaustiveArray(\n  {} as DidCommDidExchangeState,\n  [\n    'start',\n    'invitation-sent',\n    'invitation-received',\n    'request-sent',\n    'request-received',\n    'response-sent',\n    'response-received',\n    'abandoned',\n    'completed',\n  ] as const\n)\nexport const didcommConnectionStateEnum = pgEnum('DidcommConnectionState', didcommConnectionStates)\n\nexport const didcommConnectionRoles = exhaustiveArray({} as DidCommDidExchangeRole, ['requester', 'responder'] as const)\nexport const didcommConnectionRoleEnum = pgEnum('DidcommConnectionRole', didcommConnectionRoles)\n\nexport const didcommConnectionHandshakeProtocols = exhaustiveArray(\n  {} as DidCommHandshakeProtocol,\n  ['https://didcomm.org/didexchange/1.x', 'https://didcomm.org/connections/1.x'] as const\n)\nexport const didcommConnectionHandshakeProtocolEnum = pgEnum(\n  'DidcommConnectionHandshakeProtocol',\n  didcommConnectionHandshakeProtocols\n)\n\nexport const didcommConnection = pgTable(\n  'DidcommConnection',\n  {\n    ...getPostgresBaseRecordTable(),\n\n    state: didcommConnectionStateEnum().notNull(),\n    role: didcommConnectionRoleEnum().notNull(),\n\n    did: text(),\n    theirDid: text('their_did'),\n    theirLabel: text('their_label'),\n    alias: text(),\n    autoAcceptConnection: boolean('auto_accept_connection'),\n    imageUrl: text('image_url'),\n    threadId: text('thread_id'),\n    invitationDid: text('invitation_did'),\n\n    // TODO: references mediator/oob record\n    mediatorId: text('mediator_id'),\n    outOfBandId: text('out_of_band_id'),\n\n    errorMessage: text('error_message'),\n    protocol: didcommConnectionHandshakeProtocolEnum(),\n    connectionTypes: text('connection_types').array(),\n\n    previousDids: text('previous_dids').array(),\n    previousTheirDids: text('previous_their_dids').array(),\n  },\n  (table) => [\n    ...postgresBaseRecordIndexes(table, 'didcommConnection'),\n    unique().on(table.contextCorrelationId, table.threadId),\n  ]\n)\n"],"mappings":";;;;;;;;;;;;;;;AAKA,MAAa,0BAA0B,gBACrC,EAAE,EACF;CACE;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACD,CACF;AACD,MAAa,6BAA6B,OAAO,0BAA0B,wBAAwB;AAEnG,MAAa,yBAAyB,gBAAgB,EAAE,EAA4B,CAAC,aAAa,YAAY,CAAU;AACxH,MAAa,4BAA4B,OAAO,yBAAyB,uBAAuB;AAEhG,MAAa,sCAAsC,gBACjD,EAAE,EACF,CAAC,uCAAuC,sCAAsC,CAC/E;AACD,MAAa,yCAAyC,OACpD,sCACA,oCACD;AAED,MAAa,oBAAoB,QAC/B,qBACA;CACE,GAAG,4BAA4B;CAE/B,OAAO,4BAA4B,CAAC,SAAS;CAC7C,MAAM,2BAA2B,CAAC,SAAS;CAE3C,KAAK,MAAM;CACX,UAAU,KAAK,YAAY;CAC3B,YAAY,KAAK,cAAc;CAC/B,OAAO,MAAM;CACb,sBAAsB,QAAQ,yBAAyB;CACvD,UAAU,KAAK,YAAY;CAC3B,UAAU,KAAK,YAAY;CAC3B,eAAe,KAAK,iBAAiB;CAGrC,YAAY,KAAK,cAAc;CAC/B,aAAa,KAAK,iBAAiB;CAEnC,cAAc,KAAK,gBAAgB;CACnC,UAAU,wCAAwC;CAClD,iBAAiB,KAAK,mBAAmB,CAAC,OAAO;CAEjD,cAAc,KAAK,gBAAgB,CAAC,OAAO;CAC3C,mBAAmB,KAAK,sBAAsB,CAAC,OAAO;CACvD,GACA,UAAU,CACT,GAAG,0BAA0B,OAAO,oBAAoB,EACxD,QAAQ,CAAC,GAAG,MAAM,sBAAsB,MAAM,SAAS,CACxD,CACF"}
+\ No newline at end of file
++{"version":3,"file":"postgres.mjs","names":[],"sources":["../../../src/didcomm/connection-record/postgres.ts"],"sourcesContent":["import type { DidCommDidExchangeRole, DidCommDidExchangeState, DidCommHandshakeProtocol } from '@credo-ts/didcomm'\nimport { boolean, pgEnum, pgTable, text, unique } from 'drizzle-orm/pg-core'\nimport { getPostgresBaseRecordTable, postgresBaseRecordIndexes } from '../../postgres/baseRecord'\nimport { exhaustiveArray } from '../../util'\n\nexport const didcommConnectionStates = exhaustiveArray(\n  {} as DidCommDidExchangeState,\n  [\n    'start',\n    'invitation-sent',\n    'invitation-received',\n    'request-sent',\n    'request-received',\n    'response-sent',\n    'response-received',\n    'abandoned',\n    'completed',\n  ] as const\n)\nexport const didcommConnectionStateEnum = pgEnum('DidcommConnectionState', didcommConnectionStates)\n\nexport const didcommConnectionRoles = exhaustiveArray({} as DidCommDidExchangeRole, ['requester', 'responder'] as const)\nexport const didcommConnectionRoleEnum = pgEnum('DidcommConnectionRole', didcommConnectionRoles)\n\nexport const didcommConnectionHandshakeProtocols = exhaustiveArray(\n  {} as DidCommHandshakeProtocol,\n  ['https://didcomm.org/didexchange/1.x', 'https://didcomm.org/connections/1.x'] as const\n)\nexport const didcommConnectionHandshakeProtocolEnum = pgEnum(\n  'DidcommConnectionHandshakeProtocol',\n  didcommConnectionHandshakeProtocols\n)\n\nexport const didcommConnection = pgTable(\n  'DidcommConnection',\n  {\n    ...getPostgresBaseRecordTable(),\n\n    metadata: text().$type<Record<string, Record<string, unknown> | undefined>>(),\n    state: didcommConnectionStateEnum().notNull(),\n    role: didcommConnectionRoleEnum().notNull(),\n\n    did: text(),\n    theirDid: text('their_did'),\n    theirLabel: text('their_label'),\n    alias: text(),\n    autoAcceptConnection: boolean('auto_accept_connection'),\n    imageUrl: text('image_url'),\n    threadId: text('thread_id'),\n    invitationDid: text('invitation_did'),\n\n    // TODO: references mediator/oob record\n    mediatorId: text('mediator_id'),\n    outOfBandId: text('out_of_band_id'),\n\n    errorMessage: text('error_message'),\n    protocol: didcommConnectionHandshakeProtocolEnum(),\n    connectionTypes: text('connection_types').array(),\n\n    previousDids: text('previous_dids').array(),\n    previousTheirDids: text('previous_their_dids').array(),\n  },\n  (table) => [\n    ...postgresBaseRecordIndexes(table, 'didcommConnection'),\n    unique().on(table.contextCorrelationId, table.threadId),\n  ]\n)\n"],"mappings":";;;;;;;;;;;;;;;AAKA,MAAa,0BAA0B,gBACrC,EAAE,EACF;CACE;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACA;CACD,CACF;AACD,MAAa,6BAA6B,OAAO,0BAA0B,wBAAwB;AAEnG,MAAa,yBAAyB,gBAAgB,EAAE,EAA4B,CAAC,aAAa,YAAY,CAAU;AACxH,MAAa,4BAA4B,OAAO,yBAAyB,uBAAuB;AAEhG,MAAa,sCAAsC,gBACjD,EAAE,EACF,CAAC,uCAAuC,sCAAsC,CAC/E;AACD,MAAa,yCAAyC,OACpD,sCACA,oCACD;AAED,MAAa,oBAAoB,QAC/B,qBACA;CACE,GAAG,4BAA4B;CAE/B,UAAU,MAAM,CAAC,OAA4D;CAC7E,OAAO,4BAA4B,CAAC,SAAS;CAC7C,MAAM,2BAA2B,CAAC,SAAS;CAE3C,KAAK,MAAM;CACX,UAAU,KAAK,YAAY;CAC3B,YAAY,KAAK,cAAc;CAC/B,OAAO,MAAM;CACb,sBAAsB,QAAQ,yBAAyB;CACvD,UAAU,KAAK,YAAY;CAC3B,UAAU,KAAK,YAAY;CAC3B,eAAe,KAAK,iBAAiB;CAGrC,YAAY,KAAK,cAAc;CAC/B,aAAa,KAAK,iBAAiB;CAEnC,cAAc,KAAK,gBAAgB;CACnC,UAAU,wCAAwC;CAClD,iBAAiB,KAAK,mBAAmB,CAAC,OAAO;CAEjD,cAAc,KAAK,gBAAgB,CAAC,OAAO;CAC3C,mBAAmB,KAAK,sBAAsB,CAAC,OAAO;CACvD,GACA,UAAU,CACT,GAAG,0BAA0B,OAAO,oBAAoB,EACxD,QAAQ,CAAC,GAAG,MAAM,sBAAsB,MAAM,SAAS,CACxD,CACF"}
+\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.d.mts b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.d.mts
-index 31700ac..58ab3f2 100644
+index 31700ac..72e2bbe 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.d.mts
 +++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.d.mts
-@@ -1,15 +1,15 @@
+@@ -1,15 +1,35 @@
 -import * as drizzle_orm_sqlite_core227 from "drizzle-orm/sqlite-core";
-+import * as drizzle_orm_sqlite_core382 from "drizzle-orm/sqlite-core";
++import * as drizzle_orm_sqlite_core369 from "drizzle-orm/sqlite-core";
  import { DidCommDidExchangeRole, DidCommDidExchangeState, DidCommHandshakeProtocol } from "@credo-ts/didcomm";
  
  //#region src/didcomm/connection-record/sqlite.d.ts
@@ -7674,213 +7733,273 @@ index 31700ac..58ab3f2 100644
    export { didcommConnection };
  }
 -declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColumns<{
-+declare const didcommConnection: drizzle_orm_sqlite_core382.SQLiteTableWithColumns<{
++declare const didcommConnection: drizzle_orm_sqlite_core369.SQLiteTableWithColumns<{
    name: "DidcommConnection";
    schema: undefined;
    columns: {
 -    state: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    state: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    metadata: drizzle_orm_sqlite_core369.SQLiteColumn<{
++      name: "metadata";
++      tableName: "DidcommConnection";
++      dataType: "string";
++      columnType: "SQLiteText";
++      data: Record<string, Record<string, unknown> | undefined>;
++      driverParam: string;
++      notNull: false;
++      hasDefault: false;
++      isPrimaryKey: false;
++      isAutoincrement: false;
++      hasRuntimeDefault: false;
++      enumValues: [string, ...string[]];
++      baseColumn: never;
++      identity: undefined;
++      generated: undefined;
++    }, {}, {
++      length: undefined;
++      $type: Record<string, Record<string, unknown> | undefined>;
++    }>;
++    state: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "state";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -29,7 +29,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -29,7 +49,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
        length: number | undefined;
        $type: DidCommDidExchangeState;
      }>;
 -    role: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    role: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    role: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "role";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -49,7 +49,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -49,7 +69,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
        length: number | undefined;
        $type: DidCommDidExchangeRole;
      }>;
 -    did: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    did: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    did: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "did";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -68,7 +68,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -68,7 +88,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    theirDid: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    theirDid: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    theirDid: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "their_did";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -87,7 +87,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -87,7 +107,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    theirLabel: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    theirLabel: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    theirLabel: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "their_label";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -106,7 +106,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -106,7 +126,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    alias: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    alias: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    alias: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "alias";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -125,7 +125,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -125,7 +145,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    autoAcceptConnection: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    autoAcceptConnection: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    autoAcceptConnection: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "auto_accept_connection";
        tableName: "DidcommConnection";
        dataType: "boolean";
-@@ -142,7 +142,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -142,7 +162,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    imageUrl: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    imageUrl: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    imageUrl: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "image_url";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -161,7 +161,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -161,7 +181,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    threadId: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    threadId: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    threadId: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "thread_id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -180,7 +180,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -180,7 +200,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    invitationDid: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    invitationDid: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    invitationDid: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "invitation_did";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -199,7 +199,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -199,7 +219,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    mediatorId: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    mediatorId: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    mediatorId: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "mediator_id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -218,7 +218,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -218,7 +238,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    outOfBandId: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    outOfBandId: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    outOfBandId: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "out_of_band_id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -237,7 +237,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -237,7 +257,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    errorMessage: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    errorMessage: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    errorMessage: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "error_message";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -256,7 +256,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -256,7 +276,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    protocol: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    protocol: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    protocol: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "protocol";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -276,7 +276,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -276,7 +296,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
        length: number | undefined;
        $type: DidCommHandshakeProtocol;
      }>;
 -    connectionTypes: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    connectionTypes: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    connectionTypes: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "connection_types";
        tableName: "DidcommConnection";
        dataType: "json";
-@@ -295,7 +295,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -295,7 +315,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        $type: string[];
      }>;
 -    previousDids: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    previousDids: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    previousDids: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "previous_dids";
        tableName: "DidcommConnection";
        dataType: "json";
-@@ -314,7 +314,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -314,7 +334,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        $type: string[];
      }>;
 -    previousTheirDids: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    previousTheirDids: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    previousTheirDids: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "previous_their_dids";
        tableName: "DidcommConnection";
        dataType: "json";
-@@ -333,7 +333,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -333,7 +353,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        $type: string[];
      }>;
 -    contextCorrelationId: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    contextCorrelationId: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    contextCorrelationId: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "context_correlation_id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -352,7 +352,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -352,7 +372,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: number | undefined;
      }>;
 -    id: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    id: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    id: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "id";
        tableName: "DidcommConnection";
        dataType: "string";
-@@ -371,7 +371,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -371,7 +391,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
      }, {}, {
        length: undefined;
      }>;
 -    createdAt: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    createdAt: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    createdAt: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "created_at";
        tableName: "DidcommConnection";
        dataType: "date";
-@@ -388,7 +388,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -388,7 +408,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    updatedAt: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    updatedAt: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    updatedAt: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "updated_at";
        tableName: "DidcommConnection";
        dataType: "date";
-@@ -405,7 +405,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
+@@ -405,26 +425,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
        identity: undefined;
        generated: undefined;
      }, {}, {}>;
 -    metadata: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    metadata: drizzle_orm_sqlite_core382.SQLiteColumn<{
-       name: "metadata";
-       tableName: "DidcommConnection";
-       dataType: "json";
-@@ -424,7 +424,7 @@ declare const didcommConnection: drizzle_orm_sqlite_core227.SQLiteTableWithColum
-     }, {}, {
-       $type: Record<string, Record<string, unknown> | undefined>;
-     }>;
+-      name: "metadata";
+-      tableName: "DidcommConnection";
+-      dataType: "json";
+-      columnType: "SQLiteTextJson";
+-      data: Record<string, Record<string, unknown> | undefined>;
+-      driverParam: string;
+-      notNull: false;
+-      hasDefault: false;
+-      isPrimaryKey: false;
+-      isAutoincrement: false;
+-      hasRuntimeDefault: false;
+-      enumValues: undefined;
+-      baseColumn: never;
+-      identity: undefined;
+-      generated: undefined;
+-    }, {}, {
+-      $type: Record<string, Record<string, unknown> | undefined>;
+-    }>;
 -    customTags: drizzle_orm_sqlite_core227.SQLiteColumn<{
-+    customTags: drizzle_orm_sqlite_core382.SQLiteColumn<{
++    customTags: drizzle_orm_sqlite_core369.SQLiteColumn<{
        name: "custom_tags";
        tableName: "DidcommConnection";
        dataType: "json";
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.d.mts.map b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.d.mts.map
+index 80ec1af..7b2d7fa 100644
+--- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.d.mts.map
++++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.d.mts.map
+@@ -1 +1 @@
+-{"version":3,"file":"sqlite.d.mts","names":[],"sources":["../../../src/didcomm/connection-record/sqlite.ts"],"sourcesContent":[],"mappings":";;;;;;;cAIa,8CAAiB;;;;;MAAjB,IAAA,EAAA,OAiCZ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAjC6B,GAAA,yCAAA,CAAA"}
+\ No newline at end of file
++{"version":3,"file":"sqlite.d.mts","names":[],"sources":["../../../src/didcomm/connection-record/sqlite.ts"],"sourcesContent":[],"mappings":";;;;;;;cAIa,8CAAiB;;;;;MAAjB,IAAA,EAAA,UAkCZ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAlC6B,IAAA,yCAAA,CAAA"}
+\ No newline at end of file
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.mjs b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.mjs
+index 24d6838..f88d89b 100644
+--- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.mjs
++++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.mjs
+@@ -6,6 +6,7 @@ import { integer, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
+ var sqlite_exports = /* @__PURE__ */ __export({ didcommConnection: () => didcommConnection });
+ const didcommConnection = sqliteTable("DidcommConnection", {
+ 	...getSqliteBaseRecordTable(),
++	metadata: text().$type(),
+ 	state: text("state").$type().notNull(),
+ 	role: text("role").$type().notNull(),
+ 	did: text("did"),
+diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.mjs.map b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.mjs.map
+index 3c156d6..6026977 100644
+--- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.mjs.map
++++ b/node_modules/@credo-ts/drizzle-storage/build/didcomm/connection-record/sqlite.mjs.map
+@@ -1 +1 @@
+-{"version":3,"file":"sqlite.mjs","names":[],"sources":["../../../src/didcomm/connection-record/sqlite.ts"],"sourcesContent":["import type { DidCommDidExchangeRole, DidCommDidExchangeState, DidCommHandshakeProtocol } from '@credo-ts/didcomm'\nimport { integer, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core'\nimport { getSqliteBaseRecordTable, sqliteBaseRecordIndexes } from '../../sqlite/baseRecord'\n\nexport const didcommConnection = sqliteTable(\n  'DidcommConnection',\n  {\n    ...getSqliteBaseRecordTable(),\n\n    state: text('state').$type<DidCommDidExchangeState>().notNull(),\n    role: text('role').$type<DidCommDidExchangeRole>().notNull(),\n\n    did: text('did'),\n    theirDid: text('their_did'),\n    theirLabel: text('their_label'),\n    alias: text('alias'),\n    autoAcceptConnection: integer('auto_accept_connection', { mode: 'boolean' }),\n    imageUrl: text('image_url'),\n    threadId: text('thread_id'),\n    invitationDid: text('invitation_did'),\n\n    // TODO: references mediator/oob record\n    mediatorId: text('mediator_id'),\n    outOfBandId: text('out_of_band_id'),\n\n    errorMessage: text('error_message'),\n    protocol: text('protocol').$type<DidCommHandshakeProtocol>(),\n\n    // Using JSON for array storage\n    connectionTypes: text('connection_types', { mode: 'json' }).$type<string[]>(),\n    previousDids: text('previous_dids', { mode: 'json' }).$type<string[]>(),\n    previousTheirDids: text('previous_their_dids', { mode: 'json' }).$type<string[]>(),\n  },\n  (table) => [\n    ...sqliteBaseRecordIndexes(table, 'didcommConnection'),\n    unique().on(table.contextCorrelationId, table.threadId),\n  ]\n)\n"],"mappings":";;;;;;AAIA,MAAa,oBAAoB,YAC/B,qBACA;CACE,GAAG,0BAA0B;CAE7B,OAAO,KAAK,QAAQ,CAAC,OAAgC,CAAC,SAAS;CAC/D,MAAM,KAAK,OAAO,CAAC,OAA+B,CAAC,SAAS;CAE5D,KAAK,KAAK,MAAM;CAChB,UAAU,KAAK,YAAY;CAC3B,YAAY,KAAK,cAAc;CAC/B,OAAO,KAAK,QAAQ;CACpB,sBAAsB,QAAQ,0BAA0B,EAAE,MAAM,WAAW,CAAC;CAC5E,UAAU,KAAK,YAAY;CAC3B,UAAU,KAAK,YAAY;CAC3B,eAAe,KAAK,iBAAiB;CAGrC,YAAY,KAAK,cAAc;CAC/B,aAAa,KAAK,iBAAiB;CAEnC,cAAc,KAAK,gBAAgB;CACnC,UAAU,KAAK,WAAW,CAAC,OAAiC;CAG5D,iBAAiB,KAAK,oBAAoB,EAAE,MAAM,QAAQ,CAAC,CAAC,OAAiB;CAC7E,cAAc,KAAK,iBAAiB,EAAE,MAAM,QAAQ,CAAC,CAAC,OAAiB;CACvE,mBAAmB,KAAK,uBAAuB,EAAE,MAAM,QAAQ,CAAC,CAAC,OAAiB;CACnF,GACA,UAAU,CACT,GAAG,wBAAwB,OAAO,oBAAoB,EACtD,QAAQ,CAAC,GAAG,MAAM,sBAAsB,MAAM,SAAS,CACxD,CACF"}
+\ No newline at end of file
++{"version":3,"file":"sqlite.mjs","names":[],"sources":["../../../src/didcomm/connection-record/sqlite.ts"],"sourcesContent":["import type { DidCommDidExchangeRole, DidCommDidExchangeState, DidCommHandshakeProtocol } from '@credo-ts/didcomm'\nimport { integer, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core'\nimport { getSqliteBaseRecordTable, sqliteBaseRecordIndexes } from '../../sqlite/baseRecord'\n\nexport const didcommConnection = sqliteTable(\n  'DidcommConnection',\n  {\n    ...getSqliteBaseRecordTable(),\n\n    metadata: text().$type<Record<string, Record<string, unknown> | undefined>>(),\n    state: text('state').$type<DidCommDidExchangeState>().notNull(),\n    role: text('role').$type<DidCommDidExchangeRole>().notNull(),\n\n    did: text('did'),\n    theirDid: text('their_did'),\n    theirLabel: text('their_label'),\n    alias: text('alias'),\n    autoAcceptConnection: integer('auto_accept_connection', { mode: 'boolean' }),\n    imageUrl: text('image_url'),\n    threadId: text('thread_id'),\n    invitationDid: text('invitation_did'),\n\n    // TODO: references mediator/oob record\n    mediatorId: text('mediator_id'),\n    outOfBandId: text('out_of_band_id'),\n\n    errorMessage: text('error_message'),\n    protocol: text('protocol').$type<DidCommHandshakeProtocol>(),\n\n    // Using JSON for array storage\n    connectionTypes: text('connection_types', { mode: 'json' }).$type<string[]>(),\n    previousDids: text('previous_dids', { mode: 'json' }).$type<string[]>(),\n    previousTheirDids: text('previous_their_dids', { mode: 'json' }).$type<string[]>(),\n  },\n  (table) => [\n    ...sqliteBaseRecordIndexes(table, 'didcommConnection'),\n    unique().on(table.contextCorrelationId, table.threadId),\n  ]\n)\n"],"mappings":";;;;;;AAIA,MAAa,oBAAoB,YAC/B,qBACA;CACE,GAAG,0BAA0B;CAE7B,UAAU,MAAM,CAAC,OAA4D;CAC7E,OAAO,KAAK,QAAQ,CAAC,OAAgC,CAAC,SAAS;CAC/D,MAAM,KAAK,OAAO,CAAC,OAA+B,CAAC,SAAS;CAE5D,KAAK,KAAK,MAAM;CAChB,UAAU,KAAK,YAAY;CAC3B,YAAY,KAAK,cAAc;CAC/B,OAAO,KAAK,QAAQ;CACpB,sBAAsB,QAAQ,0BAA0B,EAAE,MAAM,WAAW,CAAC;CAC5E,UAAU,KAAK,YAAY;CAC3B,UAAU,KAAK,YAAY;CAC3B,eAAe,KAAK,iBAAiB;CAGrC,YAAY,KAAK,cAAc;CAC/B,aAAa,KAAK,iBAAiB;CAEnC,cAAc,KAAK,gBAAgB;CACnC,UAAU,KAAK,WAAW,CAAC,OAAiC;CAG5D,iBAAiB,KAAK,oBAAoB,EAAE,MAAM,QAAQ,CAAC,CAAC,OAAiB;CAC7E,cAAc,KAAK,iBAAiB,EAAE,MAAM,QAAQ,CAAC,CAAC,OAAiB;CACvE,mBAAmB,KAAK,uBAAuB,EAAE,MAAM,QAAQ,CAAC,CAAC,OAAiB;CACnF,GACA,UAAU,CACT,GAAG,wBAAwB,OAAO,oBAAoB,EACtD,QAAQ,CAAC,GAAG,MAAM,sBAAsB,MAAM,SAAS,CACxD,CACF"}
+\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/build/didcomm/credential-exchange-record/DrizzleDidcommCredentialExchangeRecordAdapter.d.mts b/node_modules/@credo-ts/drizzle-storage/build/didcomm/credential-exchange-record/DrizzleDidcommCredentialExchangeRecordAdapter.d.mts
 index cfbb140..15f7003 100644
 --- a/node_modules/@credo-ts/drizzle-storage/build/didcomm/credential-exchange-record/DrizzleDidcommCredentialExchangeRecordAdapter.d.mts
@@ -16688,7 +16807,7 @@ index 0000000..c228495
 +}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/action-menu/postgres/meta/_journal.json b/node_modules/@credo-ts/drizzle-storage/migrations/action-menu/postgres/meta/_journal.json
-index 985631b..1fe061f 100644
+index 985631b..56c9272 100644
 --- a/node_modules/@credo-ts/drizzle-storage/migrations/action-menu/postgres/meta/_journal.json
 +++ b/node_modules/@credo-ts/drizzle-storage/migrations/action-menu/postgres/meta/_journal.json
 @@ -8,6 +8,13 @@
@@ -16705,7 +16824,6 @@ index 985631b..1fe061f 100644
      }
    ]
  }
-\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/anoncreds/postgres/0001_woozy_susan_delgado.sql b/node_modules/@credo-ts/drizzle-storage/migrations/anoncreds/postgres/0001_woozy_susan_delgado.sql
 new file mode 100644
 index 0000000..50bfcba
@@ -17639,7 +17757,7 @@ index 0000000..106d459
 +}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/anoncreds/postgres/meta/_journal.json b/node_modules/@credo-ts/drizzle-storage/migrations/anoncreds/postgres/meta/_journal.json
-index 4180767..41ae819 100644
+index 4180767..0ca7aea 100644
 --- a/node_modules/@credo-ts/drizzle-storage/migrations/anoncreds/postgres/meta/_journal.json
 +++ b/node_modules/@credo-ts/drizzle-storage/migrations/anoncreds/postgres/meta/_journal.json
 @@ -8,6 +8,13 @@
@@ -17656,7 +17774,6 @@ index 4180767..41ae819 100644
      }
    ]
  }
-\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/core/postgres/0003_acoustic_thunderball.sql b/node_modules/@credo-ts/drizzle-storage/migrations/core/postgres/0003_acoustic_thunderball.sql
 new file mode 100644
 index 0000000..875e673
@@ -18585,7 +18702,7 @@ index 0000000..741b50f
 +}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/core/postgres/meta/_journal.json b/node_modules/@credo-ts/drizzle-storage/migrations/core/postgres/meta/_journal.json
-index 9e1c3ed..03ac8d0 100644
+index 9e1c3ed..c599d73 100644
 --- a/node_modules/@credo-ts/drizzle-storage/migrations/core/postgres/meta/_journal.json
 +++ b/node_modules/@credo-ts/drizzle-storage/migrations/core/postgres/meta/_journal.json
 @@ -22,6 +22,13 @@
@@ -18602,7 +18719,6 @@ index 9e1c3ed..03ac8d0 100644
      }
    ]
  }
-\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/0002_ambitious_ulik.sql b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/0002_ambitious_ulik.sql
 new file mode 100644
 index 0000000..b875745
@@ -18613,12 +18729,13 @@ index 0000000..b875745
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/0003_workable_lockjaw.sql b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/0003_workable_lockjaw.sql
 new file mode 100644
-index 0000000..67d3e3b
+index 0000000..dcb329f
 --- /dev/null
 +++ b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/0003_workable_lockjaw.sql
-@@ -0,0 +1,2 @@
+@@ -0,0 +1,3 @@
 +ALTER TABLE "DidcommCredentialExchange" ALTER COLUMN "credential_attributes" SET DATA TYPE text;--> statement-breakpoint
 +ALTER TABLE "DidcommMessage" ALTER COLUMN "message" SET DATA TYPE text;--> statement-breakpoint
++ALTER TABLE "DidcommConnection" ALTER COLUMN "metadata" SET DATA TYPE text;
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/0002_snapshot.json b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/0002_snapshot.json
 new file mode 100644
@@ -19783,7 +19900,7 @@ index 0000000..3c61306
 +}
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/0003_snapshot.json b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/0003_snapshot.json
 new file mode 100644
-index 0000000..36b96d2
+index 0000000..23a636b
 --- /dev/null
 +++ b/node_modules/@credo-ts/drizzle-storage/migrations/didcomm/postgres/meta/0003_snapshot.json
 @@ -0,0 +1,1283 @@
@@ -19946,7 +20063,7 @@ index 0000000..36b96d2
 +        },
 +        "metadata": {
 +          "name": "metadata",
-+          "type": "jsonb",
++          "type": "text",
 +          "primaryKey": false,
 +          "notNull": false
 +        },
@@ -22516,7 +22633,7 @@ index 0000000..fad6e2c
 +}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/question-answer/postgres/meta/_journal.json b/node_modules/@credo-ts/drizzle-storage/migrations/question-answer/postgres/meta/_journal.json
-index 9c8239e..95cf4dd 100644
+index 9c8239e..f4f4b0d 100644
 --- a/node_modules/@credo-ts/drizzle-storage/migrations/question-answer/postgres/meta/_journal.json
 +++ b/node_modules/@credo-ts/drizzle-storage/migrations/question-answer/postgres/meta/_journal.json
 @@ -8,6 +8,13 @@
@@ -22533,7 +22650,6 @@ index 9c8239e..95cf4dd 100644
      }
    ]
  }
-\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/tenants/postgres/0001_sloppy_boomer.sql b/node_modules/@credo-ts/drizzle-storage/migrations/tenants/postgres/0001_sloppy_boomer.sql
 new file mode 100644
 index 0000000..d4e4aad
@@ -22756,7 +22872,7 @@ index 0000000..c0d2ae7
 +}
 \ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/tenants/postgres/meta/_journal.json b/node_modules/@credo-ts/drizzle-storage/migrations/tenants/postgres/meta/_journal.json
-index 0ba7b2f..f16162f 100644
+index 0ba7b2f..9391459 100644
 --- a/node_modules/@credo-ts/drizzle-storage/migrations/tenants/postgres/meta/_journal.json
 +++ b/node_modules/@credo-ts/drizzle-storage/migrations/tenants/postgres/meta/_journal.json
 @@ -8,6 +8,13 @@
@@ -22773,7 +22889,6 @@ index 0ba7b2f..f16162f 100644
      }
    ]
  }
-\ No newline at end of file
 diff --git a/node_modules/@credo-ts/drizzle-storage/migrations/user-profile/postgres/0000_silent_mother_askani.sql b/node_modules/@credo-ts/drizzle-storage/migrations/user-profile/postgres/0000_silent_mother_askani.sql
 new file mode 100644
 index 0000000..9feea65
